@@ -1,0 +1,436 @@
+/*
+ * Galeri scrollytelling.
+ *
+ * Style dasar di file ini = KEADAAN AKHIR (buku terbuka, kolase jadi). Itu
+ * yang tampil untuk "reduce motion" dan browser tanpa CSS scroll-driven
+ * animations (mis. Firefox). Di browser yang mendukung, tiap lapisan punya
+ * animasi sendiri yang terikat ke view-timeline section (--galeri) dan hanya
+ * menggerakkan transform/opacity, jadi bisa berjalan di compositor (GPU)
+ * tanpa hitung ulang style per frame.
+ *
+ * Rentang "contain X%" = X% dari jarak scroll saat section menempel di layar.
+ */
+
+.galeri {
+  position: relative;
+  view-timeline: --galeri block;
+}
+
+.galeri-stage {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: clip;
+  container-type: size;
+  background: var(--color-neutral-300);
+
+  /* Ukuran satu halaman buku (buku terbuka = 2 × --w). */
+  --w: clamp(140px, 17cqw, 280px);
+  --h: calc(var(--w) * 1.35);
+}
+
+/* Latar gelap sebagai lapisan terpisah: fade opacity jauh lebih murah
+   daripada mengubah warna latar selebar layar tiap frame. */
+.galeri-dim {
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary-700);
+}
+
+/* ---------- Petunjuk awal ---------- */
+.galeri-hint {
+  position: absolute;
+  inset: 12cqh 0 auto;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  text-align: center;
+  opacity: 0;
+}
+
+/* ---------- Buku ---------- */
+.galeri-book-wrap {
+  position: absolute;
+  inset: -4cqh 0 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  perspective: 1800px;
+}
+
+.galeri-book {
+  position: relative;
+  width: calc(var(--w) * 2);
+  height: var(--h);
+  transform-style: preserve-3d;
+  transform: translateX(0) rotateX(18deg) rotateZ(0deg);
+}
+
+.galeri-board {
+  position: absolute;
+  top: -8px;
+  left: calc(var(--w) - 3px);
+  width: calc(var(--w) + 11px);
+  height: calc(var(--h) + 16px);
+  border-radius: 0 12px 12px 0;
+  background: var(--color-primary-700);
+}
+
+.galeri-pages {
+  position: absolute;
+  top: 0;
+  left: var(--w);
+  width: var(--w);
+  height: var(--h);
+  border-radius: 0 6px 6px 0;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.08), transparent 14%),
+    var(--color-neutral-100);
+  box-shadow:
+    2px 2px 0 var(--color-neutral-500),
+    4px 3px 0 var(--color-neutral-600),
+    6px 4px 0 var(--color-neutral-500);
+  transform: translateZ(1px);
+}
+
+.galeri-ribbon {
+  position: absolute;
+  right: 22%;
+  bottom: -26px;
+  width: 14px;
+  height: 44px;
+  background: var(--color-secondary-400);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+}
+
+.galeri-cover {
+  position: absolute;
+  top: -8px;
+  left: calc(var(--w) - 3px);
+  width: calc(var(--w) + 11px);
+  height: calc(var(--h) + 16px);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transform: translateZ(3px) rotateY(-178deg);
+}
+
+.galeri-cover-front,
+.galeri-cover-inside {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+.galeri-cover-front {
+  border-radius: 0 12px 12px 0;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-700) 0 12px,
+    var(--color-primary-600) 12px 18px,
+    var(--color-primary-500) 18px
+  );
+}
+
+.galeri-cover-frame {
+  position: absolute;
+  inset: 16px 16px 16px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1.5px solid var(--color-primary-300);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.galeri-cover-frame .font-display {
+  font-size: calc(var(--w) * 0.19);
+  line-height: 1.2;
+}
+
+.galeri-cover-flower {
+  width: 52%;
+  aspect-ratio: 536 / 588;
+  height: auto;
+}
+
+.galeri-cover-inside {
+  transform: rotateY(180deg);
+  border-radius: 12px 0 0 12px;
+  background: var(--color-primary-600);
+}
+
+.galeri-page-left {
+  position: absolute;
+  inset: 8px 3px 8px 8px;
+  border-radius: 6px 0 0 6px;
+  background:
+    linear-gradient(270deg, rgb(0 0 0 / 0.08), transparent 14%),
+    var(--color-neutral-100);
+}
+
+.galeri-page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12%;
+  text-align: center;
+}
+
+.galeri-page-right {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---------- Cahaya ---------- */
+.galeri-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: calc(var(--w) * 3.4);
+  aspect-ratio: 1;
+  pointer-events: none;
+  transform: translate(-50%, -56%) scale(1.2);
+}
+
+.galeri-glow-inner {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+}
+
+.galeri-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--color-neutral-100) 0 5%,
+    color-mix(in oklab, var(--color-primary-100) 80%, transparent) 14%,
+    color-mix(in oklab, var(--color-primary-200) 40%, transparent) 30%,
+    color-mix(in oklab, var(--color-primary-300) 12%, transparent) 48%,
+    transparent 66%
+  );
+}
+
+.galeri-rays {
+  position: absolute;
+  inset: -20%;
+  background: repeating-conic-gradient(
+    color-mix(in oklab, var(--color-primary-100) 35%, transparent) 0deg 4deg,
+    transparent 4deg 17deg
+  );
+  mask: radial-gradient(circle, #000 8%, transparent 60%);
+}
+
+.galeri-spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  /* Titik lembut tanpa box-shadow blur (lebih ringan untuk dianimasikan). */
+  background: radial-gradient(circle, var(--color-neutral-100), var(--color-primary-200) 55%, transparent 70%);
+  opacity: 0;
+}
+
+/* ---------- Foto (kolase polaroid) ---------- */
+.galeri-photos {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.galeri-photo {
+  --x: var(--tx);
+  --y: var(--ty);
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  width: clamp(96px, 13cqw, 210px);
+  transform:
+    translate(-50%, -50%)
+    translate(calc(var(--x) * 1cqw), calc(var(--y) * 1cqh))
+    rotate(calc(var(--rot) * 1deg))
+    scale(1);
+}
+
+.galeri-photo figure {
+  margin: 0;
+  padding: 7% 7% 0;
+  border-radius: 4px;
+  background: var(--color-neutral-100);
+  box-shadow: 0 16px 28px -14px rgb(0 0 0 / 0.5);
+}
+
+.galeri-photo img {
+  display: block;
+  height: auto;
+  border-radius: 2px;
+}
+
+.galeri-photo figcaption {
+  padding: 6px 0 10px;
+  text-align: center;
+}
+
+/* ---------- Animasi scroll ---------- */
+@keyframes galeri-enter {
+  from { opacity: 0; transform: translateY(80px) scale(0.85); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes galeri-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes galeri-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes galeri-book-open {
+  /* Saat tertutup, halaman kanan digeser ke tengah & buku sedikit miring;
+     saat terbuka, punggung buku di tengah dan buku rebah. */
+  from { transform: translateX(calc(var(--w) * -0.5)) rotateX(0deg) rotateZ(-4deg); }
+  to { transform: translateX(0) rotateX(18deg) rotateZ(0deg); }
+}
+@keyframes galeri-cover-open {
+  from { transform: translateZ(3px) rotateY(0deg); }
+  to { transform: translateZ(3px) rotateY(-178deg); }
+}
+@keyframes galeri-glow-in {
+  from { opacity: 0; transform: translate(-50%, -56%) scale(0.3); }
+  to { opacity: 1; transform: translate(-50%, -56%) scale(1.2); }
+}
+@keyframes galeri-glow-dim {
+  from { opacity: 1; }
+  to { opacity: 0.2; }
+}
+@keyframes galeri-rays-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(160deg); }
+}
+@keyframes galeri-spark {
+  0% { opacity: 0; transform: translate(0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--sx) * 1.2cqw), calc(var(--sy) * 1.2cqh)); }
+}
+@keyframes galeri-photo-throw {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(0, 0) rotate(calc((var(--rot) + var(--spin)) * 1deg)) scale(0.2);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  10% { opacity: 1; }
+  /* Titik tengah lintasan sedikit di atas garis lurus = efek dilempar. */
+  55% {
+    transform:
+      translate(-50%, -50%)
+      translate(calc(var(--x) * 0.8cqw), calc(var(--y) * 0.8cqh - 10cqh))
+      rotate(calc((var(--rot) + var(--spin) * 0.25) * 1deg))
+      scale(0.85);
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      translate(calc(var(--x) * 1cqw), calc(var(--y) * 1cqh))
+      rotate(calc(var(--rot) * 1deg))
+      scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .galeri { height: 400svh; }
+    .galeri-stage { position: sticky; top: 0; min-height: 0; }
+
+    .galeri-book-wrap {
+      animation: galeri-enter linear both;
+      animation-timeline: --galeri;
+      animation-range: entry 50% entry 100%;
+    }
+    .galeri-hint {
+      opacity: 1;
+      animation: galeri-fade-out linear both;
+      animation-timeline: --galeri;
+      animation-range: entry 70% contain 6%;
+    }
+    .galeri-dim {
+      animation: galeri-fade-in linear both;
+      animation-timeline: --galeri;
+      animation-range: contain 7% contain 32%;
+    }
+    .galeri-book {
+      animation: galeri-book-open ease-in-out both;
+      animation-timeline: --galeri;
+      animation-range: contain 5% contain 36%;
+    }
+    .galeri-cover {
+      animation: galeri-cover-open ease-in-out both;
+      animation-timeline: --galeri;
+      animation-range: contain 5% contain 36%;
+    }
+    .galeri-glow {
+      animation: galeri-glow-in ease-out both;
+      animation-timeline: --galeri;
+      animation-range: contain 24% contain 47%;
+    }
+    .galeri-glow-inner {
+      animation: galeri-glow-dim linear both;
+      animation-timeline: --galeri;
+      animation-range: contain 83% contain 96%;
+    }
+    .galeri-rays {
+      animation: galeri-rays-spin linear both;
+      animation-timeline: --galeri;
+      animation-range: contain 24% contain 100%;
+    }
+    .galeri-spark {
+      animation: galeri-spark linear both;
+      animation-timeline: --galeri;
+      animation-range: contain calc(28% + var(--sd)) contain calc(58% + var(--sd));
+    }
+    .galeri-photo {
+      animation: galeri-photo-throw linear both;
+      animation-timeline: --galeri;
+      animation-range: contain var(--s) contain var(--e);
+    }
+    .galeri-page-content > * {
+      animation: galeri-fade-in linear both;
+      animation-timeline: --galeri;
+      animation-range: contain 83% contain 96%;
+    }
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .galeri { height: 320svh; }
+  }
+}
+
+/* Layar sempit: buku lebih besar relatif ke layar, kolase pindah ke atas &
+   bawah buku, dan isi halaman diperkecil supaya muat. */
+@container (max-width: 700px) {
+  .galeri-book-wrap,
+  .galeri-glow { --w: 42cqw; --h: calc(var(--w) * 1.35); }
+  .galeri-photo { --x: var(--tx-sm); --y: var(--ty-sm); }
+  .galeri-page-content { gap: 8px; padding: 10%; }
+  .galeri-page-left h2 { font-size: calc(var(--w) * 0.17); line-height: 1.3; }
+  .galeri-page-content p { font-size: 11px; line-height: 15px; }
+  .galeri-page-right p { display: none; }
+  .galeri-page-right a { padding: 8px 10px; font-size: 12px; line-height: 18px; }
+}

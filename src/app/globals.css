@@ -1,26 +1,146 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Token dari design system ASSETS (github.com/safwanpiliang/ASSETS-Design-system)
+ * dengan nilai versi modifikasi di Figma "Menyapa Komodo UI Workspace"
+ * (page Design System › Color / Variable System). Nama token sama persis
+ * dengan package, jadi komponen assets-design-system ikut memakai nilai ini.
+ */
+@theme {
+  /* Primary — hijau (Figma: Primary/100..700) */
+  --color-primary-100: #BFFBD8;
+  --color-primary-200: #79F7BD;
+  --color-primary-300: #00C389;
+  --color-primary-400: #009A6D;
+  --color-primary-500: #00836A;
+  --color-primary-600: #006E63;
+  --color-primary-700: #004149;
+
+  /* Secondary — oranye (Figma: Secondary/100..700) */
+  --color-secondary-100: #FFF3C7;
+  --color-secondary-200: #FFE68D;
+  --color-secondary-300: #FFD54C;
+  --color-secondary-400: #FFA500;
+  --color-secondary-500: #E88500;
+  --color-secondary-600: #C36700;
+  --color-secondary-700: #833C00;
+
+  --color-neutral-100: #FFFFFF;
+  --color-neutral-200: #FAFCFE;
+  --color-neutral-300: #F6F8FD;
+  --color-neutral-400: #F4F7FE;
+  --color-neutral-500: #E9EDF7;
+  --color-neutral-600: #E0E5F2;
+  --color-neutral-700: #A3B2D0;
+  --color-neutral-800: #7085AE;
+  --color-neutral-900: #475F8C;
+  --color-neutral-1000: #2B4774;
+
+  --color-red-100: #FB3748;
+  --color-red-200: #D00416;
+  --color-yellow-100: #FFDB43;
+  --color-yellow-200: #DFB400;
+  --color-green-100: #84EBB4;
+  --color-green-200: #1FC16B;
+
+  --color-disabled-fill: #F7F7F8;
+  --color-disabled-stroke: #E9EAEB;
+  --color-border-default: #E9EAEB;
+
+  /* Body = Plus Jakarta Sans, Heading = Momo Trust Display (Regular) */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-momo), var(--font-jakarta), ui-sans-serif, sans-serif;
+
+  --text-h1: 4.25rem;      --text-h1--line-height: 6.375rem;
+  --text-h2: 3.5rem;       --text-h2--line-height: 5.25rem;
+  --text-h3: 2.875rem;     --text-h3--line-height: 4.3125rem;
+  --text-h4: 2.375rem;     --text-h4--line-height: 3.5625rem;
+  --text-h5: 2rem;         --text-h5--line-height: 3rem;
+  --text-h6: 1.625rem;     --text-h6--line-height: 2.4375rem;
+  --text-h7: 1.375rem;     --text-h7--line-height: 2.0625rem;
+
+  --text-b1: 1.125rem;     --text-b1--line-height: 1.6875rem;
+  --text-b2: 1rem;         --text-b2--line-height: 1.5rem;
+  --text-b3: 0.875rem;     --text-b3--line-height: 1.3125rem;
+  --text-b4: 0.75rem;      --text-b4--line-height: 1.125rem;
+  --text-b5: 0.625rem;     --text-b5--line-height: 0.9375rem;
+
+  --shadow-e0: 0px 0px 0px 0px rgba(27, 28, 29, 0);
+  --shadow-e1: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
+  --shadow-e2: 0px 16px 32px -12px rgba(88, 92, 95, 0.1);
+  --shadow-e3: 0px 16px 40px -8px rgba(88, 92, 95, 0.16);
+
+  --radius-1: 4px;
+  --radius-2: 8px;
+  --radius-3: 12px;
+  --radius-4: 16px;
+  --radius-5: 20px;
+  --radius-6: 24px;
+  --radius-7: 32px;
+  --radius-none: 0px;
+  --radius-full: 999px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--color-neutral-300);
+  color: var(--color-neutral-1000);
+  font-family: var(--font-sans);
+}
+
+/*
+ * Parallax beranda — CSS scroll-driven animations (jalan di compositor, tanpa
+ * JS). Dekoratif saja, jadi progressive enhancement: browser tanpa dukungan
+ * (mis. Firefox) dan pengguna "reduce motion" melihat layout statis.
+ */
+@keyframes parallax-shift {
+  to { transform: translateY(var(--parallax-shift)); }
+}
+@keyframes parallax-fade {
+  to { opacity: 0; transform: translateY(var(--parallax-shift, 0)); }
+}
+@keyframes parallax-flower {
+  to { transform: translateY(var(--parallax-shift)) rotate(var(--parallax-rotate, 30deg)); }
+}
+@keyframes parallax-media {
+  from { transform: translateY(-8%); }
+  to { transform: translateY(8%); }
+}
+@keyframes parallax-float {
+  from { transform: translateY(120px) rotate(-12deg); }
+  to { transform: translateY(-120px) rotate(12deg); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    /* Hero: rentang = dari posisi awal sampai hero habis di-scroll. */
+    .parallax-hero { view-timeline: --hero block; }
+    .parallax-hero-layer {
+      animation: parallax-shift linear both;
+      animation-timeline: --hero;
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+    .parallax-hero-layer.is-flower { animation-name: parallax-flower; }
+    .parallax-hero-layer.is-fade {
+      animation-name: parallax-fade;
+      animation-range: exit-crossing 0% exit-crossing 45%;
+    }
+
+    /* Foto di dalam frame bergeser lebih lambat dari halaman. */
+    .parallax-media {
+      animation: parallax-media linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .parallax-float {
+      animation: parallax-float linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
 }
