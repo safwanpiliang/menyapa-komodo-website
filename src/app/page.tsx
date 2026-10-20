@@ -3,6 +3,7 @@ import { DuaDesa } from "@/components/home/DuaDesa";
 import { Galeri } from "@/components/home/Galeri";
 import { Hero } from "@/components/home/Hero";
 import { Jelajah } from "@/components/home/Jelajah";
+import { Mitra } from "@/components/home/Mitra";
 import { TenunBand } from "@/components/home/TenunBand";
 import { SiteNavbar } from "@/components/layout/SiteNavbar";
 
@@ -17,6 +18,7 @@ export default function Home() {
         <Jelajah />
         <TenunBand />
         <CeritaDesa />
+        <Mitra />
         <Galeri />
       </main>
     </>

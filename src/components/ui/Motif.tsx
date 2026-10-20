@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ntala from "@/assets/motif/ntala.svg";
 import ranggong from "@/assets/motif/ranggong.svg";
+import ranggongOranye from "@/assets/motif/ranggong-oranye.svg";
 import welaKawu from "@/assets/motif/welakawu.svg";
 import welaRunu from "@/assets/motif/welarunu.svg";
 import { cn } from "@/lib/cn";
@@ -13,6 +14,8 @@ import { cn } from "@/lib/cn";
 export const motifs = {
   welaRunu,
   ranggong,
+  // Varian Secondary/500 (#E88500), dipakai di judul section Mitra.
+  ranggongOranye,
   ntala,
   welaKawu,
 };
