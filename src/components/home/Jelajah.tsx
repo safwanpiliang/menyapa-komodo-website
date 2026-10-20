@@ -78,14 +78,16 @@ export function Jelajah() {
             <li key={item.title}>
               <a
                 href={item.href}
-                className="group relative flex min-h-[180px] rounded-3 bg-white shadow-[0_16px_16px_rgba(88,92,95,0.1)] md:h-[259px]"
+                // Saat hover seluruh card (beserta fotonya) yang naik, bukan fotonya saja,
+                // supaya foto tidak terlepas dari alas card dan menyisakan celah putih.
+                className="relative flex min-h-[180px] rounded-3 bg-white shadow-[0_16px_16px_rgba(88,92,95,0.1)] transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_24px_24px_rgba(88,92,95,0.16)] motion-reduce:transition-none md:h-[259px]"
               >
                 <div className="relative w-[136px] shrink-0 md:w-[218px]">
                   <Image
                     src={item.cutout.src}
                     alt={item.cutout.alt}
                     sizes="281px"
-                    className="absolute bottom-0 left-0 h-auto max-w-none origin-bottom-left transition-transform duration-300 group-hover:-translate-y-1 max-md:scale-[0.62]"
+                    className="absolute bottom-0 left-0 h-auto max-w-none origin-bottom-left max-md:scale-[0.62]"
                     style={{ width: item.cutout.width }}
                   />
                 </div>
