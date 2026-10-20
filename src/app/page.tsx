@@ -4,7 +4,6 @@ import { Galeri } from "@/components/home/Galeri";
 import { Hero } from "@/components/home/Hero";
 import { Jelajah } from "@/components/home/Jelajah";
 import { Mitra } from "@/components/home/Mitra";
-import { TenunBand } from "@/components/home/TenunBand";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteNavbar } from "@/components/layout/SiteNavbar";
 
@@ -17,7 +16,6 @@ export default function Home() {
           <DuaDesa />
         </Hero>
         <Jelajah />
-        <TenunBand />
         <CeritaDesa />
         <Mitra />
         <Galeri />

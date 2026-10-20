@@ -3,6 +3,7 @@ import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
 import { Card, Chip, Text, type ChipProps } from "assets-design-system";
 import ceritaThumb from "@/assets/cerita-thumb.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { TenunBand } from "./TenunBand";
 
 // Konten contoh dari Figma; deskripsi masih lorem ipsum di sana.
 const stories: {
@@ -41,9 +42,11 @@ const stories: {
  * bold (18/27), sedikit lebih besar dari judul bawaan Card (B-2).
  */
 export function CeritaDesa() {
-  // pt-30 juga di HP: pita tenun menjorok ±80px ke atas section ini.
+  // Pita tenun menempel di atas section (Figma: konten mulai di y 240,
+  // tinggi section 1030 → padding atas & bawah 240 di desktop).
   return (
-    <section id="cerita" className="bg-neutral-300 px-5 pt-30 pb-20 md:px-20 md:pb-30">
+    <section id="cerita" className="relative bg-neutral-300 px-5 pt-[200px] pb-20 md:px-20 md:py-60">
+      <TenunBand className="absolute inset-x-0 top-0" />
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
         <header className="flex flex-col gap-2">
           <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
