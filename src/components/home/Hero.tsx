@@ -46,11 +46,22 @@ const islandImage: React.CSSProperties = {
   objectPosition: "top",
 };
 
+/*
+ * Layar lebar tapi pendek (mis. laptop): hero 1024u lebih tinggi dari layar,
+ * sehingga judul & tombol jatuh ke bawah. --crop memotong langit di atas:
+ * seluruh komposisi (foto, bunga, judul, bukit, tombol) digeser naik sejauh
+ * kelebihan tinggi hero terhadap layar, dibatasi supaya judul tidak naik
+ * melewati ±120px dari atas (di bawah navbar). Di layar yang cukup tinggi,
+ * --crop = 0 dan tampilan sama persis dengan Figma.
+ */
+const crop = "var(--crop)";
+const CROP = `clamp(0px, calc(1024 * var(--u) - 100svh), calc(${TITLE_TOP} * var(--u) - 120px))`;
+
 export function Hero({ children }: { children?: React.ReactNode }) {
   return (
     <div
       className="@container relative isolate w-full overflow-clip bg-neutral-1100"
-      style={{ "--u": "max(calc(100cqw / 1440), 0.5px)" } as React.CSSProperties}
+      style={{ "--u": "max(calc(100cqw / 1440), 0.5px)", "--crop": CROP } as React.CSSProperties}
     >
       <Image
         src={islandsTall}
@@ -59,7 +70,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         priority
         sizes="140vw"
         className="-z-10"
-        style={{ ...islandImage, height: u(1962) }}
+        style={{ ...islandImage, top: `calc(-1 * ${crop})`, height: u(1962) }}
       />
       {/* Ujung bawah foto dipudarkan ke latar, supaya tidak terlihat sebagai
           garis keras saat section di bawahnya lebih tinggi dari foto (layar
@@ -67,75 +78,78 @@ export function Hero({ children }: { children?: React.ReactNode }) {
       <div
         aria-hidden
         className="absolute inset-x-0 -z-10 bg-linear-to-b from-transparent to-neutral-1100"
-        style={{ top: u(1962 * 0.85), height: u(1962 * 0.15 + 2) }}
+        style={{ top: `calc(${u(1962 * 0.85)} - ${crop})`, height: u(1962 * 0.15 + 2) }}
       />
 
       <section
         // overflow-clip: foto bukit (tinggi 1321) dipotong di batas hero. Bagian
         // yang terpotong identik dengan foto latar, jadi tidak terlihat bedanya.
         className="parallax-hero relative w-full overflow-clip"
-        style={{ height: u(1024) }}
+        style={{ height: `calc(${u(1024)} - ${crop})` }}
         aria-labelledby="hero-title"
       >
-        <Flower
-          preset={heroFlower}
-          className="parallax-hero-layer is-flower pointer-events-none absolute"
-          style={{
-            left: fromCenter(740),
-            top: u(218),
-            width: u(535.895),
-            height: u(588.222),
-            ...parallax(150),
-            "--parallax-rotate": "12deg",
-          } as React.CSSProperties}
-        />
+        {/* Bidang artwork 1024u (koordinat Figma), digeser naik sejauh --crop. */}
+        <div className="absolute inset-x-0" style={{ top: `calc(-1 * ${crop})`, height: u(1024) }}>
+          <Flower
+            preset={heroFlower}
+            className="parallax-hero-layer is-flower pointer-events-none absolute"
+            style={{
+              left: fromCenter(740),
+              top: u(218),
+              width: u(535.895),
+              height: u(588.222),
+              ...parallax(150),
+              "--parallax-rotate": "12deg",
+            } as React.CSSProperties}
+          />
 
-        <h1
-          id="hero-title"
-          className="parallax-hero-layer absolute inset-x-0 font-display whitespace-nowrap text-center leading-normal font-normal text-white"
-          style={{ top: u(TITLE_TOP), ...parallax(400) }}
-        >
-          <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(14.688) }}>
-            KKN PM UGM 2027
-          </span>
-          <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(72) }}>
-            Menyapa
-          </span>
-          <span
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{ top: u(438.195 - 380), fontSize: u(116.399) }}
+          <h1
+            id="hero-title"
+            className="parallax-hero-layer absolute inset-x-0 font-display whitespace-nowrap text-center leading-normal font-normal text-white"
+            style={{ top: u(TITLE_TOP), ...parallax(400) }}
           >
-            Komodo
-          </span>
-        </h1>
+            <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(14.688) }}>
+              KKN PM UGM 2027
+            </span>
+            <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(72) }}>
+              Menyapa
+            </span>
+            <span
+              className="absolute left-1/2 -translate-x-1/2"
+              style={{ top: u(438.195 - 380), fontSize: u(116.399) }}
+            >
+              Komodo
+            </span>
+          </h1>
 
-        <Image
-          src={islandsForeground}
-          alt="Bukit dan teluk Kepulauan Komodo"
-          priority
-          sizes="140vw"
-          className="pointer-events-none"
-          // Bayangan Figma (drop-shadow 0 -3.75 25 rgba(0,0,0,.3)) sudah dipanggang
-          // ke file gambarnya; filter CSS di gambar selebar ini mahal saat scroll.
-          style={{ ...islandImage, height: u(1321) }}
-        />
+          <Image
+            src={islandsForeground}
+            alt="Bukit dan teluk Kepulauan Komodo"
+            priority
+            sizes="140vw"
+            className="pointer-events-none"
+            // Bayangan Figma (drop-shadow 0 -3.75 25 rgba(0,0,0,.3)) sudah dipanggang
+            // ke file gambarnya; filter CSS di gambar selebar ini mahal saat scroll.
+            style={{ ...islandImage, height: u(1321) }}
+          />
 
-        <div
-          className="parallax-hero-layer is-fade absolute left-1/2 flex -translate-x-1/2 items-center gap-3"
-          // Tombol tidak ikut mengecil, jadi di layar sempit diturunkan agar
-          // tidak menimpa judul.
-          style={{ top: `max(${u(597)}, 330px)`, ...parallax(160) }}
-        >
-          <ButtonLink
-            href={GAME_URL}
-            tone="secondary"
-            iconRight={<ArrowRightUp weight="LineDuotone" />}
+          <div
+            className="parallax-hero-layer is-fade absolute left-1/2 flex -translate-x-1/2 items-center gap-3"
+            // Tombol tidak ikut mengecil, jadi di layar sempit diturunkan agar
+            // tidak menimpa judul.
+            style={{ top: `max(${u(597)}, 330px)`, ...parallax(160) }}
           >
-            Masuk Dunia Komodo
-          </ButtonLink>
-          <ButtonLink href="/#dua-desa" tone="light">
-            Selengkapnya
-          </ButtonLink>
+            <ButtonLink
+              href={GAME_URL}
+              tone="secondary"
+              iconRight={<ArrowRightUp weight="LineDuotone" />}
+            >
+              Masuk Dunia Komodo
+            </ButtonLink>
+            <ButtonLink href="/#dua-desa" tone="light">
+              Selengkapnya
+            </ButtonLink>
+          </div>
         </div>
       </section>
 
