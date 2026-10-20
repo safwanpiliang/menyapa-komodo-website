@@ -114,10 +114,6 @@ body {
   from { transform: translateY(-8%); }
   to { transform: translateY(8%); }
 }
-@keyframes tenun-float {
-  from { transform: translateY(20px); }
-  to { transform: translateY(-20px); }
-}
 @keyframes parallax-float {
   from { transform: translateY(120px) rotate(-12deg); }
   to { transform: translateY(-120px) rotate(12deg); }
@@ -147,13 +143,6 @@ body {
 
     .parallax-float {
       animation: parallax-float linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 100%;
-    }
-
-    /* Pita tenun: melayang naik sedikit selama melintasi layar. */
-    .tenun-float {
-      animation: tenun-float linear both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
     }

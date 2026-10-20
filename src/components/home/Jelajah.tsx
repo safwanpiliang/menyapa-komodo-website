@@ -47,7 +47,7 @@ export function Jelajah() {
     >
       <Motif
         name="welaKawu"
-        className="absolute top-[271px] left-[calc(50%+421px)] -z-10 hidden size-[544px] mix-blend-overlay md:block"
+        className="absolute top-[271px] left-[calc(50%+421px)] -z-10 hidden size-[544px] opacity-15 md:block"
       />
       <Image
         src={pelabuhan}
@@ -105,7 +105,7 @@ export function Jelajah() {
 
       <Motif
         name="ranggong"
-        className="absolute top-[448px] left-[-192px] hidden size-[544px] mix-blend-overlay md:block"
+        className="absolute top-[448px] left-[-192px] hidden size-[544px] opacity-15 md:block"
       />
     </section>
   );

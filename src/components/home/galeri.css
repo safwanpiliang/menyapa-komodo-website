@@ -14,6 +14,10 @@
 .galeri {
   position: relative;
   view-timeline: --galeri block;
+  /* Isi Galeri (±35 lapisan GPU: polaroid, cahaya, sinar) tidak dirender
+     selama section ini jauh di luar layar. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100svh;
 }
 
 .galeri-stage {

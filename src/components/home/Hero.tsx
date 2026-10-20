@@ -30,7 +30,9 @@ const TITLE_TOP = 380 - 40;
 /*
  * Parallax (lihat globals.css): judul, bunga, dan tombol bergeser ke bawah
  * sejauh `n` unit selama hero di-scroll habis, sedangkan foto tidak bergerak.
- * Hasilnya judul perlahan "tenggelam" di balik bukit.
+ * Hasilnya judul perlahan "tenggelam" di balik bukit. Jaraknya sengaja dibatasi
+ * supaya lapisan yang bergerak tetap di dalam hero (≤1024): kalau menimpa
+ * section Dua Desa, seluruh section itu ikut jadi lapisan GPU dan scroll berat.
  */
 const parallax = (n: number) => ({ "--parallax-shift": u(n) }) as React.CSSProperties;
 
@@ -69,7 +71,9 @@ export function Hero({ children }: { children?: React.ReactNode }) {
       />
 
       <section
-        className="parallax-hero relative w-full"
+        // overflow-clip: foto bukit (tinggi 1321) dipotong di batas hero. Bagian
+        // yang terpotong identik dengan foto latar, jadi tidak terlihat bedanya.
+        className="parallax-hero relative w-full overflow-clip"
         style={{ height: u(1024) }}
         aria-labelledby="hero-title"
       >
@@ -81,15 +85,15 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             top: u(218),
             width: u(535.895),
             height: u(588.222),
-            ...parallax(1024 * 0.6),
-            "--parallax-rotate": "40deg",
+            ...parallax(150),
+            "--parallax-rotate": "12deg",
           } as React.CSSProperties}
         />
 
         <h1
           id="hero-title"
           className="parallax-hero-layer absolute inset-x-0 font-display whitespace-nowrap text-center leading-normal font-normal text-white"
-          style={{ top: u(TITLE_TOP), ...parallax(1024 * 0.5) }}
+          style={{ top: u(TITLE_TOP), ...parallax(400) }}
         >
           <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(14.688) }}>
             KKN PM UGM 2027

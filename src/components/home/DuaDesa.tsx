@@ -35,7 +35,7 @@ export function DuaDesa() {
       />
       <Motif
         name="ranggong"
-        className="absolute top-[91px] left-[-112px] hidden size-[408px] mix-blend-overlay md:block"
+        className="absolute top-[91px] left-[-112px] hidden size-[408px] opacity-15 md:block"
       />
 
       <div className="relative mx-auto flex max-w-[1280px] flex-col items-center gap-10">
@@ -52,9 +52,6 @@ export function DuaDesa() {
           {villages.map((village) => (
             <article key={village.name} className="flex flex-col items-start gap-6">
               <div className="relative h-[240px] w-full overflow-clip rounded-3 md:h-[359px]">
-                {/* Tanpa parallax-media: ornamen Ranggong (mix-blend-overlay)
-                    menimpa foto ini, dan foto yang bergerak di bawah blend mode
-                    memaksa browser menggambar ulang setiap frame. */}
                 <Image
                   src={village.image}
                   placeholder="blur"
