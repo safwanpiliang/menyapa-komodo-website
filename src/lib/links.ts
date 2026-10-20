@@ -7,8 +7,8 @@ export const GAME_URL = process.env.NEXT_PUBLIC_GAME_URL ?? "http://localhost:51
 
 export const NAV_LINKS = [
   { key: "beranda", label: "Beranda", href: "/" },
-  { key: "jelajah", label: "Jelajah", href: "/#jelajah" },
   { key: "dua-desa", label: "Dua Desa", href: "/#dua-desa" },
-  { key: "cerita", label: "Cerita", href: "/cerita" },
+  { key: "jelajah", label: "Jelajah", href: "/#jelajah" },
+  { key: "artikel", label: "Artikel", href: "/artikel" },
   { key: "tentang", label: "Tentang", href: "/tentang" },
 ];

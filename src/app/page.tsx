@@ -1,9 +1,9 @@
 import { CeritaDesa } from "@/components/home/CeritaDesa";
 import { DuaDesa } from "@/components/home/DuaDesa";
-import { DuniaKomodo } from "@/components/home/DuniaKomodo";
 import { Galeri } from "@/components/home/Galeri";
 import { Hero } from "@/components/home/Hero";
 import { Jelajah } from "@/components/home/Jelajah";
+import { TenunBand } from "@/components/home/TenunBand";
 import { SiteNavbar } from "@/components/layout/SiteNavbar";
 
 export default function Home() {
@@ -11,10 +11,11 @@ export default function Home() {
     <>
       <SiteNavbar active="beranda" />
       <main>
-        <Hero />
-        <DuaDesa />
+        <Hero>
+          <DuaDesa />
+        </Hero>
         <Jelajah />
-        <DuniaKomodo />
+        <TenunBand />
         <CeritaDesa />
         <Galeri />
       </main>

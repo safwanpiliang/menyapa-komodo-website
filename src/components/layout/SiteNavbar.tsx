@@ -84,7 +84,7 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
         <ButtonLink
           href={GAME_URL}
           size="lg"
-          aria-label="Jelajahi Komodo"
+          aria-label="Masuk Dunia Komodo"
           className="ml-auto h-[53px] gap-0 overflow-hidden"
           iconLeft={<Gamepad weight="BoldDuotone" />}
         >
@@ -96,7 +96,7 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
               "group-data-closed/nav:ml-0 group-data-closed/nav:grid-cols-[0fr] group-data-closed/nav:opacity-0",
             )}
           >
-            <span className="overflow-hidden">Jelajahi Komodo</span>
+            <span className="overflow-hidden">Masuk Dunia Komodo</span>
           </span>
         </ButtonLink>
       </nav>

@@ -35,6 +35,10 @@
   --color-neutral-800: #7085AE;
   --color-neutral-900: #475F8C;
   --color-neutral-1000: #2B4774;
+  /* Tambahan Home Page New (belum ada di palet design system):
+     latar gelap section Dua Desa & Jelajah, dan putih hangat motif tenun. */
+  --color-neutral-1100: #0E151A;
+  --color-motif: #FDFCF8;
 
   --color-red-100: #FB3748;
   --color-red-200: #D00416;
@@ -110,6 +114,10 @@ body {
   from { transform: translateY(-8%); }
   to { transform: translateY(8%); }
 }
+@keyframes tenun-shift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-720px); }
+}
 @keyframes parallax-float {
   from { transform: translateY(120px) rotate(-12deg); }
   to { transform: translateY(-120px) rotate(12deg); }
@@ -142,5 +150,19 @@ body {
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
     }
+
+    /* Pita tenun: motif bergeser ke kiri selama pita melintasi layar. */
+    .tenun-track {
+      animation: tenun-shift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
   }
+}
+
+/* Garis titik pita tenun: kotak 6px berjarak 6px (Figma 8068:4268). */
+.tenun-dots {
+  display: block;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, var(--color-motif) 0 6px, transparent 6px 12px);
 }

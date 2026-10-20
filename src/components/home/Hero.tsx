@@ -3,60 +3,66 @@ import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Flower, heroFlower } from "@/components/ui/Flower";
 import { GAME_URL } from "@/lib/links";
-import islands from "@/assets/komodo-islands.webp";
 import islandsForeground from "@/assets/komodo-islands-foreground.webp";
+import islandsTall from "@/assets/komodo-islands-tall.webp";
 
 /*
- * Hero (Figma: "Wireframe - 1" 8010:3726, frame 1440×1024).
- * Komposisinya berlapis: foto pulau → bunga → judul → foto yang sama tapi
- * hanya bukit depan (PNG transparan) → tombol & navbar. Lapisan ke-4 yang
- * membuat "Komodo" terlihat berada di balik bukit.
+ * Hero (Figma: Home Page New › "Wireframe - 1" 8067:152, frame 1440×1024).
+ * Foto pulau (8067:381) kini memanjang 1980×1962 sampai ke belakang section
+ * berikutnya (Dua Desa), jadi Hero menjadi wadah bersama: `children` dirender
+ * di atas lanjutan foto itu.
  *
- * Semua ukuran artwork memakai unit --u = 1px Figma di lebar 1440, jadi
- * komposisinya tetap sama di lebar layar lain (minimal 0.5px per unit).
+ * Komposisi berlapis: foto pulau → bunga → judul → foto yang sama tapi hanya
+ * bukit depan (PNG transparan) → tombol. Lapisan bukit depan yang membuat
+ * "Komodo" terlihat berada di balik bukit.
+ *
+ * Ukuran artwork memakai unit --u = 1px Figma di lebar 1440, jadi komposisinya
+ * tetap sama di lebar layar lain (minimal 0.5px per unit).
  */
 const u = (n: number) => `calc(${n} * var(--u))`;
 // x di Figma diukur dari kiri frame 1440 → ubah jadi relatif ke tengah.
 const fromCenter = (x: number) => `calc(50% + ${x - 720} * var(--u))`;
 
-// Judul dinaikkan dari posisi Figma (y 306) supaya "Komodo" tidak terlalu
-// banyak tertutup bukit.
-const TITLE_TOP = 306 - 64;
-
 /*
- * Parallax (lihat globals.css): tiap lapisan bergeser ke bawah sejauh `n`
- * unit selama hero di-scroll habis. Makin jauh geserannya, makin lambat
- * lapisan itu terlihat bergerak. Bukit depan tidak digeser, jadi judul
- * perlahan "tenggelam" di balik bukit.
+ * Parallax (lihat globals.css): judul, bunga, dan tombol bergeser ke bawah
+ * sejauh `n` unit selama hero di-scroll habis, sedangkan foto tidak bergerak.
+ * Hasilnya judul perlahan "tenggelam" di balik bukit.
  */
 const parallax = (n: number) => ({ "--parallax-shift": u(n) }) as React.CSSProperties;
 
 const islandImage: React.CSSProperties = {
   position: "absolute",
+  top: 0,
   left: fromCenter(-270),
   width: u(1980),
-  height: u(1321),
   maxWidth: "none",
   objectFit: "cover",
+  objectPosition: "top",
 };
 
-export function Hero() {
+export function Hero({ children }: { children?: React.ReactNode }) {
   return (
-    <section className="parallax-hero @container relative w-full overflow-clip bg-white" aria-labelledby="hero-title">
-      <div
-        className="relative w-full"
-        style={{ "--u": "max(calc(100cqw / 1440), 0.5px)", height: u(1024) } as React.CSSProperties}
-      >
-        <Image
-          src={islands}
-          alt=""
-          placeholder="blur"
-          priority
-          sizes="140vw"
-          className="parallax-hero-layer"
-          style={{ ...islandImage, top: u(-33), ...parallax(1024 * 0.45) }}
-        />
+    <div
+      className="@container relative isolate w-full overflow-clip bg-neutral-1100"
+      style={{ "--u": "max(calc(100cqw / 1440), 0.5px)" } as React.CSSProperties}
+    >
+      <Image
+        src={islandsTall}
+        alt=""
+        placeholder="blur"
+        priority
+        sizes="140vw"
+        // Ujung bawah foto dipudarkan supaya tidak terlihat sebagai garis keras
+        // saat section di bawahnya lebih tinggi dari foto (layar sempit).
+        className="-z-10 [mask-image:linear-gradient(to_bottom,#000_88%,transparent)]"
+        style={{ ...islandImage, height: u(1962) }}
+      />
 
+      <section
+        className="parallax-hero relative w-full"
+        style={{ height: u(1024) }}
+        aria-labelledby="hero-title"
+      >
         <Flower
           preset={heroFlower}
           className="parallax-hero-layer is-flower pointer-events-none absolute"
@@ -73,17 +79,17 @@ export function Hero() {
         <h1
           id="hero-title"
           className="parallax-hero-layer absolute inset-x-0 font-display whitespace-nowrap text-center leading-normal font-normal text-white"
-          style={{ top: u(TITLE_TOP), ...parallax(1024 * 0.5) }}
+          style={{ top: u(380), ...parallax(1024 * 0.5) }}
         >
-          <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(19.583) }}>
+          <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(14.688) }}>
             KKN PM UGM 2027
           </span>
-          <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(96) }}>
+          <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(72) }}>
             Menyapa
           </span>
           <span
             className="absolute left-1/2 -translate-x-1/2"
-            style={{ top: u(383.594 - 306), fontSize: u(155.198) }}
+            style={{ top: u(438.195 - 380), fontSize: u(116.399) }}
           >
             Komodo
           </span>
@@ -97,7 +103,7 @@ export function Hero() {
           className="pointer-events-none"
           style={{
             ...islandImage,
-            top: u(-35),
+            height: u(1321),
             filter: `drop-shadow(0 ${u(-3.75)} ${u(25)} rgba(0, 0, 0, 0.3))`,
           }}
         />
@@ -116,11 +122,12 @@ export function Hero() {
             Masuk Dunia Komodo
           </ButtonLink>
           <ButtonLink href="/#dua-desa" tone="light">
-            Kenali Komodo
+            Selengkapnya
           </ButtonLink>
         </div>
+      </section>
 
-      </div>
-    </section>
+      {children}
+    </div>
   );
 }
