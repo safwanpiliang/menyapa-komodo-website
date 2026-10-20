@@ -114,9 +114,9 @@ body {
   from { transform: translateY(-8%); }
   to { transform: translateY(8%); }
 }
-@keyframes tenun-shift {
-  from { transform: translateX(0); }
-  to { transform: translateX(-720px); }
+@keyframes tenun-float {
+  from { transform: translateY(20px); }
+  to { transform: translateY(-20px); }
 }
 @keyframes parallax-float {
   from { transform: translateY(120px) rotate(-12deg); }
@@ -151,9 +151,9 @@ body {
       animation-range: cover 0% cover 100%;
     }
 
-    /* Pita tenun: motif bergeser ke kiri selama pita melintasi layar. */
-    .tenun-track {
-      animation: tenun-shift linear both;
+    /* Pita tenun: melayang naik sedikit selama melintasi layar. */
+    .tenun-float {
+      animation: tenun-float linear both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
     }

@@ -52,16 +52,17 @@ export function DuaDesa() {
           {villages.map((village) => (
             <article key={village.name} className="flex flex-col items-start gap-6">
               <div className="relative h-[240px] w-full overflow-clip rounded-3 md:h-[359px]">
-                <div className="parallax-media absolute inset-x-0 -inset-y-[10%]">
-                  <Image
-                    src={village.image}
-                    placeholder="blur"
-                    alt={`Foto ${village.name}`}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
+                {/* Tanpa parallax-media: ornamen Ranggong (mix-blend-overlay)
+                    menimpa foto ini, dan foto yang bergerak di bawah blend mode
+                    memaksa browser menggambar ulang setiap frame. */}
+                <Image
+                  src={village.image}
+                  placeholder="blur"
+                  alt={`Foto ${village.name}`}
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
               </div>
               <div className="flex w-full flex-col">
                 <Text variant="h5" as="h3" className="font-display font-normal text-white">

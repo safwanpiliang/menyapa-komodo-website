@@ -23,6 +23,10 @@ const u = (n: number) => `calc(${n} * var(--u))`;
 // x di Figma diukur dari kiri frame 1440 → ubah jadi relatif ke tengah.
 const fromCenter = (x: number) => `calc(50% + ${x - 720} * var(--u))`;
 
+// Judul dinaikkan 40px dari posisi Figma (y 380) supaya "Komodo" tidak
+// terlalu banyak tertutup bukit.
+const TITLE_TOP = 380 - 40;
+
 /*
  * Parallax (lihat globals.css): judul, bunga, dan tombol bergeser ke bawah
  * sejauh `n` unit selama hero di-scroll habis, sedangkan foto tidak bergerak.
@@ -52,10 +56,16 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         placeholder="blur"
         priority
         sizes="140vw"
-        // Ujung bawah foto dipudarkan supaya tidak terlihat sebagai garis keras
-        // saat section di bawahnya lebih tinggi dari foto (layar sempit).
-        className="-z-10 [mask-image:linear-gradient(to_bottom,#000_88%,transparent)]"
+        className="-z-10"
         style={{ ...islandImage, height: u(1962) }}
+      />
+      {/* Ujung bawah foto dipudarkan ke latar, supaya tidak terlihat sebagai
+          garis keras saat section di bawahnya lebih tinggi dari foto (layar
+          sempit). Lapisan gradien biasa, bukan mask-image di foto yang besar. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 -z-10 bg-linear-to-b from-transparent to-neutral-1100"
+        style={{ top: u(1962 * 0.85), height: u(1962 * 0.15 + 2) }}
       />
 
       <section
@@ -79,7 +89,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         <h1
           id="hero-title"
           className="parallax-hero-layer absolute inset-x-0 font-display whitespace-nowrap text-center leading-normal font-normal text-white"
-          style={{ top: u(380), ...parallax(1024 * 0.5) }}
+          style={{ top: u(TITLE_TOP), ...parallax(1024 * 0.5) }}
         >
           <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(14.688) }}>
             KKN PM UGM 2027
@@ -101,11 +111,9 @@ export function Hero({ children }: { children?: React.ReactNode }) {
           priority
           sizes="140vw"
           className="pointer-events-none"
-          style={{
-            ...islandImage,
-            height: u(1321),
-            filter: `drop-shadow(0 ${u(-3.75)} ${u(25)} rgba(0, 0, 0, 0.3))`,
-          }}
+          // Bayangan Figma (drop-shadow 0 -3.75 25 rgba(0,0,0,.3)) sudah dipanggang
+          // ke file gambarnya; filter CSS di gambar selebar ini mahal saat scroll.
+          style={{ ...islandImage, height: u(1321) }}
         />
 
         <div

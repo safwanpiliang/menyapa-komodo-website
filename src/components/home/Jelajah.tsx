@@ -53,7 +53,9 @@ export function Jelajah() {
         src={pelabuhan}
         alt=""
         sizes="100vw"
-        className="absolute bottom-[-200px] left-1/2 -z-10 h-auto w-[max(1440px,100%)] max-w-none -translate-x-1/2"
+        // Foto 2880×1520 (proporsi asli) ditempel ke bawah section supaya teluk
+        // & kapalnya terlihat; bagian atas foto sudah gelap menyatu dengan latar.
+        className="absolute bottom-0 left-1/2 -z-10 h-auto w-[max(1440px,100%)] max-w-none -translate-x-1/2"
       />
 
       <div className="relative mx-auto flex max-w-[1280px] flex-col gap-10">
@@ -76,7 +78,7 @@ export function Jelajah() {
             <li key={item.title}>
               <a
                 href={item.href}
-                className="group relative flex min-h-[180px] rounded-3 bg-white drop-shadow-[0_16px_16px_rgba(88,92,95,0.1)] md:h-[259px]"
+                className="group relative flex min-h-[180px] rounded-3 bg-white shadow-[0_16px_16px_rgba(88,92,95,0.1)] md:h-[259px]"
               >
                 <div className="relative w-[136px] shrink-0 md:w-[218px]">
                   <Image
