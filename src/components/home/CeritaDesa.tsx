@@ -48,7 +48,7 @@ export function CeritaDesa() {
     <section id="cerita" className="relative bg-neutral-300 px-5 pt-[200px] pb-20 md:px-20 md:py-60">
       <TenunBand className="absolute inset-x-0 top-0" />
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
-        <header className="flex flex-col gap-2">
+        <header className="reveal flex flex-col gap-2">
           <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
             <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-primary-600 max-md:text-h4">
               Cerita dari Komodo
@@ -63,9 +63,10 @@ export function CeritaDesa() {
         </header>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {stories.map((story) => (
+          {stories.map((story, i) => (
             <Card
               key={story.href}
+              className={`reveal ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
               image={
                 <Image
                   src={ceritaThumb}

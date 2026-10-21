@@ -47,7 +47,7 @@ export function Jelajah() {
     >
       <Motif
         name="welaKawu"
-        className="absolute top-[271px] left-[calc(50%+421px)] -z-10 hidden size-[544px] opacity-15 md:block"
+        className="reveal reveal-right absolute top-[271px] left-[calc(50%+421px)] -z-10 hidden size-[544px] opacity-15 md:block"
       />
       <Image
         src={pelabuhan}
@@ -59,7 +59,7 @@ export function Jelajah() {
       />
 
       <div className="relative mx-auto flex max-w-[1280px] flex-col gap-10">
-        <header className="flex flex-col gap-2">
+        <header className="reveal flex flex-col gap-2">
           <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
             <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-white max-md:text-h4">
               Ada apa di sini?
@@ -74,15 +74,19 @@ export function Jelajah() {
         </header>
 
         <ul className="grid gap-20 pt-16 md:grid-cols-2 md:gap-8 md:pt-10">
-          {categories.map((item) => (
-            <li key={item.title}>
+          {categories.map((item, i) => (
+            <li key={item.title} className="reveal" style={{ "--reveal-delay": `${i * 150}ms` } as React.CSSProperties}>
               <a
                 href={item.href}
                 // Saat hover seluruh card (beserta fotonya) yang naik, bukan fotonya saja,
                 // supaya foto tidak terlepas dari alas card dan menyisakan celah putih.
                 className="relative flex min-h-[180px] rounded-3 bg-white shadow-[0_16px_16px_rgba(88,92,95,0.1)] transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_24px_24px_rgba(88,92,95,0.16)] motion-reduce:transition-none md:h-[259px]"
               >
-                <div className="relative w-[136px] shrink-0 md:w-[218px]">
+                {/* Foto cutout muncul dari bawah card sedikit setelah card-nya. */}
+                <div
+                  className="reveal relative w-[136px] shrink-0 md:w-[218px]"
+                  style={{ "--reveal-delay": `${i * 150 + 250}ms` } as React.CSSProperties}
+                >
                   <Image
                     src={item.cutout.src}
                     alt={item.cutout.alt}
@@ -107,7 +111,7 @@ export function Jelajah() {
 
       <Motif
         name="ranggong"
-        className="absolute top-[448px] left-[-192px] hidden size-[544px] opacity-15 md:block"
+        className="reveal reveal-left absolute top-[448px] left-[-192px] hidden size-[544px] opacity-15 md:block"
       />
     </section>
   );

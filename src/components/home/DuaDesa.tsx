@@ -35,11 +35,11 @@ export function DuaDesa() {
       />
       <Motif
         name="ranggong"
-        className="absolute top-[91px] left-[-112px] hidden size-[408px] opacity-15 md:block"
+        className="reveal reveal-left absolute top-[91px] left-[-112px] hidden size-[408px] opacity-15 md:block"
       />
 
       <div className="relative mx-auto flex max-w-[1280px] flex-col items-center gap-10">
-        <header className="flex max-w-[668px] flex-col items-center gap-2 text-center">
+        <header className="reveal flex max-w-[668px] flex-col items-center gap-2 text-center">
           <Text variant="h2" className="font-display font-normal text-white max-md:text-h4">
             Dua desa, satu gerbang
           </Text>
@@ -49,9 +49,16 @@ export function DuaDesa() {
         </header>
 
         <div className="grid w-full gap-10 md:grid-cols-2 md:gap-8">
-          {villages.map((village) => (
-            <article key={village.name} className="flex flex-col items-start gap-6">
-              <div className="relative h-[240px] w-full overflow-clip rounded-3 md:h-[359px]">
+          {villages.map((village, i) => (
+            <article
+              key={village.name}
+              className="reveal flex flex-col items-start gap-6"
+              style={{ "--reveal-delay": `${i * 150}ms` } as React.CSSProperties}
+            >
+              <div
+                className="reveal-media relative h-[240px] w-full overflow-clip rounded-3 md:h-[359px]"
+                style={{ "--reveal-delay": `${i * 150}ms` } as React.CSSProperties}
+              >
                 <Image
                   src={village.image}
                   placeholder="blur"

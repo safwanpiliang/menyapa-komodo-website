@@ -23,9 +23,9 @@ const u = (n: number) => `calc(${n} * var(--u))`;
 // x di Figma diukur dari kiri frame 1440 → ubah jadi relatif ke tengah.
 const fromCenter = (x: number) => `calc(50% + ${x - 720} * var(--u))`;
 
-// Judul dinaikkan 40px dari posisi Figma (y 380) supaya "Komodo" tidak
-// terlalu banyak tertutup bukit.
-const TITLE_TOP = 380 - 40;
+// Judul 16px di atas posisi Figma (y 380): "Komodo" tidak terlalu tertutup
+// bukit, tapi tetap dekat dengan tombol CTA.
+const TITLE_TOP = 380 - 16;
 
 /*
  * Parallax (lihat globals.css): judul, bunga, dan tombol bergeser ke bawah
@@ -69,7 +69,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         placeholder="blur"
         priority
         sizes="140vw"
-        className="-z-10"
+        className="intro-zoom -z-10"
         style={{ ...islandImage, top: `calc(-1 * ${crop})`, height: u(1962) }}
       />
       {/* Ujung bawah foto dipudarkan ke latar, supaya tidak terlihat sebagai
@@ -90,33 +90,32 @@ export function Hero({ children }: { children?: React.ReactNode }) {
       >
         {/* Bidang artwork 1024u (koordinat Figma), digeser naik sejauh --crop. */}
         <div className="absolute inset-x-0" style={{ top: `calc(-1 * ${crop})`, height: u(1024) }}>
-          <Flower
-            preset={heroFlower}
-            className="parallax-hero-layer is-flower pointer-events-none absolute"
-            style={{
-              left: fromCenter(740),
-              top: u(218),
-              width: u(535.895),
-              height: u(588.222),
-              ...parallax(150),
-              "--parallax-rotate": "12deg",
-            } as React.CSSProperties}
-          />
+          {/* Wrapper = animasi "mekar" saat dibuka; svg di dalamnya = parallax. */}
+          <div
+            className="intro-bloom pointer-events-none absolute"
+            style={{ left: fromCenter(740), top: u(218), width: u(535.895), height: u(588.222) }}
+          >
+            <Flower
+              preset={heroFlower}
+              className="parallax-hero-layer is-flower size-full"
+              style={{ ...parallax(150), "--parallax-rotate": "12deg" } as React.CSSProperties}
+            />
+          </div>
 
           <h1
             id="hero-title"
             className="parallax-hero-layer absolute inset-x-0 font-display whitespace-nowrap text-center leading-normal font-normal text-white"
             style={{ top: u(TITLE_TOP), ...parallax(400) }}
           >
-            <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(14.688) }}>
+            <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(14.688), "--intro-delay": "150ms" } as React.CSSProperties}>
               KKN PM UGM 2027
             </span>
-            <span className="absolute top-0 left-1/2 -translate-x-1/2" style={{ fontSize: u(72) }}>
+            <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(72), "--intro-delay": "300ms" } as React.CSSProperties}>
               Menyapa
             </span>
             <span
-              className="absolute left-1/2 -translate-x-1/2"
-              style={{ top: u(438.195 - 380), fontSize: u(116.399) }}
+              className="intro-up absolute inset-x-0"
+              style={{ top: u(438.195 - 380), fontSize: u(116.399), "--intro-delay": "450ms" } as React.CSSProperties}
             >
               Komodo
             </span>
@@ -127,7 +126,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             alt="Bukit dan teluk Kepulauan Komodo"
             priority
             sizes="140vw"
-            className="pointer-events-none"
+            className="intro-zoom pointer-events-none"
             // Bayangan Figma (drop-shadow 0 -3.75 25 rgba(0,0,0,.3)) sudah dipanggang
             // ke file gambarnya; filter CSS di gambar selebar ini mahal saat scroll.
             style={{ ...islandImage, height: u(1321) }}
@@ -142,11 +141,18 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             <ButtonLink
               href={GAME_URL}
               tone="secondary"
+              className="intro-up"
+              style={{ "--intro-delay": "700ms" } as React.CSSProperties}
               iconRight={<ArrowRightUp weight="LineDuotone" />}
             >
               Masuk Dunia Komodo
             </ButtonLink>
-            <ButtonLink href="/#dua-desa" tone="light">
+            <ButtonLink
+              href="/#dua-desa"
+              tone="light"
+              className="intro-up"
+              style={{ "--intro-delay": "800ms" } as React.CSSProperties}
+            >
               Selengkapnya
             </ButtonLink>
           </div>

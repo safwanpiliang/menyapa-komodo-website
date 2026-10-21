@@ -16,7 +16,8 @@ export function TenunBand({ className }: { className?: string }) {
     <div aria-hidden className={cn("h-[145.5px] overflow-clip bg-primary-700 shadow-e2", className)}>
       <div className="flex h-full w-max flex-col justify-center gap-1.5">
         <span className="tenun-dots" />
-        <div className="flex">
+        {/* Deretan motif bergeser masuk dari kiri saat pita pertama terlihat. */}
+        <div className="reveal reveal-left flex">
           {Array.from({ length: TILES }, (_, tile) =>
             pattern.map((name) => (
               <Motif key={`${tile}-${name}`} name={name} eager className="-mr-3 size-[102px] shrink-0" />

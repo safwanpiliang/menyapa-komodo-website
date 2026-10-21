@@ -35,11 +35,12 @@ const groups: PartnerGroup[] = [
   },
 ];
 
-function PartnerTile({ partner, size }: { partner: Partner; size: "lg" | "sm" }) {
+function PartnerTile({ partner, size, delay = 0 }: { partner: Partner; size: "lg" | "sm"; delay?: number }) {
   return (
     <li
+      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
       className={cn(
-        "flex items-center justify-center rounded-3 bg-white p-2.5",
+        "reveal reveal-zoom flex items-center justify-center rounded-3 bg-white p-2.5",
         size === "lg" ? "h-[160px] md:h-[280px]" : "h-[96px] md:h-[120px]",
       )}
     >
@@ -80,13 +81,13 @@ export function Mitra() {
             {/* Figma 8097:2480: motif 102px di kiri-atas judul, sedikit menimpanya. */}
             <Motif
               name="ranggongOranye"
-              className="absolute top-[-48px] left-[-82.5px] hidden size-[102px] md:block"
+              className="reveal reveal-spin absolute top-[-48px] left-[-82.5px] hidden size-[102px] md:block"
             />
-            <Text variant="h2" className="relative font-display font-normal text-primary-600 max-md:text-h4">
+            <Text variant="h2" className="reveal relative font-display font-normal text-primary-600 max-md:text-h4">
               Bersama Mitra Kami
             </Text>
           </div>
-          <Text variant="b1" className="text-neutral-900">
+          <Text variant="b1" className="reveal text-neutral-900 [--reveal-delay:120ms]">
             Kenali lebih dalam dua desa tujuan KKN Menyapa Komodo tahun 2027.
           </Text>
         </header>
@@ -94,20 +95,20 @@ export function Mitra() {
         {groups.map((group) => (
           <div key={group.label} className="flex flex-col gap-8">
             <div className="flex flex-col gap-1">
-              <Text variant="h7" as="h3" className="font-display font-normal text-primary-600">
+              <Text variant="h7" as="h3" className="reveal font-display font-normal text-primary-600">
                 {group.label}
               </Text>
-              <span aria-hidden className="dotted-rule text-secondary-500" />
+              <span aria-hidden className="reveal reveal-line dotted-rule text-secondary-500 [--reveal-delay:150ms]" />
             </div>
             <div className="flex flex-col gap-6">
               <ul className="grid gap-6 md:grid-cols-3">
-                {group.featured.map((partner) => (
-                  <PartnerTile key={partner.name} partner={partner} size="lg" />
+                {group.featured.map((partner, i) => (
+                  <PartnerTile key={partner.name} partner={partner} size="lg" delay={i * 100} />
                 ))}
               </ul>
               <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                {group.others.map((partner) => (
-                  <PartnerTile key={partner.name} partner={partner} size="sm" />
+                {group.others.map((partner, i) => (
+                  <PartnerTile key={partner.name} partner={partner} size="sm" delay={i * 80} />
                 ))}
               </ul>
             </div>

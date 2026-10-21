@@ -37,7 +37,7 @@ export function SiteFooter() {
     <div className="bg-primary-700 text-white">
       <span aria-hidden className="tenun-dots opacity-40" />
       <Footer
-        className="mx-auto max-w-[1440px] bg-primary-700 px-5 py-16 md:px-20"
+        className="reveal mx-auto max-w-[1440px] bg-primary-700 px-5 py-16 md:px-20"
         logo={
           <div className="flex flex-col">
             <Text as="span" variant="b4" className="tracking-[0.2em] text-primary-200 uppercase">

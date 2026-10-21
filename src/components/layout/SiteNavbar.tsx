@@ -45,7 +45,7 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
   }, []);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-[35px] z-50 flex justify-center px-5 md:px-20">
+    <header className="intro-down pointer-events-none fixed inset-x-0 top-[35px] z-50 flex justify-center px-5 md:px-20">
       <nav
         aria-label="Navigasi utama"
         data-closed={closed || undefined}

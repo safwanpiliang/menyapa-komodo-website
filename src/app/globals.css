@@ -163,3 +163,78 @@ body {
   height: 6px;
   background: repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 12px);
 }
+
+/*
+ * ---------------------------------------------------------------------------
+ * Animasi masuk.
+ * Semua hanya menganimasikan opacity + properti individual translate / scale /
+ * rotate (dikerjakan GPU, tanpa layout/paint ulang). Properti individual ini
+ * terpisah dari `transform`, jadi tidak bentrok dengan parallax yang memakai
+ * transform. Hanya jalan sekali, tidak terikat posisi scroll.
+ * ---------------------------------------------------------------------------
+ */
+:root {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 1) Intro hero saat halaman dibuka — murni CSS, tanpa JavaScript. */
+@keyframes intro-up {
+  from { opacity: 0; translate: 0 40px; }
+}
+@keyframes intro-down {
+  from { opacity: 0; translate: 0 -16px; }
+}
+@keyframes intro-zoom {
+  from { scale: 1.08; }
+}
+@keyframes intro-bloom {
+  from { opacity: 0; scale: 0.55; rotate: -30deg; }
+}
+.intro-up { animation: intro-up 0.9s var(--ease-out-soft) both; animation-delay: var(--intro-delay, 0ms); }
+.intro-down { animation: intro-down 0.8s var(--ease-out-soft) 0.2s both; }
+.intro-zoom { animation: intro-zoom 1.8s var(--ease-out-soft) both; transform-origin: 50% 0; }
+.intro-bloom { animation: intro-bloom 1.3s var(--ease-out-soft) 0.45s both; }
+
+/*
+ * 2) Reveal saat elemen pertama kali masuk layar. Kelas `.is-revealed`
+ *    dipasang sekali oleh <RevealOnScroll> (IntersectionObserver), yang juga
+ *    menandai <html data-reveal>. Kalau JavaScript gagal dimuat (penanda tidak
+ *    pernah ada), animasi cadangan menampilkan semuanya setelah 3s.
+ *    Variasi: reveal-zoom (membesar), reveal-left/right (dari samping),
+ *    reveal-line (tumbuh dari kiri), reveal-spin (berputar masuk),
+ *    reveal-media (foto di dalam bingkai zoom pelan ke posisi).
+ */
+@keyframes reveal-fallback {
+  to { opacity: 1; translate: none; scale: none; rotate: none; }
+}
+.reveal {
+  transition:
+    opacity 0.8s var(--ease-out-soft),
+    translate 0.9s var(--ease-out-soft),
+    scale 0.9s var(--ease-out-soft),
+    rotate 0.9s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal:not(.is-revealed) {
+  opacity: 0;
+  translate: 0 36px;
+}
+html:not([data-reveal]) .reveal:not(.is-revealed) {
+  animation: reveal-fallback 0.6s ease 3s forwards;
+}
+.reveal-zoom:not(.is-revealed) { translate: 0 16px; scale: 0.92; }
+.reveal-left:not(.is-revealed) { translate: -48px 0; }
+.reveal-right:not(.is-revealed) { translate: 48px 0; }
+.reveal-line { transform-origin: left center; }
+.reveal-line:not(.is-revealed) { translate: none; scale: 0 1; }
+.reveal-spin:not(.is-revealed) { translate: none; scale: 0.4; rotate: -120deg; }
+
+.reveal-media > * { transition: scale 1.6s var(--ease-out-soft); transition-delay: var(--reveal-delay, 0ms); }
+.reveal-media:not(.is-revealed) > * { scale: 1.15; }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-up, .intro-down, .intro-zoom, .intro-bloom { animation: none; }
+  .reveal, .reveal-media > * { transition: none; }
+  .reveal:not(.is-revealed) { opacity: 1; translate: none; scale: none; rotate: none; animation: none; }
+  .reveal-media:not(.is-revealed) > * { scale: none; }
+}
