@@ -102,4 +102,31 @@ export const copy = {
     rightPage: "Potret alam dan warga dua desa. Album ini akan terus kami isi selama KKN 2027.",
     cta: "Lihat semua foto",
   },
+  site: {
+    title: "Menyapa Komodo · KKN-PPM UGM 2027",
+    description:
+      "Kenalan dengan Golo Mori dan Warloka Pesisir, dua desa tujuan KKN-PPM UGM 2027 di ujung barat Flores.",
+  },
+  // Hanya teks label; tujuan tautan ada di lib/links.ts.
+  nav: {
+    beranda: "Beranda",
+    duaDesa: "Dua desa",
+    jelajah: "Jelajah",
+    cerita: "Cerita",
+    tentang: "Tentang",
+  },
+  footer: {
+    eyebrow: "KKN-PPM UGM 2027",
+    brand: "Menyapa Komodo",
+    // sumber: https://ugm.ac.id/id/berita/ugm-kirim-ribuan-mahasiswa-kkn-untuk-bangun-masyarakat-di-400-desa/
+    // (kepanjangan resmi KKN-PPM)
+    description:
+      "Dibuat oleh tim Kuliah Kerja Nyata–Pembelajaran Pemberdayaan Masyarakat (KKN-PPM) UGM 2027 untuk mengenalkan Golo Mori dan Warloka Pesisir, Manggarai Barat, Nusa Tenggara Timur.",
+    copyright: "© 2027 KKN-PPM UGM · Menyapa Komodo",
+  },
+  comingSoon: {
+    metaTitle: "Segera hadir · Menyapa Komodo",
+    titleLines: ["Yah, halaman ini belum jadi.", "Kami sedang menyiapkannya."],
+    cta: "Kembali ke beranda",
+  },
 } as const;

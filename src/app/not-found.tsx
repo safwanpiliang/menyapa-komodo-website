@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
 import { Text } from "assets-design-system";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { copy } from "@/content/copy";
 
 export const metadata: Metadata = {
-  title: "Segera hadir · Menyapa Komodo",
+  title: copy.comingSoon.metaTitle,
 };
 
 /*
@@ -22,9 +23,9 @@ export default function ComingSoon() {
           as="h1"
           className="intro-up font-display font-normal text-primary-600 max-md:text-h6"
         >
-          Yahh... halaman ini
+          {copy.comingSoon.titleLines[0]}
           <br />
-          masih dalam tahap pengerjaan
+          {copy.comingSoon.titleLines[1]}
         </Text>
         <ButtonLink
           href="/"
@@ -33,7 +34,7 @@ export default function ComingSoon() {
           style={{ "--intro-delay": "150ms" } as React.CSSProperties}
           iconRight={<ArrowRightUp weight="LineDuotone" />}
         >
-          Kembali ke beranda
+          {copy.comingSoon.cta}
         </ButtonLink>
       </div>
     </main>

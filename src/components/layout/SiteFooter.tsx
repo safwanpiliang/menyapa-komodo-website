@@ -1,4 +1,5 @@
 import { Footer, Text, type FooterColumn } from "assets-design-system";
+import { copy } from "@/content/copy";
 import { NAV_LINKS } from "@/lib/links";
 
 // Tautan sosial & kontak masih placeholder (konten dari wireframe lo-fi
@@ -41,23 +42,22 @@ export function SiteFooter() {
         logo={
           <div className="flex flex-col">
             <Text as="span" variant="b4" className="tracking-[0.2em] text-primary-200 uppercase">
-              KKN PM UGM 2027
+              {copy.footer.eyebrow}
             </Text>
             <Text as="span" variant="h5" className="font-display font-normal text-white">
-              Menyapa Komodo
+              {copy.footer.brand}
             </Text>
           </div>
         }
         description={
           <span className="text-neutral-300">
-            Etalase dua desa tujuan KKN PM UGM 2027: Golo Mori dan Warloka Pesisir, Kabupaten
-            Manggarai Barat, Nusa Tenggara Timur.
+            {copy.footer.description}
           </span>
         }
         columns={columns}
       />
       <div className="mx-auto flex max-w-[1440px] flex-col gap-2 border-t border-white/10 px-5 py-6 text-b4 text-neutral-300 md:px-20">
-        <span>© 2027 KKN PM UGM · Menyapa Komodo</span>
+        <span>{copy.footer.copyright}</span>
       </div>
     </div>
   );

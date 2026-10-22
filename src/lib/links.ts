@@ -1,3 +1,5 @@
+import { copy } from "@/content/copy";
+
 // Prefix untuk file di public/ yang dipanggil lewat string biasa (bukan
 // next/link atau import statis) — keduanya itu sudah otomatis ikut basePath.
 export const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
@@ -8,9 +10,9 @@ export const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? "
 export const GAME_URL = process.env.NEXT_PUBLIC_GAME_URL || "/dunia-komodo";
 
 export const NAV_LINKS = [
-  { key: "beranda", label: "Beranda", href: "/" },
-  { key: "dua-desa", label: "Dua Desa", href: "/#dua-desa" },
-  { key: "jelajah", label: "Jelajah", href: "/#jelajah" },
-  { key: "cerita", label: "Cerita", href: "/cerita" },
-  { key: "tentang", label: "Tentang", href: "/tentang" },
+  { key: "beranda", label: copy.nav.beranda, href: "/" },
+  { key: "dua-desa", label: copy.nav.duaDesa, href: "/#dua-desa" },
+  { key: "jelajah", label: copy.nav.jelajah, href: "/#jelajah" },
+  { key: "cerita", label: copy.nav.cerita, href: "/cerita" },
+  { key: "tentang", label: copy.nav.tentang, href: "/tentang" },
 ];
