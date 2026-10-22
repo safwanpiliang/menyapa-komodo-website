@@ -43,4 +43,22 @@ export const copy = {
       },
     },
   },
+  jelajah: {
+    title: "Ada apa di dua desa ini?",
+    subtitle: "Tempat yang layak kamu datangi dan karya warga yang bisa kamu bawa pulang.",
+    cta: "Jelajahi semuanya",
+    categories: {
+      wisata: {
+        title: "Wisata",
+        // sumber: https://www.fortuneidn.com/news/golo-mori-todo-cama-gali-peluang-peningkatan-ekonomi-di-golo-mori-00-4vfn9-92m22b
+        // sumber: https://kupang.antaranews.com/berita/147257/bpolbf-sebut-daya-tarik-desa-warloka-pesisir-potensial-dukung-labuan-bajo
+        // VERIFIKASI LAPANGAN: "hutan mangrove"
+        description: "Bukit, pantai, hutan mangrove, dan sudut yang belum banyak orang tahu.",
+      },
+      umkm: {
+        title: "UMKM & karya lokal",
+        description: "Kopi, olahan ikan, kain tenun, dan oleh-oleh buatan warga sendiri.",
+      },
+    },
+  },
 } as const;
