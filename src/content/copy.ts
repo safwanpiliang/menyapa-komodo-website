@@ -88,4 +88,10 @@ export const copy = {
       },
     },
   },
+  // Tanpa kata ganti (bukan "kami"/"kamu").
+  mitra: {
+    title: "Didukung para mitra",
+    subtitle: "Terima kasih kepada sponsor dan mitra media yang mendukung KKN Menyapa Komodo 2027.",
+    groups: { sponsor: "Sponsor", media: "Mitra media" },
+  },
 } as const;
