@@ -3,6 +3,7 @@ import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
 import { Text } from "assets-design-system";
 import islands from "@/assets/komodo-islands.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { copy } from "@/content/copy";
 import { Motif } from "@/components/ui/Motif";
 import { KomodoMap } from "./KomodoMap";
 
@@ -12,21 +13,21 @@ const villages = [
   {
     id: "golo-mori",
     name: "Golo Mori",
-    description: "Perbukitan dengan sebagian pesisir. KKN difokuskan di Golo Mori atas.",
+    ...copy.duaDesa.villages["golo-mori"],
     href: "/dua-desa/golo-mori",
     image: islands,
   },
   {
     id: "warloka-pesisir",
     name: "Warloka Pesisir",
-    description: "Desa pesisir hasil pemekaran, dengan perikanan, UMKM, dan pariwisata.",
+    ...copy.duaDesa.villages["warloka-pesisir"],
     href: "/dua-desa/warloka-pesisir",
     image: islands,
   },
 ];
 
 /*
- * Section 2 — Dua desa, satu gerbang (Figma: Home Page New map › "Wireframe - 2"
+ * Section 2 — Dua desa (Figma: Home Page New map › "Wireframe - 2"
  * 8116:2488). Tidak punya latar sendiri: dirender di dalam <Hero> di atas
  * lanjutan foto pulau, lalu dipudarkan ke Neutral/1100 lewat gradien.
  * Kiri: peta Kepulauan Komodo dengan pin dua desa. Kanan (680px): card desa
@@ -47,10 +48,10 @@ export function DuaDesa() {
       <div className="relative mx-auto flex max-w-[1280px] flex-col items-center gap-10">
         <header className="reveal flex max-w-[668px] flex-col items-center gap-2 text-center">
           <Text variant="h2" className="font-display font-normal text-white max-md:text-h4">
-            Dua desa, satu gerbang
+            {copy.duaDesa.title}
           </Text>
           <Text variant="b1" className="text-neutral-300">
-            Kenali lebih dalam dua desa tujuan KKN Menyapa Komodo tahun 2027.
+            {copy.duaDesa.subtitle}
           </Text>
         </header>
 
@@ -89,7 +90,7 @@ export function DuaDesa() {
                     </Text>
                   </div>
                   <ButtonLink href={village.href} iconRight={<ArrowRightUp weight="LineDuotone" />}>
-                    Selengkapnya
+                    {village.cta}
                   </ButtonLink>
                 </div>
               </article>
