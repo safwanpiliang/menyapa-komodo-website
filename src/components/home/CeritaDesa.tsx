@@ -45,10 +45,10 @@ const chipText: Partial<Record<NonNullable<ChipProps["status"]>, string>> = {
  * bold (18/27), sedikit lebih besar dari judul bawaan Card (B-2).
  */
 export function CeritaDesa() {
-  // Pita tenun menempel di atas section (Figma: konten mulai di y 240,
-  // tinggi section 1030 → padding atas & bawah 240 di desktop).
+  // Pita tenun menempel di atas section; padding atas = tinggi pita + ritme
+  // section biasa (satu-satunya pengecualian ritme spacing).
   return (
-    <section id="cerita" className="relative bg-neutral-300 px-5 pt-[200px] pb-20 md:px-20 md:py-60">
+    <section id="cerita" className="relative bg-neutral-300 px-5 pt-[calc(var(--tenun-band-h)+var(--spacing-section))] pb-section md:px-20">
       <TenunBand className="absolute inset-x-0 top-0" />
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
         <SectionHeader

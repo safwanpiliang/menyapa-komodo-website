@@ -13,7 +13,7 @@ const TILES = 10;
  */
 export function TenunBand({ className }: { className?: string }) {
   return (
-    <div aria-hidden className={cn("h-[145.5px] overflow-clip bg-primary-700 shadow-e2", className)}>
+    <div aria-hidden className={cn("h-(--tenun-band-h) overflow-clip bg-primary-700 shadow-e2", className)}>
       <div className="flex h-full w-max flex-col justify-center gap-1.5">
         <span className="tenun-dots" />
         {/* Deretan motif bergeser masuk dari kiri saat pita pertama terlihat. */}

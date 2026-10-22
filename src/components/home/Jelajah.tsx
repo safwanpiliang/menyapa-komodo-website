@@ -42,11 +42,12 @@ export function Jelajah() {
   return (
     <section
       id="jelajah"
-      className="relative isolate overflow-clip bg-neutral-1100 px-5 pt-20 pb-40 md:px-20 md:pt-30 md:pb-[237px]"
+      // pt-0: menyambung latar gelap Dua desa, jaraknya sudah dari padding bawah Dua desa.
+      className="relative isolate overflow-clip bg-neutral-1100 px-5 pb-section-lg md:px-20"
     >
       <Motif
         name="welaKawu"
-        className="reveal reveal-right absolute top-[271px] left-[calc(50%+421px)] -z-10 hidden size-[544px] opacity-15 md:block"
+        className="reveal reveal-right absolute top-[151px] left-[calc(50%+421px)] -z-10 hidden size-[544px] opacity-15 md:block"
       />
       <Image
         src={pelabuhan}
@@ -107,7 +108,7 @@ export function Jelajah() {
 
       <Motif
         name="ranggong"
-        className="reveal reveal-left absolute top-[448px] left-[-192px] hidden size-[544px] opacity-15 md:block"
+        className="reveal reveal-left absolute top-[328px] left-[-192px] hidden size-[544px] opacity-15 md:block"
       />
     </section>
   );

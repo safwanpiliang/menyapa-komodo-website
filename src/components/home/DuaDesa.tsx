@@ -36,7 +36,7 @@ const villages = [
  */
 export function DuaDesa() {
   return (
-    <section id="dua-desa" className="relative px-5 py-20 md:px-20 md:py-30">
+    <section id="dua-desa" className="relative px-5 py-section md:px-20">
       <div
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,color-mix(in_oklab,var(--color-neutral-1100)_75%,transparent)_44.638%,var(--color-neutral-1100))]"

@@ -97,6 +97,18 @@
   --text-b4: 0.75rem;      --text-b4--line-height: 1.125rem;
   --text-b5: 0.625rem;     --text-b5--line-height: 0.9375rem;
 
+  /*
+   * Ritme vertikal section (py-section / pb-section-lg). Hanya dua nilai:
+   * - section    : 80px (mobile) / 120px (≥768px) — semua section;
+   * - section-lg : 160px / 200px — ruang bawah Jelajah supaya foto pelabuhan
+   *   di dasar section terlihat.
+   * Dua section berurutan dengan latar sama tidak menggandakan padding: yang
+   * di bawah memakai pt-0 (Jelajah setelah Dua desa, Mitra setelah Cerita).
+   * Satu-satunya pengecualian: Cerita menambah tinggi pita tenun di atasnya.
+   */
+  --spacing-section: var(--section-y);
+  --spacing-section-lg: var(--section-y-lg);
+
   --shadow-e0: 0px 0px 0px 0px rgba(27, 28, 29, 0);
   --shadow-e1: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
   --shadow-e2: 0px 16px 32px -12px rgba(88, 92, 95, 0.1);
@@ -115,6 +127,19 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+:root {
+  --section-y: 5rem;
+  --section-y-lg: 10rem;
+  /* Tinggi pita tenun (Figma 8101:4263), dipakai juga padding atas Cerita. */
+  --tenun-band-h: 145.5px;
+}
+@media (width >= 48rem) {
+  :root {
+    --section-y: 7.5rem;
+    --section-y-lg: 12.5rem;
+  }
 }
 
 body {
