@@ -9,19 +9,21 @@ import { cn } from "@/lib/cn";
  * package; bentuk pill (radius/full) mengikuti Button-Primary/Secondary di
  * Figma Menyapa Komodo.
  */
+// Warna latar & teks memakai token action-* (globals.css) supaya semua tone
+// lolos kontras ≥4.5:1; cek dengan `npm run contrast`.
 const tones = {
   primary:
-    "bg-primary-400 text-white hover:bg-primary-500 focus-visible:ring-4 focus-visible:ring-primary-400/10",
+    "bg-action-primary text-white hover:bg-action-primary-hover focus-visible:ring-4 focus-visible:ring-primary-400/10",
   secondary:
-    "bg-secondary-400 text-white hover:bg-secondary-500 focus-visible:ring-4 focus-visible:ring-secondary-400/10",
+    "bg-action-secondary text-white hover:bg-action-secondary-hover focus-visible:ring-4 focus-visible:ring-secondary-400/10",
   // Button-Primary ghost (tanpa latar), dipakai di aksi card.
   ghost:
-    "text-primary-400 hover:bg-primary-400/10 focus-visible:ring-4 focus-visible:ring-primary-400/10",
+    "text-action-primary hover:bg-primary-400/10 hover:text-action-primary-hover focus-visible:ring-4 focus-visible:ring-primary-400/10",
   // Button-Secondary putih di hero: bg putih, stroke default, teks oranye.
   // Stroke Figma ada di dalam (inside), jadi dibuat dengan inset ring
   // supaya tinggi tombol tetap 45px seperti varian solid.
   light:
-    "bg-white text-secondary-400 inset-ring inset-ring-border-default hover:bg-disabled-fill focus-visible:ring-4 focus-visible:ring-secondary-400/10",
+    "bg-white text-action-secondary inset-ring inset-ring-border-default hover:bg-disabled-fill focus-visible:ring-4 focus-visible:ring-secondary-400/10",
 };
 
 const sizes = {

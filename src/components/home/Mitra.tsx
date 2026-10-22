@@ -1,6 +1,7 @@
 import Image, { type StaticImageData } from "next/image";
 import { Text } from "assets-design-system";
 import { Motif } from "@/components/ui/Motif";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { copy } from "@/content/copy";
 import { cn } from "@/lib/cn";
 
@@ -75,23 +76,20 @@ function PartnerTile({ partner, size, delay = 0 }: { partner: Partner; size: "lg
  */
 export function Mitra() {
   return (
-    <section id="mitra" className="bg-neutral-300 px-5 py-20 md:px-20 md:py-30">
+    // pt-0: menyambung latar Cerita, jaraknya sudah dari padding bawah Cerita.
+    <section id="mitra" className="bg-neutral-300 px-5 pb-section md:px-20">
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
-        <header className="flex flex-col items-center gap-2 text-center">
-          <div className="relative">
-            {/* Figma 8097:2480: motif 102px di kiri-atas judul, sedikit menimpanya. */}
+        <SectionHeader
+          title={copy.mitra.title}
+          subtitle={copy.mitra.subtitle}
+          decoration={
+            // Figma 8097:2480: motif 102px di kiri-atas judul, sedikit menimpanya.
             <Motif
               name="ranggongOranye"
               className="reveal reveal-spin absolute top-[-48px] left-[-82.5px] hidden size-[102px] md:block"
             />
-            <Text variant="h2" className="reveal relative font-display font-normal text-primary-600 max-md:text-h4">
-              {copy.mitra.title}
-            </Text>
-          </div>
-          <Text variant="b1" className="reveal text-neutral-900 [--reveal-delay:120ms]">
-            {copy.mitra.subtitle}
-          </Text>
-        </header>
+          }
+        />
 
         {groups.map((group) => (
           <div key={group.label} className="flex flex-col gap-8">

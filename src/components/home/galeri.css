@@ -42,16 +42,11 @@
 }
 
 /* ---------- Petunjuk awal ---------- */
+/* Isinya <SectionHeader> (rata kiri, sama dengan section lain). */
 .galeri-hint {
   position: absolute;
   inset: 12cqh 0 auto;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  margin: 0;
-  text-align: center;
   opacity: 0;
 }
 

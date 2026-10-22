@@ -7,6 +7,9 @@ import penenun from "@/assets/jelajah-penenun.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { copy } from "@/content/copy";
 import { Motif } from "@/components/ui/Motif";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { cardTitle } from "@/components/ui/card-title";
+import { cn } from "@/lib/cn";
 
 type Category = {
   title: string;
@@ -41,11 +44,12 @@ export function Jelajah() {
   return (
     <section
       id="jelajah"
-      className="relative isolate overflow-clip bg-neutral-1100 px-5 pt-20 pb-40 md:px-20 md:pt-30 md:pb-[237px]"
+      // pt-0: menyambung latar gelap Dua desa, jaraknya sudah dari padding bawah Dua desa.
+      className="relative isolate overflow-clip bg-neutral-1100 px-5 pb-section-lg md:px-20"
     >
       <Motif
         name="welaKawu"
-        className="reveal reveal-right absolute top-[271px] left-[calc(50%+421px)] -z-10 hidden size-[544px] opacity-15 md:block"
+        className="reveal reveal-right absolute top-[151px] left-[calc(50%+421px)] -z-10 hidden size-[544px] opacity-15 md:block"
       />
       <Image
         src={pelabuhan}
@@ -57,19 +61,16 @@ export function Jelajah() {
       />
 
       <div className="relative mx-auto flex max-w-[1280px] flex-col gap-10">
-        <header className="reveal flex flex-col gap-2">
-          <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
-            <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-white max-md:text-h4">
-              {copy.jelajah.title}
-            </Text>
+        <SectionHeader
+          tone="dark"
+          title={copy.jelajah.title}
+          subtitle={copy.jelajah.subtitle}
+          cta={
             <ButtonLink href="/jelajah" size="lg" iconRight={<ArrowRightUp weight="LineDuotone" />}>
               {copy.jelajah.cta}
             </ButtonLink>
-          </div>
-          <Text variant="b1" className="text-neutral-300">
-            {copy.jelajah.subtitle}
-          </Text>
-        </header>
+          }
+        />
 
         <ul className="grid gap-20 pt-16 md:grid-cols-2 md:gap-8 md:pt-10">
           {categories.map((item, i) => (
@@ -94,10 +95,10 @@ export function Jelajah() {
                   />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col gap-4 p-6">
-                  <Text variant="h5" as="h3" className="font-display font-normal text-neutral-1000 max-md:text-h6">
+                  <Text variant="h5" as="h3" className={cn(cardTitle.place, "text-neutral-1000")}>
                     {item.title}
                   </Text>
-                  <Text variant="b2" className="text-neutral-800">
+                  <Text variant="b2" className="text-ink-body">
                     {item.description}
                   </Text>
                 </div>
@@ -109,7 +110,7 @@ export function Jelajah() {
 
       <Motif
         name="ranggong"
-        className="reveal reveal-left absolute top-[448px] left-[-192px] hidden size-[544px] opacity-15 md:block"
+        className="reveal reveal-left absolute top-[328px] left-[-192px] hidden size-[544px] opacity-15 md:block"
       />
     </section>
   );
