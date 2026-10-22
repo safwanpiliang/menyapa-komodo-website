@@ -1,6 +1,7 @@
 import Image, { type StaticImageData } from "next/image";
 import { Text } from "assets-design-system";
 import { Motif } from "@/components/ui/Motif";
+import { copy } from "@/content/copy";
 import { cn } from "@/lib/cn";
 
 type Partner = {
@@ -19,12 +20,12 @@ type PartnerGroup = {
 // Isi masih placeholder seperti di Figma; ganti dengan nama & logo mitra asli.
 const groups: PartnerGroup[] = [
   {
-    label: "Sponsor",
+    label: copy.mitra.groups.sponsor,
     featured: [{ name: "Sponsor 1" }, { name: "Sponsor 2" }, { name: "Sponsor 3" }],
     others: [{ name: "Sponsor 4" }, { name: "Sponsor 5" }, { name: "Sponsor 6" }, { name: "Sponsor 7" }],
   },
   {
-    label: "Media Partner",
+    label: copy.mitra.groups.media,
     featured: [{ name: "Media Partner 1" }, { name: "Media Partner 2" }, { name: "Media Partner 3" }],
     others: [
       { name: "Media Partner 4" },
@@ -68,8 +69,8 @@ function PartnerTile({ partner, size, delay = 0 }: { partner: Partner; size: "lg
 }
 
 /*
- * Section 6 — Bersama Mitra Kami (Figma: Home Page New › "Wireframe - 6"
- * 8092:2396). Dua grup mitra (Sponsor, Media Partner), masing-masing: label +
+ * Section 6 — Mitra (Figma: Home Page New › "Wireframe - 6"
+ * 8092:2396). Dua grup mitra (Sponsor, Mitra media), masing-masing: label +
  * garis titik oranye, 3 kotak logo besar (280px), lalu 4 kotak kecil (120px).
  */
 export function Mitra() {
@@ -84,11 +85,11 @@ export function Mitra() {
               className="reveal reveal-spin absolute top-[-48px] left-[-82.5px] hidden size-[102px] md:block"
             />
             <Text variant="h2" className="reveal relative font-display font-normal text-primary-600 max-md:text-h4">
-              Bersama Mitra Kami
+              {copy.mitra.title}
             </Text>
           </div>
           <Text variant="b1" className="reveal text-neutral-900 [--reveal-delay:120ms]">
-            Terima kasih kepada sponsor dan media partner yang mendukung KKN Menyapa Komodo 2027.
+            {copy.mitra.subtitle}
           </Text>
         </header>
 

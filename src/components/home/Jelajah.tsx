@@ -5,6 +5,7 @@ import komodo from "@/assets/jelajah-komodo.webp";
 import pelabuhan from "@/assets/jelajah-pelabuhan.webp";
 import penenun from "@/assets/jelajah-penenun.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { copy } from "@/content/copy";
 import { Motif } from "@/components/ui/Motif";
 
 type Category = {
@@ -15,18 +16,15 @@ type Category = {
   cutout: { src: StaticImageData; alt: string; width: number; height: number };
 };
 
-// Deskripsi masih lorem ipsum di Figma; ditulis ulang supaya sesuai judul card.
 const categories: Category[] = [
   {
-    title: "Wisata",
-    description: "Pantai, bukit, dan hidden gem di Golo Mori dan Warloka Pesisir yang layak kamu datangi.",
+    ...copy.jelajah.categories.wisata,
     href: "/jelajah/wisata",
     // Figma 8068:1652: kotak 261×546, alasnya rata dengan bawah card.
     cutout: { src: komodo, alt: "Komodo", width: 261, height: 546 },
   },
   {
-    title: "UMKM & Karya Lokal",
-    description: "Kopi, olahan ikan, kain tenun, dan oleh-oleh khas buatan warga dua desa.",
+    ...copy.jelajah.categories.umkm,
     href: "/jelajah/umkm",
     // Figma 8068:1671: kotak 281×365 (dicerminkan), alasnya rata dengan bawah card.
     cutout: { src: penenun, alt: "Penenun kain tenun", width: 281, height: 365 },
@@ -34,7 +32,7 @@ const categories: Category[] = [
 ];
 
 /*
- * Section 3 — Ada apa di sini? (Figma: Home Page New › "Wireframe - 3" 8067:213).
+ * Section 3 — Jelajah (Figma: Home Page New › "Wireframe - 3" 8067:213).
  * Latar Neutral/1100 dengan foto pelabuhan hitam-putih (efek pikselnya sudah
  * tertanam di foto) dan ornamen motif tenun. Card horizontal dibuat di sini,
  * bukan pakai `Card` package, karena fotonya cutout yang menonjol keluar card.
@@ -62,14 +60,14 @@ export function Jelajah() {
         <header className="reveal flex flex-col gap-2">
           <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
             <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-white max-md:text-h4">
-              Ada apa di sini?
+              {copy.jelajah.title}
             </Text>
             <ButtonLink href="/jelajah" size="lg" iconRight={<ArrowRightUp weight="LineDuotone" />}>
-              Lihat Jelajah
+              {copy.jelajah.cta}
             </ButtonLink>
           </div>
           <Text variant="b1" className="text-neutral-300">
-            Wisata, kuliner, dan karya warga Golo Mori dan Warloka Pesisir yang bisa kamu kenali dan kunjungi.
+            {copy.jelajah.subtitle}
           </Text>
         </header>
 
