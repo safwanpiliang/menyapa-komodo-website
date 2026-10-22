@@ -1,7 +1,9 @@
 import Image from "next/image";
 import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
+import { Text } from "assets-design-system";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Flower, heroFlower } from "@/components/ui/Flower";
+import { copy } from "@/content/copy";
 import { GAME_URL } from "@/lib/links";
 import islandsForeground from "@/assets/komodo-islands-foreground.webp";
 import islandsTall from "@/assets/komodo-islands-tall.webp";
@@ -108,16 +110,16 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             style={{ top: u(TITLE_TOP), ...parallax(400) }}
           >
             <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(14.688), "--intro-delay": "150ms" } as React.CSSProperties}>
-              KKN PM UGM 2027
+              {copy.hero.eyebrow}
             </span>
             <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(72), "--intro-delay": "300ms" } as React.CSSProperties}>
-              Menyapa
+              {copy.hero.titleTop}
             </span>
             <span
               className="intro-up absolute inset-x-0"
               style={{ top: u(438.195 - 380), fontSize: u(116.399), "--intro-delay": "450ms" } as React.CSSProperties}
             >
-              Komodo
+              {copy.hero.titleBottom}
             </span>
           </h1>
 
@@ -133,28 +135,38 @@ export function Hero({ children }: { children?: React.ReactNode }) {
           />
 
           <div
-            className="parallax-hero-layer is-fade absolute left-1/2 flex -translate-x-1/2 items-center gap-3"
+            className="parallax-hero-layer is-fade absolute left-1/2 flex -translate-x-1/2 flex-col items-center gap-4"
             // Tombol tidak ikut mengecil, jadi di layar sempit diturunkan agar
             // tidak menimpa judul.
             style={{ top: `max(${u(597)}, 330px)`, ...parallax(160) }}
           >
-            <ButtonLink
-              href={GAME_URL}
-              tone="secondary"
-              className="intro-up"
-              style={{ "--intro-delay": "700ms" } as React.CSSProperties}
-              iconRight={<ArrowRightUp weight="LineDuotone" />}
+            <div className="flex items-center gap-3">
+              <ButtonLink
+                href={GAME_URL}
+                tone="secondary"
+                className="intro-up"
+                style={{ "--intro-delay": "700ms" } as React.CSSProperties}
+                iconRight={<ArrowRightUp weight="LineDuotone" />}
+              >
+                {copy.hero.ctaGame}
+              </ButtonLink>
+              <ButtonLink
+                href="/#dua-desa"
+                tone="light"
+                className="intro-up"
+                style={{ "--intro-delay": "800ms" } as React.CSSProperties}
+              >
+                {copy.hero.ctaVillages}
+              </ButtonLink>
+            </div>
+            {/* Sub-judul di bawah tombol, supaya posisi judul & tombol tetap. */}
+            <Text
+              variant="b1"
+              className="intro-up w-max max-w-[calc(100vw-40px)] text-center text-white"
+              style={{ "--intro-delay": "900ms" } as React.CSSProperties}
             >
-              Masuk Dunia Komodo
-            </ButtonLink>
-            <ButtonLink
-              href="/#dua-desa"
-              tone="light"
-              className="intro-up"
-              style={{ "--intro-delay": "800ms" } as React.CSSProperties}
-            >
-              Kenali Dua Desa
-            </ButtonLink>
+              {copy.hero.subtitle}
+            </Text>
           </div>
         </div>
       </section>
