@@ -6,6 +6,7 @@ import jelajahThumb from "@/assets/jelajah-thumb.webp";
 import islands from "@/assets/komodo-islands.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Flower, heroFlower } from "@/components/ui/Flower";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { copy } from "@/content/copy";
 import "./galeri.css";
 
@@ -66,10 +67,13 @@ export function Galeri() {
     <section id="galeri" className="galeri" aria-labelledby="galeri-title">
       <div className="galeri-stage">
         <div className="galeri-dim" aria-hidden />
-        <p className="galeri-hint" aria-hidden>
-          <span className="font-display text-h3 text-primary-400">{copy.galeri.title}</span>
-          <span className="text-b2 text-neutral-900">{copy.galeri.hint}</span>
-        </p>
+        {/* Header dekoratif (judul aslinya h2 di halaman buku); memudar saat
+            buku membuka, jadi reveal-nya dimatikan. */}
+        <div className="galeri-hint" aria-hidden>
+          <div className="mx-auto max-w-[1280px] px-5 md:px-20">
+            <SectionHeader titleAs="p" reveal={false} title={copy.galeri.title} subtitle={copy.galeri.hint} />
+          </div>
+        </div>
 
         <div className="galeri-book-wrap">
           <div className="galeri-book">

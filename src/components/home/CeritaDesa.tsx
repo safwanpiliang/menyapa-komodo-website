@@ -1,8 +1,9 @@
 import Image from "next/image";
 import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
-import { Card, Chip, Text, type ChipProps } from "assets-design-system";
+import { Card, Chip, type ChipProps } from "assets-design-system";
 import ceritaThumb from "@/assets/cerita-thumb.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { copy } from "@/content/copy";
 import { TenunBand } from "./TenunBand";
 
@@ -50,19 +51,15 @@ export function CeritaDesa() {
     <section id="cerita" className="relative bg-neutral-300 px-5 pt-[200px] pb-20 md:px-20 md:py-60">
       <TenunBand className="absolute inset-x-0 top-0" />
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
-        <header className="reveal flex flex-col gap-2">
-          <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
-            <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-primary-600 max-md:text-h4">
-              {copy.cerita.title}
-            </Text>
+        <SectionHeader
+          title={copy.cerita.title}
+          subtitle={copy.cerita.subtitle}
+          cta={
             <ButtonLink href="/cerita" size="lg" iconRight={<ArrowRightUp weight="LineDuotone" />}>
               {copy.cerita.cta}
             </ButtonLink>
-          </div>
-          <Text variant="b1" className="text-neutral-900">
-            {copy.cerita.subtitle}
-          </Text>
-        </header>
+          }
+        />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {stories.map((story, i) => (

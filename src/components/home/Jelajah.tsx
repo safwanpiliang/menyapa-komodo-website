@@ -7,6 +7,7 @@ import penenun from "@/assets/jelajah-penenun.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { copy } from "@/content/copy";
 import { Motif } from "@/components/ui/Motif";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 type Category = {
   title: string;
@@ -57,19 +58,16 @@ export function Jelajah() {
       />
 
       <div className="relative mx-auto flex max-w-[1280px] flex-col gap-10">
-        <header className="reveal flex flex-col gap-2">
-          <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
-            <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-white max-md:text-h4">
-              {copy.jelajah.title}
-            </Text>
+        <SectionHeader
+          tone="dark"
+          title={copy.jelajah.title}
+          subtitle={copy.jelajah.subtitle}
+          cta={
             <ButtonLink href="/jelajah" size="lg" iconRight={<ArrowRightUp weight="LineDuotone" />}>
               {copy.jelajah.cta}
             </ButtonLink>
-          </div>
-          <Text variant="b1" className="text-neutral-300">
-            {copy.jelajah.subtitle}
-          </Text>
-        </header>
+          }
+        />
 
         <ul className="grid gap-20 pt-16 md:grid-cols-2 md:gap-8 md:pt-10">
           {categories.map((item, i) => (
