@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Komponen Text dari package memakai kelas text-h1…h7 yang tidak tertulis di
+   source kita; paksa Tailwind membuatnya supaya leading & tracking di bawah
+   ikut berlaku (package hanya membawa line-height lamanya). */
+@source inline("text-h{1,2,3,4,5,6,7}");
+
 /*
  * Token dari design system ASSETS (github.com/safwanpiliang/ASSETS-Design-system)
  * dengan nilai versi modifikasi di Figma "Menyapa Komodo UI Workspace"
@@ -73,13 +78,18 @@
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-momo), var(--font-jakarta), ui-sans-serif, sans-serif;
 
-  --text-h1: 4.25rem;      --text-h1--line-height: 6.375rem;
-  --text-h2: 3.5rem;       --text-h2--line-height: 5.25rem;
-  --text-h3: 2.875rem;     --text-h3--line-height: 4.3125rem;
-  --text-h4: 2.375rem;     --text-h4--line-height: 3.5625rem;
-  --text-h5: 2rem;         --text-h5--line-height: 3rem;
-  --text-h6: 1.625rem;     --text-h6--line-height: 2.4375rem;
-  --text-h7: 1.375rem;     --text-h7--line-height: 2.0625rem;
+  /*
+   * Heading: leading rapat (1.1–1.2) karena teks besar dengan leading 1.5
+   * terasa renggang, dan tracking makin negatif seiring ukuran membesar
+   * (h1–h4). h5–h7 cukup leading 1.2 tanpa tracking. Body (b1–b5) tetap 1.5.
+   */
+  --text-h1: 4.25rem;      --text-h1--line-height: 1.1;   --text-h1--letter-spacing: -0.02em;
+  --text-h2: 3.5rem;       --text-h2--line-height: 1.1;   --text-h2--letter-spacing: -0.02em;
+  --text-h3: 2.875rem;     --text-h3--line-height: 1.15;  --text-h3--letter-spacing: -0.015em;
+  --text-h4: 2.375rem;     --text-h4--line-height: 1.15;  --text-h4--letter-spacing: -0.01em;
+  --text-h5: 2rem;         --text-h5--line-height: 1.2;
+  --text-h6: 1.625rem;     --text-h6--line-height: 1.2;
+  --text-h7: 1.375rem;     --text-h7--line-height: 1.2;
 
   --text-b1: 1.125rem;     --text-b1--line-height: 1.6875rem;
   --text-b2: 1rem;         --text-b2--line-height: 1.5rem;
