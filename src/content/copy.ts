@@ -61,4 +61,31 @@ export const copy = {
       },
     },
   },
+  cerita: {
+    title: "Cerita dari Komodo",
+    subtitle: "Kisah warga, jejak sejarah, dan catatan kami dari dua desa.",
+    cta: "Baca semua cerita",
+    cardCta: "Baca cerita",
+    stories: {
+      kenalan: {
+        title: "Kenalan dengan Golo Mori",
+        category: "Cerita desa",
+        excerpt: "Sebelum berangkat, kami mencari tahu: seperti apa hidup di desa perbukitan yang bertemu laut?",
+      },
+      warloka: {
+        title: "Jejak masa lalu di Situs Warloka",
+        category: "Sejarah & fakta unik",
+        // sumber: https://etd.repository.ugm.ac.id/home/detail_pencarian_downloadfiles/1389220
+        // (Situs Warloka = situs arkeologi di Kec. Komodo, menghadap Selat Molo.)
+        excerpt: "Apa yang disimpan Situs Warloka, dan cerita apa yang masih diingat warga?",
+      },
+      sampah: {
+        title: "Memilah sampah bersama warga Golo Mori",
+        // Status: rencana (KKN berjalan 2027). Ganti ke "Catatan KKN" dan tulis
+        // ulang ringkasan setelah program benar-benar berjalan.
+        category: "Rencana KKN",
+        excerpt: "Seperti apa program pemilahan sampah yang akan kami jalankan bersama warga Golo Mori.",
+      },
+    },
+  },
 } as const;

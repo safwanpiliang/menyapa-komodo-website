@@ -3,10 +3,10 @@ import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
 import { Card, Chip, Text, type ChipProps } from "assets-design-system";
 import ceritaThumb from "@/assets/cerita-thumb.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { copy } from "@/content/copy";
 import { TenunBand } from "./TenunBand";
 
-// Judul & kategori dari Figma; ringkasan ditulis netral (sudut pandang
-// sebelum KKN) sampai tim menulis isi aslinya.
+// Teks cerita ada di copy.ts; di sini hanya warna chip & tautan.
 const stories: {
   title: string;
   category: string;
@@ -15,24 +15,18 @@ const stories: {
   href: string;
 }[] = [
   {
-    title: "Kenalan dengan Golo Mori",
-    category: "Cerita Desa",
+    ...copy.cerita.stories.kenalan,
     status: "secondary",
-    excerpt: "Mengenal Golo Mori, desa perbukitan dengan sebagian pesisir yang menjadi tujuan KKN 2027.",
     href: "/cerita/kenalan-dengan-golo-mori",
   },
   {
-    title: "Jejak pelabuhan kuno Warloka",
-    category: "Sejarah & Fun Fact",
+    ...copy.cerita.stories.warloka,
     status: "primary",
-    excerpt: "Menelusuri cerita dan jejak sejarah pelabuhan kuno di Warloka Pesisir.",
     href: "/cerita/jejak-pelabuhan-kuno-warloka",
   },
   {
-    title: "Memilah sampah bersama Golo Mori",
-    category: "Catatan KKN",
+    ...copy.cerita.stories.sampah,
     status: "default",
-    excerpt: "Gambaran program pemilahan sampah yang akan dijalankan bersama warga Golo Mori.",
     href: "/cerita/memilah-sampah-bersama-golo-mori",
   },
 ];
@@ -52,14 +46,14 @@ export function CeritaDesa() {
         <header className="reveal flex flex-col gap-2">
           <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-2.5">
             <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-primary-600 max-md:text-h4">
-              Cerita dari Komodo
+              {copy.cerita.title}
             </Text>
             <ButtonLink href="/cerita" size="lg" iconRight={<ArrowRightUp weight="LineDuotone" />}>
-              Lihat Semua Cerita
+              {copy.cerita.cta}
             </ButtonLink>
           </div>
           <Text variant="b1" className="text-neutral-900">
-            Kisah warga, sejarah, dan cerita menarik dari Golo Mori dan Warloka Pesisir.
+            {copy.cerita.subtitle}
           </Text>
         </header>
 
@@ -91,7 +85,7 @@ export function CeritaDesa() {
                   size="sm"
                   iconRight={<ArrowRightUp weight="LineDuotone" />}
                 >
-                  Selengkapnya
+                  {copy.cerita.cardCta}
                 </ButtonLink>
               }
             />
