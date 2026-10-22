@@ -6,6 +6,8 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { copy } from "@/content/copy";
 import { Motif } from "@/components/ui/Motif";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { cardTitle } from "@/components/ui/card-title";
+import { cn } from "@/lib/cn";
 import { KomodoMap } from "./KomodoMap";
 
 // Foto desa masih placeholder dari Figma (foto pulau yang sama).
@@ -76,7 +78,7 @@ export function DuaDesa() {
                 </div>
                 <div className="flex flex-col items-start gap-6 sm:flex-1">
                   <div className="flex flex-col">
-                    <Text variant="h5" as="h3" className="font-display font-normal text-white">
+                    <Text variant="h5" as="h3" className={cn(cardTitle.place, "text-white")}>
                       {village.name}
                     </Text>
                     <Text variant="b2" className="text-neutral-300">

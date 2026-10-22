@@ -4,6 +4,7 @@ import { Card, Chip, type ChipProps } from "assets-design-system";
 import ceritaThumb from "@/assets/cerita-thumb.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { cardTitle } from "@/components/ui/card-title";
 import { copy } from "@/content/copy";
 import { TenunBand } from "./TenunBand";
 
@@ -41,8 +42,8 @@ const chipText: Partial<Record<NonNullable<ChipProps["status"]>, string>> = {
 
 /*
  * Section 5 — Cerita dari Komodo (Figma: Home Page New › "Wireframe - 5" 8068:1752).
- * Card memakai `Card` vertikal assets-design-system; judul di Figma B-1
- * bold (18/27), sedikit lebih besar dari judul bawaan Card (B-2).
+ * Card memakai `Card` vertikal assets-design-system; judul mengikuti aturan
+ * cardTitle.article (B-1 bold), sedikit lebih besar dari judul bawaan Card (B-2).
  */
 export function CeritaDesa() {
   // Pita tenun menempel di atas section; padding atas = tinggi pita + ritme
@@ -65,7 +66,10 @@ export function CeritaDesa() {
           {stories.map((story, i) => (
             <Card
               key={story.href}
-              className={`reveal ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
+              // Card package mengunci blok teksnya setinggi 98px, sehingga judul
+              // dua baris memotong ringkasan. Di sini dibuat min-height (tinggi
+              // card sebaris tetap sama karena grid), tanpa mengubah package.
+              className={`reveal [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
               image={
                 <Image
                   src={ceritaThumb}
@@ -80,7 +84,7 @@ export function CeritaDesa() {
                   {story.category}
                 </Chip>
               }
-              title={<span className="text-b1">{story.title}</span>}
+              title={<span className={cardTitle.article}>{story.title}</span>}
               // Card package mewarnai isi dengan Neutral/800 (3.71:1); span ini
               // menimpanya dengan token ink-body tanpa mengubah package.
               description={<span className="text-ink-body">{story.excerpt}</span>}

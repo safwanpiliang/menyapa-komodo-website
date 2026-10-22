@@ -8,6 +8,8 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { copy } from "@/content/copy";
 import { Motif } from "@/components/ui/Motif";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { cardTitle } from "@/components/ui/card-title";
+import { cn } from "@/lib/cn";
 
 type Category = {
   title: string;
@@ -93,7 +95,7 @@ export function Jelajah() {
                   />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col gap-4 p-6">
-                  <Text variant="h5" as="h3" className="font-display font-normal text-neutral-1000 max-md:text-h6">
+                  <Text variant="h5" as="h3" className={cn(cardTitle.place, "text-neutral-1000")}>
                     {item.title}
                   </Text>
                   <Text variant="b2" className="text-ink-body">
