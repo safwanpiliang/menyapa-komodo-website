@@ -94,4 +94,12 @@ export const copy = {
     subtitle: "Terima kasih kepada sponsor dan mitra media yang mendukung KKN Menyapa Komodo 2027.",
     groups: { sponsor: "Sponsor", media: "Mitra media" },
   },
+  galeri: {
+    title: "Galeri",
+    hint: "Gulir untuk membuka album",
+    coverTagline: "Menyapa Komodo · 2027",
+    leftPage: "Golo Mori & Warloka Pesisir",
+    rightPage: "Potret alam dan warga dua desa. Album ini akan terus kami isi selama KKN 2027.",
+    cta: "Lihat semua foto",
+  },
 } as const;
