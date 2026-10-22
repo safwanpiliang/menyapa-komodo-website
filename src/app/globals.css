@@ -47,6 +47,24 @@
   --color-green-100: #84EBB4;
   --color-green-200: #1FC16B;
 
+  /*
+   * Token semantik untuk teks & latar yang harus lolos WCAG AA (≥4.5:1 untuk
+   * teks biasa). Hue tetap sama dengan palet; hanya shade-nya yang lebih gelap.
+   * Cek ulang dengan `npm run contrast` setiap kali nilai di sini diubah.
+   */
+  /* Latar tombol hijau + teks hijau di atas putih (ghost). */
+  --color-action-primary: var(--color-primary-500);
+  --color-action-primary-hover: var(--color-primary-600);
+  /* Oranye lebih gelap di hue Secondary/600 (31.7°). Secondary/400–600 terlalu
+     terang untuk teks putih (1.97–3.99:1). */
+  --color-action-secondary: #A85A00;
+  --color-action-secondary-hover: #934E00;
+  /* Teks isi card & halaman putih (Neutral/800 hanya 3.71:1 di atas putih). */
+  --color-ink-body: var(--color-neutral-900);
+  /* Teks chip tint di card (latar tint 10% tetap). */
+  --color-chip-primary: var(--color-primary-600);
+  --color-chip-secondary: var(--color-action-secondary-hover);
+
   --color-disabled-fill: #F7F7F8;
   --color-disabled-stroke: #E9EAEB;
   --color-border-default: #E9EAEB;

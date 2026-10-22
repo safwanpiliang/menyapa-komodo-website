@@ -31,6 +31,13 @@ const stories: {
   },
 ];
 
+// Teks chip tint bawaan package terlalu terang di atas latar tint-nya
+// (1.84–3.19:1); ditimpa dengan token chip-* (≥5:1).
+const chipText: Partial<Record<NonNullable<ChipProps["status"]>, string>> = {
+  primary: "text-chip-primary",
+  secondary: "text-chip-secondary",
+};
+
 /*
  * Section 5 — Cerita dari Komodo (Figma: Home Page New › "Wireframe - 5" 8068:1752).
  * Card memakai `Card` vertikal assets-design-system; judul di Figma B-1
@@ -72,12 +79,14 @@ export function CeritaDesa() {
                 />
               }
               chip={
-                <Chip variant="tint" status={story.status} size="sm">
+                <Chip variant="tint" status={story.status} size="sm" className={chipText[story.status ?? "default"]}>
                   {story.category}
                 </Chip>
               }
               title={<span className="text-b1">{story.title}</span>}
-              description={story.excerpt}
+              // Card package mewarnai isi dengan Neutral/800 (3.71:1); span ini
+              // menimpanya dengan token ink-body tanpa mengubah package.
+              description={<span className="text-ink-body">{story.excerpt}</span>}
               actions={
                 <ButtonLink
                   href={story.href}

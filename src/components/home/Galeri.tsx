@@ -76,7 +76,7 @@ export function Galeri() {
             <div className="galeri-board" aria-hidden />
             <div className="galeri-pages">
               <div className="galeri-page-content galeri-page-right">
-                <p className="text-b3 text-neutral-800">
+                <p className="text-b3 text-ink-body">
                   {copy.galeri.rightPage}
                 </p>
                 <ButtonLink href="/galeri" size="md" iconRight={<ArrowRightUp weight="LineDuotone" />}>
@@ -99,7 +99,7 @@ export function Galeri() {
                   <h2 id="galeri-title" className="font-display text-h5 text-primary-400">
                     {copy.galeri.title}
                   </h2>
-                  <p className="text-b3 text-neutral-800">{copy.galeri.leftPage}</p>
+                  <p className="text-b3 text-ink-body">{copy.galeri.leftPage}</p>
                 </div>
               </div>
             </div>

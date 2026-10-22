@@ -97,7 +97,7 @@ export function Jelajah() {
                   <Text variant="h5" as="h3" className="font-display font-normal text-neutral-1000 max-md:text-h6">
                     {item.title}
                   </Text>
-                  <Text variant="b2" className="text-neutral-800">
+                  <Text variant="b2" className="text-ink-body">
                     {item.description}
                   </Text>
                 </div>
