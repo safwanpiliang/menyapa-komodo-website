@@ -23,18 +23,19 @@ type Photo = {
   start: number;
 };
 
-// Foto sementara dari aset yang sudah ada; ganti dengan foto galeri asli.
+// Foto sementara dari aset yang sudah ada; keterangannya menggambarkan isi
+// foto apa adanya. Ganti foto & keterangan saat foto galeri asli tersedia.
 const photos: Photo[] = [
-  { src: islands, caption: "Teluk Golo Mori", x: -37, y: -23, sm: [-34, -27], rotate: -8, spin: -160, start: 40 },
-  { src: ceritaThumb, caption: "Tim KKN 2027", x: 15, y: -26, sm: [12, -30], rotate: -4, spin: 140, start: 42.2 },
-  { src: jelajahThumb, caption: "Hidran Warloka", x: 41, y: 3, sm: [36, -25], rotate: -7, spin: 190, start: 44.4 },
-  { src: previewGame, caption: "Dunia Komodo", x: -13, y: 33, sm: [-12, 24], rotate: 7, spin: -120, start: 46.6 },
-  { src: islands, caption: "Bukit savana", x: 36, y: -20, sm: [-11, -32], rotate: 9, spin: 170, start: 48.8 },
-  { src: ceritaThumb, caption: "Sore di posko", x: -41, y: 5, sm: [-35, 22], rotate: 6, spin: -200, start: 51.0 },
-  { src: jelajahThumb, caption: "Jalan desa", x: 13, y: 32, sm: [13, 25], rotate: -9, spin: 150, start: 53.2 },
-  { src: islands, caption: "Pesisir Warloka", x: -16, y: -27, sm: [-22, 38], rotate: 5, spin: -140, start: 55.4 },
-  { src: previewGame, caption: "Gerbang Nusaverse", x: 34, y: 28, sm: [36, 23], rotate: 4, spin: 120, start: 57.6 },
-  { src: ceritaThumb, caption: "Kelas bersama", x: -34, y: 28, sm: [22, 39], rotate: -5, spin: -170, start: 59.8 },
+  { src: islands, caption: "Panorama Kepulauan Komodo", x: -37, y: -23, sm: [-34, -27], rotate: -8, spin: -160, start: 40 },
+  { src: ceritaThumb, caption: "Tim KKN PM UGM", x: 15, y: -26, sm: [12, -30], rotate: -4, spin: 140, start: 42.2 },
+  { src: jelajahThumb, caption: "Dokumentasi tim", x: 41, y: 3, sm: [36, -25], rotate: -7, spin: 190, start: 44.4 },
+  { src: previewGame, caption: "Dunia Komodo (game 3D)", x: -13, y: 33, sm: [-12, 24], rotate: 7, spin: -120, start: 46.6 },
+  { src: islands, caption: "Panorama Kepulauan Komodo", x: 36, y: -20, sm: [-11, -32], rotate: 9, spin: 170, start: 48.8 },
+  { src: ceritaThumb, caption: "Tim KKN PM UGM", x: -41, y: 5, sm: [-35, 22], rotate: 6, spin: -200, start: 51.0 },
+  { src: jelajahThumb, caption: "Dokumentasi tim", x: 13, y: 32, sm: [13, 25], rotate: -9, spin: 150, start: 53.2 },
+  { src: islands, caption: "Panorama Kepulauan Komodo", x: -16, y: -27, sm: [-22, 38], rotate: 5, spin: -140, start: 55.4 },
+  { src: previewGame, caption: "Dunia Komodo (game 3D)", x: 34, y: 28, sm: [36, 23], rotate: 4, spin: 120, start: 57.6 },
+  { src: ceritaThumb, caption: "Tim KKN PM UGM", x: -34, y: 28, sm: [22, 39], rotate: -5, spin: -170, start: 59.8 },
 ];
 
 // Titik cahaya kecil yang memercik keluar dari buku.
@@ -75,7 +76,7 @@ export function Galeri() {
             <div className="galeri-pages">
               <div className="galeri-page-content galeri-page-right">
                 <p className="text-b3 text-neutral-800">
-                  Potret keseharian, alam, dan warga dua desa selama KKN Menyapa Komodo.
+                  Potret alam dan warga Golo Mori &amp; Warloka Pesisir. Album ini akan terus bertambah selama KKN 2027.
                 </p>
                 <ButtonLink href="/galeri" size="md" iconRight={<ArrowRightUp weight="LineDuotone" />}>
                   Lihat semua foto

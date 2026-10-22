@@ -5,7 +5,8 @@ import ceritaThumb from "@/assets/cerita-thumb.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { TenunBand } from "./TenunBand";
 
-// Konten contoh dari Figma; deskripsi masih lorem ipsum di sana.
+// Judul & kategori dari Figma; ringkasan ditulis netral (sudut pandang
+// sebelum KKN) sampai tim menulis isi aslinya.
 const stories: {
   title: string;
   category: string;
@@ -17,22 +18,22 @@ const stories: {
     title: "Kenalan dengan Golo Mori",
     category: "Cerita Desa",
     status: "secondary",
-    excerpt: "Mengenal lebih dekat desa di perbukitan dengan pemandangan laut yang luas.",
-    href: "/artikel/kenalan-dengan-golo-mori",
+    excerpt: "Mengenal Golo Mori, desa perbukitan dengan sebagian pesisir yang menjadi tujuan KKN 2027.",
+    href: "/cerita/kenalan-dengan-golo-mori",
   },
   {
     title: "Jejak pelabuhan kuno Warloka",
     category: "Sejarah & Fun Fact",
     status: "primary",
-    excerpt: "Warloka pernah menjadi titik singgah perdagangan jauh sebelum era wisata Komodo.",
-    href: "/artikel/jejak-pelabuhan-kuno-warloka",
+    excerpt: "Menelusuri cerita dan jejak sejarah pelabuhan kuno di Warloka Pesisir.",
+    href: "/cerita/jejak-pelabuhan-kuno-warloka",
   },
   {
     title: "Memilah sampah bersama Golo Mori",
     category: "Catatan KKN",
     status: "default",
-    excerpt: "Catatan program pengelolaan sampah bersama warga dan sekolah di Golo Mori.",
-    href: "/artikel/memilah-sampah-bersama-golo-mori",
+    excerpt: "Gambaran program pemilahan sampah yang akan dijalankan bersama warga Golo Mori.",
+    href: "/cerita/memilah-sampah-bersama-golo-mori",
   },
 ];
 
@@ -53,12 +54,12 @@ export function CeritaDesa() {
             <Text variant="h3" as="h2" className="font-display md:flex-1 font-normal text-primary-600 max-md:text-h4">
               Cerita dari Komodo
             </Text>
-            <ButtonLink href="/artikel" size="lg" iconRight={<ArrowRightUp weight="LineDuotone" />}>
-              Lihat Artikel
+            <ButtonLink href="/cerita" size="lg" iconRight={<ArrowRightUp weight="LineDuotone" />}>
+              Lihat Semua Cerita
             </ButtonLink>
           </div>
           <Text variant="b1" className="text-neutral-900">
-            Kenali lebih dalam dua desa tujuan KKN Menyapa Komodo tahun 2027.
+            Kisah warga, sejarah, dan cerita menarik dari Golo Mori dan Warloka Pesisir.
           </Text>
         </header>
 

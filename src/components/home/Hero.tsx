@@ -153,7 +153,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
               className="intro-up"
               style={{ "--intro-delay": "800ms" } as React.CSSProperties}
             >
-              Selengkapnya
+              Kenali Dua Desa
             </ButtonLink>
           </div>
         </div>

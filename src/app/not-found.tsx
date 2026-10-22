@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 /*
  * Halaman "Coming soon" (Figma: High Fidelity › "Cominsoon" 8106:2453).
  * Dipakai sebagai not-found, jadi semua tautan ke halaman yang belum dibuat
- * (Artikel, Tentang, detail desa, dst.) tampil di sini. Begitu halaman
+ * (Cerita, Tentang, detail desa, dst.) tampil di sini. Begitu halaman
  * aslinya dibuat, rute itu otomatis menggantikan halaman ini.
  */
 export default function ComingSoon() {
@@ -22,9 +22,9 @@ export default function ComingSoon() {
           as="h1"
           className="intro-up font-display font-normal text-primary-600 max-md:text-h6"
         >
-          Yahh... Halaman ini
+          Yahh... halaman ini
           <br />
-          Masih dalam tahap pengerjaan
+          masih dalam tahap pengerjaan
         </Text>
         <ButtonLink
           href="/"

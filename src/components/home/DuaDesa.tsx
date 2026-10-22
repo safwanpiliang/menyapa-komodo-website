@@ -4,16 +4,20 @@ import { Text } from "assets-design-system";
 import islands from "@/assets/komodo-islands.webp";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Motif } from "@/components/ui/Motif";
+import { KomodoMap } from "./KomodoMap";
 
 // Foto desa masih placeholder dari Figma (foto pulau yang sama).
+// `id` dipakai untuk menyorot pin desa di peta saat card-nya di-hover.
 const villages = [
   {
+    id: "golo-mori",
     name: "Golo Mori",
     description: "Perbukitan dengan sebagian pesisir. KKN difokuskan di Golo Mori atas.",
     href: "/dua-desa/golo-mori",
     image: islands,
   },
   {
+    id: "warloka-pesisir",
     name: "Warloka Pesisir",
     description: "Desa pesisir hasil pemekaran, dengan perikanan, UMKM, dan pariwisata.",
     href: "/dua-desa/warloka-pesisir",
@@ -22,9 +26,11 @@ const villages = [
 ];
 
 /*
- * Section 2 — Dua desa, satu gerbang (Figma: Home Page New › "Wireframe - 2"
- * 8067:180). Tidak punya latar sendiri: dirender di dalam <Hero> di atas
+ * Section 2 — Dua desa, satu gerbang (Figma: Home Page New map › "Wireframe - 2"
+ * 8116:2488). Tidak punya latar sendiri: dirender di dalam <Hero> di atas
  * lanjutan foto pulau, lalu dipudarkan ke Neutral/1100 lewat gradien.
+ * Kiri: peta Kepulauan Komodo dengan pin dua desa. Kanan (680px): card desa
+ * tersusun ke bawah — foto 200px di kiri, teks & tombol di kanan.
  */
 export function DuaDesa() {
   return (
@@ -48,39 +54,47 @@ export function DuaDesa() {
           </Text>
         </header>
 
-        <div className="grid w-full gap-10 md:grid-cols-2 md:gap-8">
-          {villages.map((village, i) => (
-            <article
-              key={village.name}
-              className="reveal flex flex-col items-start gap-6"
-              style={{ "--reveal-delay": `${i * 150}ms` } as React.CSSProperties}
-            >
-              <div
-                className="reveal-media relative h-[240px] w-full overflow-clip rounded-3 md:h-[359px]"
-                style={{ "--reveal-delay": `${i * 150}ms` } as React.CSSProperties}
+        <div className="grid w-full items-center gap-10 lg:min-h-[524px] lg:grid-cols-[1fr_680px]">
+          <KomodoMap className="reveal mx-auto w-full max-w-[560px]" />
+
+          <div className="flex flex-col gap-8">
+            {villages.map((village, i) => (
+              <article
+                key={village.id}
+                data-desa-card={village.id}
+                className="reveal flex flex-col gap-6 sm:h-[200px] sm:flex-row"
+                style={{ "--reveal-delay": `${150 + i * 150}ms` } as React.CSSProperties}
               >
-                <Image
-                  src={village.image}
-                  placeholder="blur"
-                  alt={`Foto ${village.name}`}
-                  fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex w-full flex-col">
-                <Text variant="h5" as="h3" className="font-display font-normal text-white">
-                  {village.name}
-                </Text>
-                <Text variant="b2" className="text-neutral-300">
-                  {village.description}
-                </Text>
-              </div>
-              <ButtonLink href={village.href} iconRight={<ArrowRightUp weight="LineDuotone" />}>
-                Selengkapnya
-              </ButtonLink>
-            </article>
-          ))}
+                <div
+                  className="reveal-media relative h-[200px] shrink-0 overflow-clip rounded-3 sm:h-full sm:flex-1"
+                  style={{ "--reveal-delay": `${150 + i * 150}ms` } as React.CSSProperties}
+                >
+                  <Image
+                    src={village.image}
+                    placeholder="blur"
+                    // Foto placeholder (lanskap Kepulauan Komodo), belum foto desa aslinya.
+                    alt="Lanskap Kepulauan Komodo"
+                    fill
+                    sizes="(min-width: 1024px) 328px, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-col items-start gap-6 sm:flex-1">
+                  <div className="flex flex-col">
+                    <Text variant="h5" as="h3" className="font-display font-normal text-white">
+                      {village.name}
+                    </Text>
+                    <Text variant="b2" className="text-neutral-300">
+                      {village.description}
+                    </Text>
+                  </div>
+                  <ButtonLink href={village.href} iconRight={<ArrowRightUp weight="LineDuotone" />}>
+                    Selengkapnya
+                  </ButtonLink>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

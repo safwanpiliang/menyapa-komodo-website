@@ -88,7 +88,7 @@ export function Mitra() {
             </Text>
           </div>
           <Text variant="b1" className="reveal text-neutral-900 [--reveal-delay:120ms]">
-            Kenali lebih dalam dua desa tujuan KKN Menyapa Komodo tahun 2027.
+            Terima kasih kepada sponsor dan media partner yang mendukung KKN Menyapa Komodo 2027.
           </Text>
         </header>
 

@@ -15,21 +15,21 @@ type Category = {
   cutout: { src: StaticImageData; alt: string; width: number; height: number };
 };
 
-// Deskripsi masih lorem ipsum di Figma; diisi dari wireframe lo-fi.
+// Deskripsi masih lorem ipsum di Figma; ditulis ulang supaya sesuai judul card.
 const categories: Category[] = [
   {
     title: "Wisata",
-    description: "Tempat wisata dan hidden gem yang bisa didatangi di Golo Mori dan Warloka Pesisir.",
+    description: "Pantai, bukit, dan hidden gem di Golo Mori dan Warloka Pesisir yang layak kamu datangi.",
     href: "/jelajah/wisata",
     // Figma 8068:1652: kotak 261×546, alasnya rata dengan bawah card.
     cutout: { src: komodo, alt: "Komodo", width: 261, height: 546 },
   },
   {
     title: "UMKM & Karya Lokal",
-    description: "Usaha dan karya warga: kopi, olahan ikan, oleh-oleh. Informasi saja, tanpa jual-beli.",
+    description: "Kopi, olahan ikan, kain tenun, dan oleh-oleh khas buatan warga dua desa.",
     href: "/jelajah/umkm",
     // Figma 8068:1671: kotak 281×365 (dicerminkan), alasnya rata dengan bawah card.
-    cutout: { src: penenun, alt: "Penenun dari Golo Mori", width: 281, height: 365 },
+    cutout: { src: penenun, alt: "Penenun kain tenun", width: 281, height: 365 },
   },
 ];
 
@@ -69,7 +69,7 @@ export function Jelajah() {
             </ButtonLink>
           </div>
           <Text variant="b1" className="text-neutral-300">
-            Tempat yang bisa dikunjungi dan karya warga dua desa, dikumpulkan dalam satu halaman Jelajah.
+            Wisata, kuliner, dan karya warga Golo Mori dan Warloka Pesisir yang bisa kamu kenali dan kunjungi.
           </Text>
         </header>
 

@@ -11,6 +11,6 @@ export const NAV_LINKS = [
   { key: "beranda", label: "Beranda", href: "/" },
   { key: "dua-desa", label: "Dua Desa", href: "/#dua-desa" },
   { key: "jelajah", label: "Jelajah", href: "/#jelajah" },
-  { key: "artikel", label: "Artikel", href: "/artikel" },
+  { key: "cerita", label: "Cerita", href: "/cerita" },
   { key: "tentang", label: "Tentang", href: "/tentang" },
 ];

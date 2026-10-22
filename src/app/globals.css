@@ -238,3 +238,25 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
   .reveal:not(.is-revealed) { opacity: 1; translate: none; scale: none; rotate: none; animation: none; }
   .reveal-media:not(.is-revealed) > * { scale: none; }
 }
+
+/* Peta Dua Desa (KomodoMap): gelang pin berdenyut + pin membesar saat card
+   desanya (atau pin itu sendiri) di-hover. Hanya scale/opacity. */
+@keyframes map-pulse {
+  from { scale: 1; opacity: 0.9; }
+  to { scale: 2.8; opacity: 0; }
+}
+.map-pin-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-pulse 2.2s ease-out infinite;
+}
+.map-pin { transition: scale 0.35s var(--ease-out-soft); }
+.komodo-map a:hover .map-pin,
+.komodo-map a:focus-visible .map-pin,
+#dua-desa:has([data-desa-card="golo-mori"]:hover) .map-pin[data-desa="golo-mori"],
+#dua-desa:has([data-desa-card="warloka-pesisir"]:hover) .map-pin[data-desa="warloka-pesisir"] {
+  scale: 1.25;
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-pin-pulse { animation: none; opacity: 0; }
+}
