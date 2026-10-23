@@ -27,6 +27,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  // Warna status bar / toolbar browser HP = langit di bagian paling atas foto
+  // hero (sampel rata-rata 2% teratas foto). Situs belum punya mode gelap,
+  // jadi satu nilai untuk kedua skema.
+  themeColor: "#2c5a77",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

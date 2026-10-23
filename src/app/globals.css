@@ -132,6 +132,34 @@
 
 html {
   scroll-behavior: smooth;
+  /* Tanpa kilatan abu-abu/biru saat ditap; tiap elemen yang bisa ditekan
+     punya umpan balik :active sendiri. */
+  -webkit-tap-highlight-color: transparent;
+  /* Tanpa pembesaran font otomatis saat HP dimiringkan. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Tap langsung jadi klik (tanpa jeda tunggu double-tap zoom). */
+a,
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+/* Label kontrol tidak ikut terseleksi/memunculkan callout saat ditekan lama.
+   Hanya kontrol, bukan teks isi. */
+button,
+[role="button"] {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+/* iOS memperbesar halaman kalau fokus jatuh ke input < 16px (dan tidak
+   mengecil lagi). Jaga-jaga untuk formulir berikutnya. */
+input,
+textarea,
+select {
+  font-size: max(16px, 1em);
 }
 
 :root {

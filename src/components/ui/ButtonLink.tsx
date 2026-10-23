@@ -53,6 +53,8 @@ export function ButtonLink({
     <Link
       className={cn(
         "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm leading-[21px] font-bold focus-visible:outline-none",
+        // Tautan yang tampil sebagai tombol: label tidak terseleksi saat ditekan lama.
+        "select-none [-webkit-touch-callout:none]",
         // Umpan balik tekan langsung saat jari/klik turun (bukan saat dilepas).
         "transition-[color,background-color,box-shadow,scale] duration-150 ease-out active:scale-[0.97] motion-reduce:active:scale-100",
         tones[tone],
