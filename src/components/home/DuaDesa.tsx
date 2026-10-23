@@ -1,8 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
 import { Text } from "assets-design-system";
 import islands from "@/assets/komodo-islands.webp";
-import { ButtonLink } from "@/components/ui/ButtonLink";
 import { copy } from "@/content/copy";
 import { Motif } from "@/components/ui/Motif";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -38,7 +38,7 @@ const villages = [
  */
 export function DuaDesa() {
   return (
-    <section id="dua-desa" className="relative px-5 py-section md:px-20">
+    <section id="dua-desa" className="relative px-5 py-section [--section-pt:var(--spacing-section)] md:px-20">
       <div
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,color-mix(in_oklab,var(--color-neutral-1100)_75%,transparent)_44.638%,var(--color-neutral-1100))]"
@@ -59,11 +59,20 @@ export function DuaDesa() {
               <article
                 key={village.id}
                 data-desa-card={village.id}
-                className="reveal flex flex-col gap-6 sm:h-[200px] sm:flex-row"
+                className={cn(
+                  "group/desa reveal relative flex flex-col gap-5 rounded-5 p-3 sm:flex-row",
+                  // Wadah halus di atas latar gelap: isian putih 4% + garis cahaya
+                  // 1px dan bayangan, keduanya dari box-shadow semi-transparan.
+                  "bg-white/[0.04] shadow-[0_0_0_1px_rgb(255_255_255/0.08),0_16px_32px_-16px_rgb(0_0_0/0.6)]",
+                  "transition-[background-color,box-shadow] duration-200 ease-out",
+                  "hover:bg-white/[0.08] hover:shadow-[0_0_0_1px_rgb(255_255_255/0.14),0_20px_40px_-16px_rgb(0_0_0/0.7)]",
+                  "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-primary-200",
+                )}
                 style={{ "--reveal-delay": `${150 + i * 150}ms` } as React.CSSProperties}
               >
                 <div
-                  className="reveal-media relative h-[200px] shrink-0 overflow-clip rounded-3 sm:h-full sm:flex-1"
+                  // Radius foto = radius card (20) − padding (12), supaya sudutnya sejajar.
+                  className="reveal-media relative h-[200px] shrink-0 overflow-clip rounded-2 sm:h-auto sm:min-h-[176px] sm:flex-1"
                   style={{ "--reveal-delay": `${150 + i * 150}ms` } as React.CSSProperties}
                 >
                   <Image
@@ -76,7 +85,7 @@ export function DuaDesa() {
                     className="object-cover"
                   />
                 </div>
-                <div className="flex flex-col items-start gap-6 sm:flex-1">
+                <div className="flex flex-col items-start justify-between gap-4 pb-1 sm:flex-1 sm:py-1 sm:pr-3">
                   <div className="flex flex-col">
                     <Text variant="h5" as="h3" className={cn(cardTitle.place, "text-white")}>
                       {village.name}
@@ -85,9 +94,19 @@ export function DuaDesa() {
                       {village.description}
                     </Text>
                   </div>
-                  <ButtonLink href={village.href} iconRight={<ArrowRightUp weight="LineDuotone" />}>
+                  {/* Satu tautan untuk seluruh card: ::after-nya menutupi card
+                      (stretched link), jadi teks tautan tetap nama aksesibelnya. */}
+                  <Link
+                    href={village.href}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 text-b2 font-bold text-primary-200 underline-offset-4",
+                      "group-hover/desa:underline focus-visible:outline-none",
+                      "after:absolute after:inset-0 after:rounded-5",
+                    )}
+                  >
                     {village.cta}
-                  </ButtonLink>
+                    <ArrowRightUp weight="LineDuotone" className="size-5 shrink-0" />
+                  </Link>
                 </div>
               </article>
             ))}

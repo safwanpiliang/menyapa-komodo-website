@@ -12,6 +12,33 @@ const SCROLL_THRESHOLD = 80;
 // Varian Close: pill link (+padding 8px kiri-kanan) · gap 8px · tombol ikon 53px.
 const CLOSE_EXTRA_WIDTH = 16 + 8 + 53;
 
+// Section beranda → link navbar yang ditandai saat section itu sedang dilihat.
+// `null` = section tanpa link (tidak ada yang ditandai). Tujuan tautannya
+// sendiri tetap dari NAV_LINKS.
+const SECTION_LINKS: { id: string; key: string | null }[] = [
+  { id: "dua-desa", key: "dua-desa" },
+  { id: "jelajah", key: "jelajah" },
+  { id: "cerita", key: "cerita" },
+  { id: "mitra", key: null },
+  { id: "galeri", key: null },
+];
+// Garis baca: section yang memotong garis 40% tinggi layar dianggap "dilihat".
+const READING_LINE = 0.4;
+
+function sectionInView(fallback: string): string | null {
+  const line = window.innerHeight * READING_LINE;
+  let found = false;
+  for (const { id, key } of SECTION_LINKS) {
+    const rect = document.getElementById(id)?.getBoundingClientRect();
+    if (!rect) continue;
+    found = true;
+    if (rect.top <= line && rect.bottom > line) return key;
+  }
+  // Di atas section pertama (hero) atau halaman tanpa section ini.
+  const first = document.getElementById(SECTION_LINKS[0].id)?.getBoundingClientRect();
+  return !found || (first && first.top > line) ? fallback : null;
+}
+
 /*
  * Navbar situs (Figma: Design System › Navbar 8024:5063), dua varian:
  * - "Full Frame" (8024:5064): selebar layar, link putih transparan di atas
@@ -23,15 +50,29 @@ const CLOSE_EXTRA_WIDTH = 16 + 8 + 53;
  */
 export function SiteNavbar({ active = "beranda" }: { active?: string }) {
   const [closed, setClosed] = useState(false);
+  const [current, setCurrent] = useState<string | null>(active);
   const [closedWidth, setClosedWidth] = useState<number>();
   const linksRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    const update = () => setClosed(window.scrollY > SCROLL_THRESHOLD);
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setClosed(window.scrollY > SCROLL_THRESHOLD);
+      setCurrent(sectionInView(active));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [active]);
 
   // Lebar varian Close dihitung dari lebar asli daftar link (bergantung font).
   useLayoutEffect(() => {
@@ -61,18 +102,26 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
           className={cn(
             "hidden shrink-0 items-center rounded-full md:flex",
             "transition-[background-color,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            "group-data-closed/nav:bg-white group-data-closed/nav:p-2",
+            "group-data-closed/nav:p-2",
+            // Material: putih semi-transparan + blur, konten terlihat samar di
+            // baliknya. Tepi terang (inset ring) = cahaya di tepi material.
+            "group-data-closed/nav:bg-white/70 group-data-closed/nav:shadow-e2 group-data-closed/nav:backdrop-blur-xl group-data-closed/nav:backdrop-saturate-150",
+            "group-data-closed/nav:inset-ring group-data-closed/nav:inset-ring-white/60",
+            // Preferensi "kurangi transparansi" / "kontras tinggi": pill solid.
+            "reduced-transparency:group-data-closed/nav:bg-white reduced-transparency:group-data-closed/nav:backdrop-blur-none",
+            "contrast-more:group-data-closed/nav:bg-white contrast-more:group-data-closed/nav:inset-ring-neutral-700",
           )}
         >
           {NAV_LINKS.map((link) => (
             <li key={link.key}>
               <Link
                 href={link.href}
-                aria-current={link.key === active ? "page" : undefined}
+                // "page" = halaman ini; "location" = section yang sedang dilihat.
+                aria-current={link.key === active ? "page" : link.key === current ? "location" : undefined}
                 className={cn(
-                  "flex h-[37px] items-center rounded-full px-4 py-2 text-b3 text-white transition-colors duration-500 hover:bg-primary-400/10",
-                  "group-data-closed/nav:text-neutral-1000",
-                  link.key === active && "bg-primary-400/10",
+                  "flex h-[37px] items-center rounded-full px-4 py-2 text-b3 text-white transition-colors duration-500 hover:bg-white/15",
+                  "group-data-closed/nav:text-neutral-1000 group-data-closed/nav:hover:bg-primary-400/10",
+                  link.key === current && "bg-white/15 group-data-closed/nav:bg-primary-400/10 group-data-closed/nav:text-primary-600",
                 )}
               >
                 {link.label}
