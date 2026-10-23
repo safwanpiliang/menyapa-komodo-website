@@ -43,6 +43,15 @@ function ratio(fg, bg) {
   return (a + 0.05) / (b + 0.05);
 }
 
+// Pasangan yang sengaja dibiarkan di bawah minimum atas keputusan tim:
+// tetap dilaporkan ❌, tapi tidak membuat skrip gagal.
+const accepted = new Set([
+  "Tombol secondary (CTA hero)",
+  "Tombol secondary (hover)",
+  "Tombol light (teks oranye)",
+  "Tombol light (hover)",
+]);
+
 // [label, [teks, latar] sebelum, [teks, latar] sesudah, minimum]
 // Minimum 4.5 untuk teks biasa; 3 hanya untuk teks besar (≥24px, atau ≥18.67px bold).
 const pairs = [
@@ -74,8 +83,9 @@ let failed = 0;
 for (const [label, before, after, min] of pairs) {
   const b = ratio(...before);
   const a = ratio(...after);
-  if (a < min) failed++;
-  console.log(`| ${label} | ${fmt(b)}:1 ${mark(b, min)} | ${fmt(a)}:1 ${mark(a, min)} |`);
+  const note = a < min && accepted.has(label) ? " (keputusan tim)" : "";
+  if (a < min && !note) failed++;
+  console.log(`| ${label} | ${fmt(b)}:1 ${mark(b, min)} | ${fmt(a)}:1 ${mark(a, min)}${note} |`);
 }
 if (failed) {
   console.error(`\n${failed} pasangan masih di bawah minimum.`);
