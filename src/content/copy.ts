@@ -16,13 +16,12 @@ export const copy = {
     eyebrow: "KKN-PPM UGM 2027",
     titleTop: "Menyapa",
     titleBottom: "Komodo",
-    subtitle: "Kenalan dengan Golo Mori dan Warloka Pesisir, dua desa di ujung barat Flores.",
     ctaGame: "Masuk Dunia Komodo",
     ctaVillages: "Kenali dua desa",
   },
   duaDesa: {
     title: "Dari bukit sampai ke laut",
-    subtitle: "Dua desa tempat kami ber-KKN pada 2027. Kenalan dulu, yuk.",
+    subtitle: "Dua desa tempat kami ber-KKN pada 2027.",
     villages: {
       "golo-mori": {
         // sumber: https://www.fortuneidn.com/news/golo-mori-todo-cama-gali-peluang-peningkatan-ekonomi-di-golo-mori-00-4vfn9-92m22b
