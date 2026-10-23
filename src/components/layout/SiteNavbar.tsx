@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Gamepad from "@solar-icons/react/ssr/devices/Gamepad";
 import { cn } from "@/lib/cn";
@@ -10,6 +10,8 @@ import { GAME_URL, NAV_LINKS } from "@/lib/links";
 
 // Jarak scroll sebelum navbar berganti ke varian "Close".
 const SCROLL_THRESHOLD = 80;
+// Varian Close: pill link (+padding 8px kiri-kanan) · gap 8px · tombol ikon 53px.
+const CLOSE_EXTRA_WIDTH = 16 + 8 + 53;
 
 // Section beranda → link navbar yang ditandai saat section itu sedang dilihat.
 // `null` = section tanpa link (tidak ada yang ditandai). Tujuan tautannya
@@ -44,57 +46,14 @@ function sectionInView(fallback: string): string | null {
  *   hero — dipakai saat halaman masih di paling atas.
  * - "Close" (8024:5062): pill putih di tengah + tombol game ikon saja —
  *   dipakai setelah halaman di-scroll.
- *
- * Perpindahan varian = crossfade dua lapisan (opacity + scale 0.98 → 1, lihat
- * .nav-layer di globals.css). Tata letaknya berganti seketika di balik
- * crossfade, jadi tidak ada width/padding/grid yang dianimasikan (tanpa
- * hitung ulang layout per frame). Lapisan yang tidak tampil di-`inert` dan
- * `visibility: hidden`, jadi tidak bisa difokus atau dibaca pembaca layar.
+ * Satu elemen yang berubah bentuk: lebar navbar menyusut dari selebar layar
+ * ke lebar pill, latar pill muncul, dan label tombol melipat.
  */
-type Variant = "full" | "close";
-
-function NavLinks({ variant, active, current }: { variant: Variant; active: string; current: string | null }) {
-  const full = variant === "full";
-  return (
-    <ul
-      className={cn(
-        "pointer-events-auto hidden shrink-0 items-center rounded-full md:flex",
-        // Pill putih solid di varian Close (keputusan tim, tanpa blur).
-        !full && "bg-white p-2",
-      )}
-    >
-      {NAV_LINKS.map((link) => {
-        const isCurrent = link.key === current;
-        return (
-          <li key={link.key}>
-            <Link
-              href={link.href}
-              // "page" = halaman ini; "location" = section yang sedang dilihat.
-              aria-current={link.key === active ? "page" : isCurrent ? "location" : undefined}
-              data-current={isCurrent || undefined}
-              className={cn(
-                "group/link relative flex h-[37px] items-center rounded-full px-4 py-2 text-b3",
-                full ? "text-white" : isCurrent ? "text-primary-600" : "text-neutral-1000",
-              )}
-            >
-              {/* Penanda section aktif / hover / tekan: satu lapisan yang
-                  hanya berubah opacity (crossfade antarlink, tanpa geser). */}
-              <span
-                aria-hidden
-                className={cn("nav-indicator absolute inset-0 rounded-full", full ? "bg-white/15" : "bg-primary-400/10")}
-              />
-              <span className="relative">{link.label}</span>
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
 export function SiteNavbar({ active = "beranda" }: { active?: string }) {
   const [closed, setClosed] = useState(false);
   const [current, setCurrent] = useState<string | null>(active);
+  const [closedWidth, setClosedWidth] = useState<number>();
+  const linksRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -116,51 +75,77 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
     };
   }, [active]);
 
+  // Lebar varian Close dihitung dari lebar asli daftar link (bergantung font).
+  useLayoutEffect(() => {
+    const list = linksRef.current;
+    if (!list) return;
+    const measure = () => setClosedWidth(list.scrollWidth + CLOSE_EXTRA_WIDTH);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <header className="intro-down pointer-events-none fixed inset-x-0 top-(--nav-top) z-50 px-gutter">
-      <div className="relative h-[53px]">
-        {/* Tombol menu mobile di luar kedua lapisan: satu dialog saja. */}
-        <div className="pointer-events-auto absolute top-0 left-0 md:hidden">
-          <MobileMenu active={active} current={current} />
-        </div>
+    <header className="intro-down pointer-events-none fixed inset-x-0 top-(--nav-top) z-50 flex justify-center px-gutter">
+      <nav
+        aria-label="Navigasi utama"
+        data-closed={closed || undefined}
+        style={{ "--nav-closed-w": closedWidth ? `${closedWidth}px` : "fit-content" } as React.CSSProperties}
+        className={cn(
+          "group/nav pointer-events-auto flex w-full items-center justify-between gap-2",
+          "transition-[width] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+          "md:data-closed:w-(--nav-closed-w)",
+        )}
+      >
+        <MobileMenu active={active} current={current} />
 
-        {/* Varian Full Frame */}
-        <nav
-          aria-label="Navigasi utama"
-          inert={closed}
-          data-visible={!closed || undefined}
-          className="nav-layer absolute inset-0 flex items-center justify-between gap-2"
+        <ul
+          ref={linksRef}
+          className={cn(
+            "hidden shrink-0 items-center rounded-full md:flex",
+            "transition-[background-color,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            // Pill putih solid setelah halaman di-scroll (keputusan tim, tanpa blur).
+            "group-data-closed/nav:bg-white group-data-closed/nav:p-2",
+          )}
         >
-          <NavLinks variant="full" active={active} current={current} />
-          <ButtonLink
-            href={GAME_URL}
-            size="lg"
-            className="pointer-events-auto ml-auto h-[53px]"
-            iconLeft={<Gamepad weight="BoldDuotone" />}
-          >
-            <span className="nav-label">Masuk Dunia Komodo</span>
-          </ButtonLink>
-        </nav>
+          {NAV_LINKS.map((link) => (
+            <li key={link.key}>
+              <Link
+                href={link.href}
+                // "page" = halaman ini; "location" = section yang sedang dilihat.
+                aria-current={link.key === active ? "page" : link.key === current ? "location" : undefined}
+                className={cn(
+                  "flex h-[37px] items-center rounded-full px-4 py-2 text-b3 text-white transition-colors duration-500 hover:bg-white/15 active:bg-white/25 active:duration-100",
+                  "group-data-closed/nav:text-neutral-1000 group-data-closed/nav:hover:bg-primary-400/10",
+                  link.key === current && "bg-white/15 group-data-closed/nav:bg-primary-400/10 group-data-closed/nav:text-primary-600",
+                )}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-        {/* Varian Close: pill + tombol ikon, di tengah (desktop) / kanan (HP) */}
-        <nav
-          aria-label="Navigasi utama"
-          inert={!closed}
-          data-visible={closed || undefined}
-          className="nav-layer absolute inset-0 flex items-center justify-end gap-2 md:justify-center"
+        <ButtonLink
+          href={GAME_URL}
+          size="lg"
+          aria-label="Masuk Dunia Komodo"
+          className="ml-auto h-[53px] gap-0 overflow-hidden"
+          iconLeft={<Gamepad weight="BoldDuotone" />}
         >
-          <NavLinks variant="close" active={active} current={current} />
-          <ButtonLink
-            href={GAME_URL}
-            size="lg"
-            aria-label="Masuk Dunia Komodo"
-            className="pointer-events-auto size-[53px] p-0"
-            iconLeft={<Gamepad weight="BoldDuotone" />}
+          {/* Label melipat ke lebar 0 di varian Close (tombol jadi ikon saja). */}
+          <span
+            aria-hidden
+            className={cn(
+              "ml-2 grid grid-cols-[1fr] transition-[grid-template-columns,opacity,margin] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+              "group-data-closed/nav:ml-0 group-data-closed/nav:grid-cols-[0fr] group-data-closed/nav:opacity-0",
+            )}
           >
-            {null}
-          </ButtonLink>
-        </nav>
-      </div>
+            <span className="overflow-hidden">Masuk Dunia Komodo</span>
+          </span>
+        </ButtonLink>
+      </nav>
     </header>
   );
 }
