@@ -301,6 +301,10 @@ body {
 .intro-down { animation: intro-down 0.8s var(--ease-out-soft) 0.2s both; }
 .intro-zoom { animation: intro-zoom 1.2s var(--ease-out-soft) both; transform-origin: 50% 0; }
 .intro-bloom { animation: intro-bloom 1s var(--ease-out-soft) 0.45s both; }
+/* Gate intro hero (<Hero>): ditahan di frame pertama sampai foto utama siap. */
+.hero-root[data-hero-wait]:not([data-hero-ready]) :is(.intro-up, .intro-zoom, .intro-bloom) {
+  animation-play-state: paused;
+}
 
 /*
  * 2) Reveal saat elemen pertama kali masuk layar. Kelas `.is-revealed`

@@ -64,7 +64,10 @@ const CROP = `clamp(0px, calc(1024 * var(--u) - 100svh), calc(${TITLE_TOP} * var
 export function Hero({ children }: { children?: React.ReactNode }) {
   return (
     <div
-      className="@container relative isolate w-full overflow-clip bg-neutral-1100"
+      id="hero"
+      // data-hero-wait/-ready dipasang skrip inline di bawah sebelum hydration.
+      suppressHydrationWarning
+      className="hero-root @container relative isolate w-full overflow-clip bg-neutral-1100"
       style={{ "--u": "max(calc(100cqw / 1440), 0.62px)", "--crop": CROP } as React.CSSProperties}
     >
       <Image
@@ -73,8 +76,20 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         placeholder="blur"
         priority
         sizes="140vw"
+        data-hero-photo
         className="intro-zoom -z-10"
         style={{ ...islandImage, top: `calc(-1 * ${crop})`, height: u(1962) }}
+      />
+      {/*
+        Gate intro: selama foto utama belum termuat, animasi intro hero ditahan
+        di frame pertamanya (globals.css), jadi judul tidak tampil di atas
+        gumpalan blur. Batas tunggu 2.5 dtk. Tanpa JavaScript, atribut wait
+        tidak pernah dipasang dan intro berjalan seperti biasa.
+      */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){var r=document.getElementById("hero");if(!r)return;var i=r.querySelector("img[data-hero-photo]");function go(){r.setAttribute("data-hero-ready","")}r.setAttribute("data-hero-wait","");if(!i||i.complete){go();return}i.addEventListener("load",go,{once:true});i.addEventListener("error",go,{once:true});setTimeout(go,2500)})()`,
+        }}
       />
       {/* Ujung bawah foto dipudarkan ke latar, supaya tidak terlihat sebagai
           garis keras saat section di bawahnya lebih tinggi dari foto (layar
