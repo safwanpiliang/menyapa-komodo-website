@@ -71,7 +71,7 @@ export function CeritaDesa() {
             // ::after yang hanya berubah opacity; saat ditekan memudar lagi.
             <div
               key={story.href}
-              className={`reveal relative isolate rounded-3 after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-3 after:shadow-e3 after:opacity-0 after:transition-opacity after:duration-160 after:ease-(--ease-out-soft) hover:after:opacity-100 active:after:opacity-0 active:after:duration-100 ${["", "[--reveal-delay:60ms]", "[--reveal-delay:120ms]"][i] ?? ""}`}
+              className={`reveal relative isolate rounded-3 after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-3 after:shadow-e3 after:opacity-0 after:transition-opacity after:duration-160 after:ease-(--ease-out-soft) hover:after:opacity-100 active:after:opacity-0 active:after:duration-100 ${["", "[--reveal-delay:80ms]", "[--reveal-delay:160ms]"][i] ?? ""}`}
             >
               <Card
                 // Ukuran bawaan package (blok teks 98px): judul dipotong "…" dalam

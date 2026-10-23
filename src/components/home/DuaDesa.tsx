@@ -58,7 +58,7 @@ export function DuaDesa() {
             {villages.map((village, i) => (
               // Reveal di pembungkus, supaya transition card sendiri (hover/tekan)
               // tidak ditimpa transition .reveal.
-              <div key={village.id} className="reveal" style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}>
+              <div key={village.id} className="reveal" style={{ "--reveal-delay": `${80 + i * 80}ms` } as React.CSSProperties}>
                 <article
                   data-desa-card={village.id}
                   className={cn(
@@ -82,7 +82,7 @@ export function DuaDesa() {
                   <div
                     // Radius foto = radius card (20) − padding (12), supaya sudutnya sejajar.
                     className="reveal-media relative h-[200px] shrink-0 overflow-clip rounded-2 sm:h-auto sm:min-h-[176px] sm:flex-1"
-                    style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}
+                    style={{ "--reveal-delay": `${80 + i * 80}ms` } as React.CSSProperties}
                   >
                     <Image
                       src={village.image}
