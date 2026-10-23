@@ -71,8 +71,13 @@ export function CeritaDesa() {
               // card sebaris tetap sama karena grid), tanpa mengubah package.
               // relative + stretched link di tombol: seluruh card bisa diklik.
               className={`reveal relative transition-shadow duration-200 ease-out hover:shadow-e3 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
+              // Elemen yang dioper ke Card (client component package) diberi `key`:
+              // Card menaruhnya berdampingan dalam satu array children, dan elemen
+              // dari Server Component tidak membawa tanda validasi key, sehingga
+              // React dev memunculkan peringatan "unique key" palsu.
               image={
                 <Image
+                  key="image"
                   src={ceritaThumb}
                   alt=""
                   placeholder="blur"
@@ -81,16 +86,17 @@ export function CeritaDesa() {
                 />
               }
               chip={
-                <Chip variant="tint" status={story.status} size="sm" className={chipText[story.status ?? "default"]}>
+                <Chip key="chip" variant="tint" status={story.status} size="sm" className={chipText[story.status ?? "default"]}>
                   {story.category}
                 </Chip>
               }
-              title={<span className={cardTitle.article}>{story.title}</span>}
+              title={<span key="title" className={cardTitle.article}>{story.title}</span>}
               // Card package mewarnai isi dengan Neutral/800 (3.71:1); span ini
               // menimpanya dengan token ink-body tanpa mengubah package.
-              description={<span className="text-ink-body">{story.excerpt}</span>}
+              description={<span key="description" className="text-ink-body">{story.excerpt}</span>}
               actions={
                 <ButtonLink
+                  key="actions"
                   href={story.href}
                   tone="ghost"
                   // ::after menutupi seluruh card (Card package sudah overflow-hidden
