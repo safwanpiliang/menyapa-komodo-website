@@ -19,7 +19,9 @@ import islandsTall from "@/assets/komodo-islands-tall.webp";
  * "Komodo" terlihat berada di balik bukit.
  *
  * Ukuran artwork memakai unit --u = 1px Figma di lebar 1440, jadi komposisinya
- * tetap sama di lebar layar lain (minimal 0.5px per unit).
+ * tetap sama di lebar layar lain. Minimal 0.62px per unit: di HP (360–430px)
+ * "Komodo" ±307px lebar sehingga tetap muat dengan gutter 20px, dan hero
+ * ±635px tinggi (bukan 512px).
  */
 const u = (n: number) => `calc(${n} * var(--u))`;
 // x di Figma diukur dari kiri frame 1440 → ubah jadi relatif ke tengah.
@@ -63,7 +65,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
   return (
     <div
       className="@container relative isolate w-full overflow-clip bg-neutral-1100"
-      style={{ "--u": "max(calc(100cqw / 1440), 0.5px)", "--crop": CROP } as React.CSSProperties}
+      style={{ "--u": "max(calc(100cqw / 1440), 0.62px)", "--crop": CROP } as React.CSSProperties}
     >
       <Image
         src={islandsTall}
@@ -93,9 +95,15 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         {/* Bidang artwork 1024u (koordinat Figma), digeser naik sejauh --crop. */}
         <div className="absolute inset-x-0" style={{ top: `calc(-1 * ${crop})`, height: u(1024) }}>
           {/* Wrapper = animasi "mekar" saat dibuka; svg di dalamnya = parallax. */}
+          {/* < md: bunga diperkecil (--flower-s) supaya tidak terpotong tepi layar. */}
           <div
-            className="intro-bloom pointer-events-none absolute"
-            style={{ left: fromCenter(740), top: u(218), width: u(535.895), height: u(588.222) }}
+            className="intro-bloom pointer-events-none absolute max-md:[--flower-s:0.55]"
+            style={{
+              left: fromCenter(740),
+              top: u(218),
+              width: `calc(535.895 * var(--u) * var(--flower-s, 1))`,
+              height: `calc(588.222 * var(--u) * var(--flower-s, 1))`,
+            }}
           >
             <Flower
               preset={heroFlower}
@@ -109,7 +117,18 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             className="parallax-hero-layer absolute inset-x-0 font-display whitespace-nowrap text-center leading-normal font-normal text-white"
             style={{ top: u(TITLE_TOP), ...parallax(400) }}
           >
-            <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(14.688), "--intro-delay": "150ms" } as React.CSSProperties}>
+            {/* Eyebrow minimal 12px; kalau dibesarkan (HP), digeser naik sebanyak
+                tambahan ukurannya supaya tidak menempel ke "Menyapa". */}
+            <span
+              className="intro-up absolute inset-x-0"
+              style={
+                {
+                  top: `calc(-1.5 * max(0px, 12px - ${u(14.688)}))`,
+                  fontSize: `max(12px, ${u(14.688)})`,
+                  "--intro-delay": "150ms",
+                } as React.CSSProperties
+              }
+            >
               {copy.hero.eyebrow}
             </span>
             <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(72), "--intro-delay": "300ms" } as React.CSSProperties}>
@@ -135,12 +154,13 @@ export function Hero({ children }: { children?: React.ReactNode }) {
           />
 
           <div
-            className="parallax-hero-layer is-fade absolute left-1/2 flex -translate-x-1/2 flex-col items-center gap-4"
+            className="parallax-hero-layer is-fade absolute left-1/2 flex w-max max-w-[calc(100vw-2*var(--gutter-x))] -translate-x-1/2 flex-col items-center gap-4"
             // Tombol tidak ikut mengecil, jadi di layar sempit diturunkan agar
             // tidak menimpa judul.
             style={{ top: `max(${u(597)}, 330px)`, ...parallax(160) }}
           >
-            <div className="flex items-center gap-3">
+            {/* < sm: dua tombol ditumpuk selebar konten (tidak mepet tepi layar). */}
+            <div className="flex items-center gap-3 max-sm:w-[calc(100vw-2*var(--gutter-x))] max-sm:flex-col max-sm:items-stretch">
               <ButtonLink
                 href={GAME_URL}
                 tone="secondary"
@@ -162,7 +182,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             {/* Sub-judul di bawah tombol, supaya posisi judul & tombol tetap. */}
             <Text
               variant="b1"
-              className="intro-up w-max max-w-[calc(100vw-40px)] text-center text-white"
+              className="intro-up text-center text-white"
               style={{ "--intro-delay": "900ms" } as React.CSSProperties}
             >
               {copy.hero.subtitle}
