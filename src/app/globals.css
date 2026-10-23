@@ -470,6 +470,16 @@ html:has(.mobile-menu[open]) {
  * (pointer: coarse) — tampilan desktop tidak berubah.
  */
 .map-hit { display: none; }
+/* Tautan footer: umpan balik tekan (opacity) — tap highlight bawaan sudah
+   dimatikan, jadi tanpa ini tidak ada tanda tautan tertekan. */
+.site-footer a {
+  transition: opacity 160ms var(--ease-out-soft);
+}
+.site-footer a:active {
+  opacity: 0.7;
+  transition-duration: 100ms;
+}
+
 @media (pointer: coarse) {
   .map-hit { display: inline; }
   /* Tautan footer dirender package (Footer); dibesarkan dari luar. */

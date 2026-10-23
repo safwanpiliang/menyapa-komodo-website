@@ -56,61 +56,69 @@ export function DuaDesa() {
 
           <div className="flex flex-col gap-8">
             {villages.map((village, i) => (
-              <article
-                key={village.id}
-                data-desa-card={village.id}
-                className={cn(
-                  "group/desa reveal relative flex flex-col gap-5 rounded-5 p-3 sm:flex-row",
-                  // Wadah halus di atas latar gelap: isian putih 4% + garis cahaya
-                  // 1px dan bayangan, keduanya dari box-shadow semi-transparan.
-                  "bg-white/[0.04] shadow-[0_0_0_1px_rgb(255_255_255/0.08),0_16px_32px_-16px_rgb(0_0_0/0.6)]",
-                  "transition-[background-color,box-shadow] duration-200 ease-out",
-                  "hover:bg-white/[0.08] hover:shadow-[0_0_0_1px_rgb(255_255_255/0.14),0_20px_40px_-16px_rgb(0_0_0/0.7)]",
-                  "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-primary-200",
-                  // Tekan (sentuh/klik): wadah langsung sedikit lebih terang.
-                  "active:bg-white/[0.12]",
-                )}
-                style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}
-              >
-                <div
-                  // Radius foto = radius card (20) − padding (12), supaya sudutnya sejajar.
-                  className="reveal-media relative h-[200px] shrink-0 overflow-clip rounded-2 sm:h-auto sm:min-h-[176px] sm:flex-1"
-                  style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}
+              // Reveal di pembungkus, supaya transition card sendiri (hover/tekan)
+              // tidak ditimpa transition .reveal.
+              <div key={village.id} className="reveal" style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}>
+                <article
+                  data-desa-card={village.id}
+                  className={cn(
+                    "group/desa relative isolate flex flex-col gap-5 rounded-5 p-3 sm:flex-row",
+                    // Wadah halus di atas latar gelap: isian putih 4% + garis cahaya
+                    // 1px dan bayangan, keduanya dari box-shadow semi-transparan.
+                    "bg-white/[0.04] shadow-[0_0_0_1px_rgb(255_255_255/0.08),0_16px_32px_-16px_rgb(0_0_0/0.6)]",
+                    // Hover & tekan = dua lapisan di belakang isi yang hanya berubah
+                    // opacity: ::before latar lebih terang, ::after bayangan lebih dalam.
+                    "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-5 before:bg-white/[0.08] before:opacity-0",
+                    "after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-5 after:opacity-0",
+                    "after:shadow-[0_0_0_1px_rgb(255_255_255/0.14),0_20px_40px_-16px_rgb(0_0_0/0.7)]",
+                    "before:transition-opacity before:duration-160 before:ease-(--ease-out-soft)",
+                    "after:transition-opacity after:duration-160 after:ease-(--ease-out-soft)",
+                    "hover:before:opacity-50 hover:after:opacity-100",
+                    // Tekan (sentuh/klik): latar penuh +8% dalam 100ms.
+                    "active:before:opacity-100 active:before:duration-100",
+                    "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-primary-200",
+                  )}
                 >
-                  <Image
-                    src={village.image}
-                    placeholder="blur"
-                    // Foto placeholder (lanskap Kepulauan Komodo), belum foto desa aslinya.
-                    alt="Lanskap Kepulauan Komodo"
-                    fill
-                    sizes="(min-width: 1024px) 328px, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="flex flex-col items-start justify-between gap-4 pb-1 sm:flex-1 sm:py-1 sm:pr-3">
-                  <div className="flex flex-col">
-                    <Text variant="h5" as="h3" className={cn(cardTitle.place, "text-white")}>
-                      {village.name}
-                    </Text>
-                    <Text variant="b2" className="text-neutral-300">
-                      {village.description}
-                    </Text>
-                  </div>
-                  {/* Satu tautan untuk seluruh card: ::after-nya menutupi card
-                      (stretched link), jadi teks tautan tetap nama aksesibelnya. */}
-                  <Link
-                    href={village.href}
-                    className={cn(
-                      "inline-flex items-center gap-1.5 text-b2 font-bold text-primary-200 underline-offset-4",
-                      "group-hover/desa:underline focus-visible:outline-none",
-                      "after:absolute after:inset-0 after:rounded-5",
-                    )}
+                  <div
+                    // Radius foto = radius card (20) − padding (12), supaya sudutnya sejajar.
+                    className="reveal-media relative h-[200px] shrink-0 overflow-clip rounded-2 sm:h-auto sm:min-h-[176px] sm:flex-1"
+                    style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}
                   >
-                    {village.cta}
-                    <ArrowRightUp weight="LineDuotone" className="size-5 shrink-0" />
-                  </Link>
-                </div>
-              </article>
+                    <Image
+                      src={village.image}
+                      placeholder="blur"
+                      // Foto placeholder (lanskap Kepulauan Komodo), belum foto desa aslinya.
+                      alt="Lanskap Kepulauan Komodo"
+                      fill
+                      sizes="(min-width: 1024px) 328px, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col items-start justify-between gap-4 pb-1 sm:flex-1 sm:py-1 sm:pr-3">
+                    <div className="flex flex-col">
+                      <Text variant="h5" as="h3" className={cn(cardTitle.place, "text-white")}>
+                        {village.name}
+                      </Text>
+                      <Text variant="b2" className="text-neutral-300">
+                        {village.description}
+                      </Text>
+                    </div>
+                    {/* Satu tautan untuk seluruh card: ::after-nya menutupi card
+                        (stretched link), jadi teks tautan tetap nama aksesibelnya. */}
+                    <Link
+                      href={village.href}
+                      className={cn(
+                        "inline-flex items-center gap-1.5 text-b2 font-bold text-primary-200 underline-offset-4",
+                        "group-hover/desa:underline focus-visible:outline-none",
+                        "after:absolute after:inset-0 after:rounded-5",
+                      )}
+                    >
+                      {village.cta}
+                      <ArrowRightUp weight="LineDuotone" className="size-5 shrink-0" />
+                    </Link>
+                  </div>
+                </article>
+              </div>
             ))}
           </div>
         </div>

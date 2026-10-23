@@ -64,56 +64,64 @@ export function CeritaDesa() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {stories.map((story, i) => (
-            <Card
+            // Reveal & bayangan hover di pembungkus: Card package overflow-hidden
+            // (bayangan di ::after-nya akan terpotong), dan transition .reveal
+            // tidak lagi menimpa transition card. Bayangan hover = lapisan
+            // ::after yang hanya berubah opacity; saat ditekan memudar lagi.
+            <div
               key={story.href}
-              // Card package mengunci blok teksnya setinggi 98px, sehingga judul
-              // dua baris memotong ringkasan. Di sini dibuat min-height (tinggi
-              // card sebaris tetap sama karena grid), tanpa mengubah package.
-              // line-clamp-2 bawaan juga dilepas: di layar sempit ringkasan 3
-              // baris, dan terpotong di tengah kalimat.
-              // relative + stretched link di tombol: seluruh card bisa diklik.
-              className={`reveal relative transition-shadow duration-200 ease-out hover:shadow-e3 active:shadow-e1 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] [&>div:last-child>div:first-child>p]:line-clamp-none ${["", "[--reveal-delay:60ms]", "[--reveal-delay:120ms]"][i] ?? ""}`}
-              // Elemen yang dioper ke Card (client component package) diberi `key`:
-              // Card menaruhnya berdampingan dalam satu array children, dan elemen
-              // dari Server Component tidak membawa tanda validasi key, sehingga
-              // React dev memunculkan peringatan "unique key" palsu.
-              image={
-                <Image
-                  key="image"
-                  src={ceritaThumb}
-                  alt=""
-                  placeholder="blur"
-                  sizes="(min-width: 1024px) 411px, (min-width: 768px) 50vw, 100vw"
-                  className="object-[0%_26%]"
-                />
-              }
-              chip={
-                <Chip key="chip" variant="tint" status={story.status} size="sm" className={chipText[story.status ?? "default"]}>
-                  {story.category}
-                </Chip>
-              }
-              title={<span key="title" className={cardTitle.article}>{story.title}</span>}
-              // Card package mewarnai isi dengan Neutral/800 (3.71:1); span ini
-              // menimpanya dengan token ink-body tanpa mengubah package.
-              description={<span key="description" className="text-ink-body">{story.excerpt}</span>}
-              actions={
-                <ButtonLink
-                  key="actions"
-                  href={story.href}
-                  tone="ghost"
-                  // ::after menutupi seluruh card (Card package sudah overflow-hidden
-                  // + rounded), jadi klik di mana pun membuka cerita dan hover card
-                  // ikut menyalakan latar tombol.
-                  // active:scale-none: scale membuat tombol jadi containing block
-                  // ::after, sehingga area klik selebar card mengecil saat ditekan.
-                  // Umpan balik tekan cukup dari warna tombol & bayangan card.
-                  className="after:absolute after:inset-0 active:scale-none motion-reduce:active:scale-none"
-                  iconRight={<ArrowRightUp weight="LineDuotone" />}
-                >
-                  {copy.cerita.cardCta}
-                </ButtonLink>
-              }
-            />
+              className={`reveal relative isolate rounded-3 after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-3 after:shadow-e3 after:opacity-0 after:transition-opacity after:duration-160 after:ease-(--ease-out-soft) hover:after:opacity-100 active:after:opacity-0 active:after:duration-100 ${["", "[--reveal-delay:60ms]", "[--reveal-delay:120ms]"][i] ?? ""}`}
+            >
+              <Card
+                // Card package mengunci blok teksnya setinggi 98px, sehingga judul
+                // dua baris memotong ringkasan. Di sini dibuat min-height (tinggi
+                // card sebaris tetap sama karena grid), tanpa mengubah package.
+                // line-clamp-2 bawaan juga dilepas: di layar sempit ringkasan 3
+                // baris, dan terpotong di tengah kalimat.
+                // relative + stretched link di tombol: seluruh card bisa diklik.
+                className="relative h-full has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] [&>div:last-child>div:first-child>p]:line-clamp-none"
+                // Elemen yang dioper ke Card (client component package) diberi `key`:
+                // Card menaruhnya berdampingan dalam satu array children, dan elemen
+                // dari Server Component tidak membawa tanda validasi key, sehingga
+                // React dev memunculkan peringatan "unique key" palsu.
+                image={
+                  <Image
+                    key="image"
+                    src={ceritaThumb}
+                    alt=""
+                    placeholder="blur"
+                    sizes="(min-width: 1024px) 411px, (min-width: 768px) 50vw, 100vw"
+                    className="object-[0%_26%]"
+                  />
+                }
+                chip={
+                  <Chip key="chip" variant="tint" status={story.status} size="sm" className={chipText[story.status ?? "default"]}>
+                    {story.category}
+                  </Chip>
+                }
+                title={<span key="title" className={cardTitle.article}>{story.title}</span>}
+                // Card package mewarnai isi dengan Neutral/800 (3.71:1); span ini
+                // menimpanya dengan token ink-body tanpa mengubah package.
+                description={<span key="description" className="text-ink-body">{story.excerpt}</span>}
+                actions={
+                  <ButtonLink
+                    key="actions"
+                    href={story.href}
+                    tone="ghost"
+                    // ::after menutupi seluruh card (Card package sudah overflow-hidden
+                    // + rounded), jadi klik di mana pun membuka cerita dan hover card
+                    // ikut menyalakan latar tombol.
+                    // active:scale-none: scale membuat tombol jadi containing block
+                    // ::after, sehingga area klik selebar card mengecil saat ditekan.
+                    // Umpan balik tekan cukup dari warna tombol & bayangan card.
+                    className="after:absolute after:inset-0 active:scale-none motion-reduce:active:scale-none"
+                    iconRight={<ArrowRightUp weight="LineDuotone" />}
+                  >
+                    {copy.cerita.cardCta}
+                  </ButtonLink>
+                }
+              />
+            </div>
           ))}
         </div>
       </div>
