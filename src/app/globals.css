@@ -5,8 +5,6 @@
    ikut berlaku (package hanya membawa line-height lamanya). */
 @source inline("text-h{1,2,3,4,5,6,7}");
 
-@custom-variant reduced-transparency (@media (prefers-reduced-transparency: reduce));
-
 /*
  * Token dari design system ASSETS (github.com/safwanpiliang/ASSETS-Design-system)
  * dengan nilai versi modifikasi di Figma "Menyapa Komodo UI Workspace"

@@ -102,14 +102,8 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
           className={cn(
             "hidden shrink-0 items-center rounded-full md:flex",
             "transition-[background-color,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            "group-data-closed/nav:p-2",
-            // Material: putih semi-transparan + blur, konten terlihat samar di
-            // baliknya. Tepi terang (inset ring) = cahaya di tepi material.
-            "group-data-closed/nav:bg-white/70 group-data-closed/nav:shadow-e2 group-data-closed/nav:backdrop-blur-xl group-data-closed/nav:backdrop-saturate-150",
-            "group-data-closed/nav:inset-ring group-data-closed/nav:inset-ring-white/60",
-            // Preferensi "kurangi transparansi" / "kontras tinggi": pill solid.
-            "reduced-transparency:group-data-closed/nav:bg-white reduced-transparency:group-data-closed/nav:backdrop-blur-none",
-            "contrast-more:group-data-closed/nav:bg-white contrast-more:group-data-closed/nav:inset-ring-neutral-700",
+            // Pill putih solid setelah halaman di-scroll (keputusan tim, tanpa blur).
+            "group-data-closed/nav:bg-white group-data-closed/nav:p-2",
           )}
         >
           {NAV_LINKS.map((link) => (
