@@ -334,3 +334,72 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
 @media (prefers-reduced-motion: reduce) {
   .map-pin-pulse { animation: none; opacity: 0; }
 }
+
+/*
+ * Menu mobile (<MobileMenu>, <dialog> modal). Panel turun dari bawah navbar,
+ * berasal dari tombol menu di kiri-atas (transform-origin), masuk 220ms dan
+ * keluar lebih cepat 160ms. Hanya opacity + translate/scale.
+ */
+.mobile-menu {
+  position: fixed;
+  inset: calc(var(--nav-top) + 53px + 12px) var(--gutter-x) auto;
+  width: auto;
+  max-width: none;
+  max-height: calc(100dvh - var(--nav-top) - 53px - 24px - env(safe-area-inset-bottom, 0px));
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: auto;
+  overscroll-behavior: contain;
+  transform-origin: top left;
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  transition:
+    opacity 220ms var(--ease-out-soft),
+    translate 220ms var(--ease-out-soft),
+    scale 220ms var(--ease-out-soft),
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+.mobile-menu:not([open]) {
+  opacity: 0;
+  translate: 0 -8px;
+  scale: 0.97;
+  transition-duration: 160ms;
+}
+@starting-style {
+  .mobile-menu[open] {
+    opacity: 0;
+    translate: 0 -8px;
+    scale: 0.97;
+  }
+}
+.mobile-menu::backdrop {
+  background: rgb(14 21 26 / 0.5);
+  opacity: 1;
+  transition:
+    opacity 220ms ease,
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+.mobile-menu:not([open])::backdrop {
+  opacity: 0;
+}
+@starting-style {
+  .mobile-menu[open]::backdrop {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu,
+  .mobile-menu:not([open]) {
+    translate: none;
+    scale: none;
+  }
+}
+/* Scroll halaman terkunci selama menu terbuka. */
+html:has(.mobile-menu[open]) {
+  overflow: hidden;
+}

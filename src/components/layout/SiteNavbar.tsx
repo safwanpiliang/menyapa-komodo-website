@@ -5,6 +5,7 @@ import Link from "next/link";
 import Gamepad from "@solar-icons/react/ssr/devices/Gamepad";
 import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { MobileMenu } from "./MobileMenu";
 import { GAME_URL, NAV_LINKS } from "@/lib/links";
 
 // Jarak scroll sebelum navbar berganti ke varian "Close".
@@ -97,6 +98,8 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
           "md:data-closed:w-(--nav-closed-w)",
         )}
       >
+        <MobileMenu active={active} current={current} />
+
         <ul
           ref={linksRef}
           className={cn(
