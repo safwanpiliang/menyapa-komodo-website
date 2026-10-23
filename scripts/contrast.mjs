@@ -24,7 +24,9 @@ function hex(name) {
 const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 
 function color(expr) {
-  const [top, base] = expr.split("@");
+  // Lapisan bisa bertumpuk: "a/70@b/80@c" = a 70% di atas (b 80% di atas c).
+  const at = expr.indexOf("@");
+  const [top, base] = at < 0 ? [expr, undefined] : [expr.slice(0, at), expr.slice(at + 1)];
   const [name, alpha] = top.split("/");
   const fg = rgb(hex(name));
   if (!alpha) return fg;
@@ -73,10 +75,13 @@ const pairs = [
   ["Card Cerita · chip oranye", ["secondary-400", "secondary-400/10@white"], ["chip-secondary", "secondary-400/10@white"], 4.5],
   ["Card Cerita · chip hijau", ["primary-400", "primary-400/10@white"], ["chip-primary", "primary-400/10@white"], 4.5],
   ["Card Cerita · chip abu", ["neutral-900", "neutral-600"], ["neutral-900", "neutral-600"], 4.5],
+  ["Peta · label pulau (di atas daratan)", ["neutral-300/70@primary-600/80@neutral-1100", "primary-600/80@neutral-1100"], ["neutral-300", "primary-600/80@neutral-1100"], 4.5],
+  ["Peta · kredit OpenStreetMap", ["neutral-300/60@neutral-1100", "neutral-1100"], ["neutral-300", "neutral-1100"], 4.5],
   ["Halaman album Galeri · isi", ["neutral-800", "neutral-100"], ["ink-body", "neutral-100"], 4.5],
 ];
 
-const fmt = (n) => n.toFixed(2);
+// Dibulatkan ke bawah supaya 4.497 tidak tampil sebagai "4.50" yang terlihat lolos.
+const fmt = (n) => (Math.floor(n * 100) / 100).toFixed(2);
 const mark = (n, min) => (n >= min ? "✅" : "❌");
 console.log("| Pasangan | Sebelum | Sesudah |");
 console.log("| --- | --- | --- |");
