@@ -276,14 +276,16 @@ body {
  */
 :root {
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Animasi masuk (intro & reveal): ease-out quart — melambat lebih merata
+     daripada ease-out-soft, jadi gerak masuk terasa halus, tidak menyentak. */
+  --ease-out-gentle: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* 1) Intro hero saat halaman dibuka — murni CSS. Orkestrasi: eyebrow 0ms,
-      "Menyapa" 60ms, "Komodo" 120ms, CTA 240/300ms, sub-judul 360ms; semua
-      terlihat penuh < ±1 dtk. Keyframes cukup: sekali jalan saat halaman
-      dibuka, bukan dipicu pengguna. */
+/* 1) Intro hero saat halaman dibuka — murni CSS. Orkestrasi: eyebrow 100ms,
+      "Menyapa" 200ms, "Komodo" 300ms, CTA 450/550ms; tiap elemen 900ms.
+      Keyframes cukup: sekali jalan saat halaman dibuka, bukan dipicu pengguna. */
 @keyframes intro-up {
-  from { opacity: 0; translate: 0 16px; }
+  from { opacity: 0; translate: 0 24px; }
 }
 @keyframes intro-fade {
   from { opacity: 0; }
@@ -297,10 +299,10 @@ body {
 @keyframes intro-bloom {
   from { opacity: 0; scale: 0.55; rotate: -30deg; }
 }
-.intro-up { animation: intro-up 600ms var(--ease-out-soft) both; animation-delay: var(--intro-delay, 0ms); }
-.intro-down { animation: intro-down 0.8s var(--ease-out-soft) 0.2s both; }
-.intro-zoom { animation: intro-zoom 1.2s var(--ease-out-soft) both; transform-origin: 50% 0; }
-.intro-bloom { animation: intro-bloom 1s var(--ease-out-soft) 0.45s both; }
+.intro-up { animation: intro-up 900ms var(--ease-out-gentle) both; animation-delay: var(--intro-delay, 0ms); }
+.intro-down { animation: intro-down 900ms var(--ease-out-gentle) 0.2s both; }
+.intro-zoom { animation: intro-zoom 1.6s var(--ease-out-gentle) both; transform-origin: 50% 0; }
+.intro-bloom { animation: intro-bloom 1.2s var(--ease-out-gentle) 0.5s both; }
 /* Gate intro hero (<Hero>): ditahan di frame pertama sampai foto utama siap. */
 .hero-root[data-hero-wait]:not([data-hero-ready]) :is(.intro-up, .intro-zoom, .intro-bloom) {
   animation-play-state: paused;
