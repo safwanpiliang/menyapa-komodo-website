@@ -5,6 +5,8 @@
    ikut berlaku (package hanya membawa line-height lamanya). */
 @source inline("text-h{1,2,3,4,5,6,7}");
 
+@custom-variant reduced-transparency (@media (prefers-reduced-transparency: reduce));
+
 /*
  * Token dari design system ASSETS (github.com/safwanpiliang/ASSETS-Design-system)
  * dengan nilai versi modifikasi di Figma "Menyapa Komodo UI Workspace"
@@ -136,6 +138,18 @@ html {
   --section-y-lg: 10rem;
   /* Tinggi pita tenun (Figma 8101:4263), dipakai juga padding atas Cerita. */
   --tenun-band-h: 145.5px;
+  /* Ruang bebas di bawah pill navbar: top 35px + tinggi 53px + jarak 24px. */
+  --nav-clearance: 7rem;
+}
+
+/*
+ * Lompat ke anchor (/#dua-desa, /#jelajah, …): judul section mendarat di bawah
+ * pill navbar, tidak tertutup. Tiap section mengisi --section-pt dengan padding
+ * atasnya, jadi scroll-margin hanya menambah kekurangannya (0 kalau padding
+ * section sudah lebih tinggi dari navbar).
+ */
+main section[id] {
+  scroll-margin-top: max(0px, calc(var(--nav-clearance) - var(--section-pt, 0px)));
 }
 @media (width >= 48rem) {
   :root {

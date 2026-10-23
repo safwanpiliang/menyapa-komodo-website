@@ -64,7 +64,8 @@ const sparks = Array.from({ length: 14 }, (_, i) => {
  */
 export function Galeri() {
   return (
-    <section id="galeri" className="galeri" aria-labelledby="galeri-title">
+    // Petunjuk Galeri sudah di 12% tinggi layar (di bawah navbar).
+    <section id="galeri" className="galeri [--section-pt:var(--nav-clearance)]" aria-labelledby="galeri-title">
       <div className="galeri-stage">
         <div className="galeri-dim" aria-hidden />
         {/* Header dekoratif (judul aslinya h2 di halaman buku); memudar saat
