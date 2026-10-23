@@ -125,18 +125,18 @@ export function Hero({ children }: { children?: React.ReactNode }) {
                 {
                   top: `calc(-1.5 * max(0px, 12px - ${u(14.688)}))`,
                   fontSize: `max(12px, ${u(14.688)})`,
-                  "--intro-delay": "150ms",
+                  "--intro-delay": "0ms",
                 } as React.CSSProperties
               }
             >
               {copy.hero.eyebrow}
             </span>
-            <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(72), "--intro-delay": "300ms" } as React.CSSProperties}>
+            <span className="intro-up absolute inset-x-0 top-0" style={{ fontSize: u(72), "--intro-delay": "60ms" } as React.CSSProperties}>
               {copy.hero.titleTop}
             </span>
             <span
               className="intro-up absolute inset-x-0"
-              style={{ top: u(438.195 - 380), fontSize: u(116.399), "--intro-delay": "450ms" } as React.CSSProperties}
+              style={{ top: u(438.195 - 380), fontSize: u(116.399), "--intro-delay": "120ms" } as React.CSSProperties}
             >
               {copy.hero.titleBottom}
             </span>
@@ -165,7 +165,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
                 href={GAME_URL}
                 tone="secondary"
                 className="intro-up"
-                style={{ "--intro-delay": "700ms" } as React.CSSProperties}
+                style={{ "--intro-delay": "240ms" } as React.CSSProperties}
                 iconRight={<ArrowRightUp weight="LineDuotone" />}
               >
                 {copy.hero.ctaGame}
@@ -174,7 +174,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
                 href="/#dua-desa"
                 tone="light"
                 className="intro-up"
-                style={{ "--intro-delay": "800ms" } as React.CSSProperties}
+                style={{ "--intro-delay": "300ms" } as React.CSSProperties}
               >
                 {copy.hero.ctaVillages}
               </ButtonLink>
@@ -183,7 +183,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             <Text
               variant="b1"
               className="intro-up text-center text-white"
-              style={{ "--intro-delay": "900ms" } as React.CSSProperties}
+              style={{ "--intro-delay": "360ms" } as React.CSSProperties}
             >
               {copy.hero.subtitle}
             </Text>
