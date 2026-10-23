@@ -67,6 +67,8 @@ export function DuaDesa() {
                   "transition-[background-color,box-shadow] duration-200 ease-out",
                   "hover:bg-white/[0.08] hover:shadow-[0_0_0_1px_rgb(255_255_255/0.14),0_20px_40px_-16px_rgb(0_0_0/0.7)]",
                   "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-primary-200",
+                  // Tekan (sentuh/klik): wadah langsung sedikit lebih terang.
+                  "active:bg-white/[0.12]",
                 )}
                 style={{ "--reveal-delay": `${150 + i * 150}ms` } as React.CSSProperties}
               >

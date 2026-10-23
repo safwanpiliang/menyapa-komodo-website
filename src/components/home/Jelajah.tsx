@@ -79,7 +79,7 @@ export function Jelajah() {
                 href={item.href}
                 // Saat hover seluruh card (beserta fotonya) yang naik, bukan fotonya saja,
                 // supaya foto tidak terlepas dari alas card dan menyisakan celah putih.
-                className="relative flex min-h-[180px] rounded-3 bg-white shadow-[0_16px_16px_rgba(88,92,95,0.1)] transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_24px_24px_rgba(88,92,95,0.16)] motion-reduce:transition-none md:h-[259px]"
+                className="relative flex min-h-[180px] rounded-3 bg-white shadow-[0_16px_16px_rgba(88,92,95,0.1)] [transition:translate_300ms,box-shadow_300ms,scale_150ms_var(--ease-out-soft)] hover:-translate-y-1 active:scale-[0.98] hover:shadow-[0_24px_24px_rgba(88,92,95,0.16)] motion-reduce:transition-none md:h-[259px]"
               >
                 {/* Foto cutout muncul dari bawah card sedikit setelah card-nya. */}
                 <div

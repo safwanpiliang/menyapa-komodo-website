@@ -325,11 +325,22 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
   animation: map-pulse 2.2s ease-out infinite;
 }
 .map-pin { transition: scale 0.35s var(--ease-out-soft); }
-.komodo-map a:hover .map-pin,
-.komodo-map a:focus-visible .map-pin,
-#dua-desa:has([data-desa-card="golo-mori"]:hover) .map-pin[data-desa="golo-mori"],
-#dua-desa:has([data-desa-card="warloka-pesisir"]:hover) .map-pin[data-desa="warloka-pesisir"] {
+.komodo-map a:focus-visible .map-pin {
   scale: 1.25;
+}
+/* Hover hanya untuk pointer yang benar-benar bisa hover (mouse/trackpad);
+   di layar sentuh :hover "nyangkut" setelah ditap. */
+@media (hover: hover) and (pointer: fine) {
+  .komodo-map a:hover .map-pin,
+  #dua-desa:has([data-desa-card="golo-mori"]:hover) .map-pin[data-desa="golo-mori"],
+  #dua-desa:has([data-desa-card="warloka-pesisir"]:hover) .map-pin[data-desa="warloka-pesisir"] {
+    scale: 1.25;
+  }
+}
+/* Umpan balik tekan (semua input): pin mengecil sedikit, cepat. */
+.komodo-map a:active .map-pin {
+  scale: 0.9;
+  transition-duration: 0.1s;
 }
 @media (prefers-reduced-motion: reduce) {
   .map-pin-pulse { animation: none; opacity: 0; }

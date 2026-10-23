@@ -116,7 +116,7 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
                 // "page" = halaman ini; "location" = section yang sedang dilihat.
                 aria-current={link.key === active ? "page" : link.key === current ? "location" : undefined}
                 className={cn(
-                  "flex h-[37px] items-center rounded-full px-4 py-2 text-b3 text-white transition-colors duration-500 hover:bg-white/15",
+                  "flex h-[37px] items-center rounded-full px-4 py-2 text-b3 text-white transition-colors duration-500 hover:bg-white/15 active:bg-white/25 active:duration-100",
                   "group-data-closed/nav:text-neutral-1000 group-data-closed/nav:hover:bg-primary-400/10",
                   link.key === current && "bg-white/15 group-data-closed/nav:bg-primary-400/10 group-data-closed/nav:text-primary-600",
                 )}
