@@ -132,6 +132,34 @@
 
 html {
   scroll-behavior: smooth;
+  /* Tanpa kilatan abu-abu/biru saat ditap; tiap elemen yang bisa ditekan
+     punya umpan balik :active sendiri. */
+  -webkit-tap-highlight-color: transparent;
+  /* Tanpa pembesaran font otomatis saat HP dimiringkan. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Tap langsung jadi klik (tanpa jeda tunggu double-tap zoom). */
+a,
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+/* Label kontrol tidak ikut terseleksi/memunculkan callout saat ditekan lama.
+   Hanya kontrol, bukan teks isi. */
+button,
+[role="button"] {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+/* iOS memperbesar halaman kalau fokus jatuh ke input < 16px (dan tidak
+   mengecil lagi). Jaga-jaga untuk formulir berikutnya. */
+input,
+textarea,
+select {
+  font-size: max(16px, 1em);
 }
 
 :root {
@@ -325,11 +353,22 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
   animation: map-pulse 2.2s ease-out infinite;
 }
 .map-pin { transition: scale 0.35s var(--ease-out-soft); }
-.komodo-map a:hover .map-pin,
-.komodo-map a:focus-visible .map-pin,
-#dua-desa:has([data-desa-card="golo-mori"]:hover) .map-pin[data-desa="golo-mori"],
-#dua-desa:has([data-desa-card="warloka-pesisir"]:hover) .map-pin[data-desa="warloka-pesisir"] {
+.komodo-map a:focus-visible .map-pin {
   scale: 1.25;
+}
+/* Hover hanya untuk pointer yang benar-benar bisa hover (mouse/trackpad);
+   di layar sentuh :hover "nyangkut" setelah ditap. */
+@media (hover: hover) and (pointer: fine) {
+  .komodo-map a:hover .map-pin,
+  #dua-desa:has([data-desa-card="golo-mori"]:hover) .map-pin[data-desa="golo-mori"],
+  #dua-desa:has([data-desa-card="warloka-pesisir"]:hover) .map-pin[data-desa="warloka-pesisir"] {
+    scale: 1.25;
+  }
+}
+/* Umpan balik tekan (semua input): pin mengecil sedikit, cepat. */
+.komodo-map a:active .map-pin {
+  scale: 0.9;
+  transition-duration: 0.1s;
 }
 @media (prefers-reduced-motion: reduce) {
   .map-pin-pulse { animation: none; opacity: 0; }
@@ -402,4 +441,20 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
 /* Scroll halaman terkunci selama menu terbuka. */
 html:has(.mobile-menu[open]) {
   overflow: hidden;
+}
+
+/*
+ * Target sentuh minimal 44×44px untuk tautan kecil, hanya di layar sentuh
+ * (pointer: coarse) — tampilan desktop tidak berubah.
+ */
+.map-hit { display: none; }
+@media (pointer: coarse) {
+  .map-hit { display: inline; }
+  /* Tautan footer dirender package (Footer); dibesarkan dari luar. */
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

@@ -18,7 +18,7 @@ const tones = {
     "bg-action-secondary text-white hover:bg-action-secondary-hover focus-visible:ring-4 focus-visible:ring-secondary-400/10",
   // Button-Primary ghost (tanpa latar), dipakai di aksi card.
   ghost:
-    "text-action-primary hover:bg-primary-400/10 hover:text-action-primary-hover focus-visible:ring-4 focus-visible:ring-primary-400/10",
+    "text-action-primary hover:bg-primary-400/10 hover:text-action-primary-hover active:bg-primary-400/15 active:text-action-primary-hover focus-visible:ring-4 focus-visible:ring-primary-400/10",
   // Button-Secondary putih di hero: bg putih, stroke default, teks oranye.
   // Stroke Figma ada di dalam (inside), jadi dibuat dengan inset ring
   // supaya tinggi tombol tetap 45px seperti varian solid.
@@ -52,7 +52,11 @@ export function ButtonLink({
   return (
     <Link
       className={cn(
-        "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm leading-[21px] font-bold transition-colors focus-visible:outline-none",
+        "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm leading-[21px] font-bold focus-visible:outline-none",
+        // Tautan yang tampil sebagai tombol: label tidak terseleksi saat ditekan lama.
+        "select-none [-webkit-touch-callout:none]",
+        // Umpan balik tekan langsung saat jari/klik turun (bukan saat dilepas).
+        "transition-[color,background-color,box-shadow,scale] duration-150 ease-out active:scale-[0.97] motion-reduce:active:scale-100",
         tones[tone],
         sizes[size],
         className,

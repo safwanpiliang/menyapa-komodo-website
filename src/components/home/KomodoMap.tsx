@@ -62,7 +62,10 @@ export function KomodoMap({ className }: { className?: string }) {
                     { "--reveal-delay": `${400 + i * 150}ms`, transformOrigin: `${x}px ${y}px` } as React.CSSProperties
                   }
                 >
-                  <g data-desa={pin.id} className="map-pin" style={{ transformOrigin: `${x}px ${y}px` }}>
+                  {/* Area sentuh tak terlihat (hanya pointer: coarse, lihat globals.css):
+                    radius 42 unit ≈ 46px di peta selebar 300px (360px layar). */}
+                <circle cx={x} cy={y} r={42} fill="transparent" className="map-hit" />
+                <g data-desa={pin.id} className="map-pin" style={{ transformOrigin: `${x}px ${y}px` }}>
                     {/* Gelang berdenyut di bawah pin. */}
                     <circle cx={x} cy={y} r={9} className="map-pin-pulse fill-secondary-400/40" />
                     <circle cx={x} cy={y} r={9} className="fill-secondary-400 stroke-neutral-100" strokeWidth={3} />
