@@ -69,7 +69,8 @@ export function CeritaDesa() {
               // Card package mengunci blok teksnya setinggi 98px, sehingga judul
               // dua baris memotong ringkasan. Di sini dibuat min-height (tinggi
               // card sebaris tetap sama karena grid), tanpa mengubah package.
-              className={`reveal [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
+              // relative + stretched link di tombol: seluruh card bisa diklik.
+              className={`reveal relative transition-shadow duration-200 ease-out hover:shadow-e3 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
               image={
                 <Image
                   src={ceritaThumb}
@@ -92,7 +93,10 @@ export function CeritaDesa() {
                 <ButtonLink
                   href={story.href}
                   tone="ghost"
-                  size="sm"
+                  // ::after menutupi seluruh card (Card package sudah overflow-hidden
+                  // + rounded), jadi klik di mana pun membuka cerita dan hover card
+                  // ikut menyalakan latar tombol.
+                  className="after:absolute after:inset-0"
                   iconRight={<ArrowRightUp weight="LineDuotone" />}
                 >
                   {copy.cerita.cardCta}
