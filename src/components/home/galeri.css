@@ -353,13 +353,16 @@
 
 @media (prefers-reduced-motion: no-preference) {
   @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    .galeri { height: 400svh; }
+    /* 320svh (sebelumnya 400svh): ±2.2 layar animasi; persentase tetap. */
+    .galeri { height: 320svh; }
     .galeri-stage { position: sticky; top: 0; min-height: 0; }
 
     .galeri-book-wrap {
       animation: galeri-enter linear both;
       animation-timeline: --galeri;
-      animation-range: entry 50% entry 100%;
+      /* Buku masuk lebih awal: sudah utuh saat stage mulai menempel, jadi
+         tidak ada layar pucat yang hanya berisi teks petunjuk. */
+      animation-range: entry 10% entry 60%;
     }
     .galeri-hint {
       opacity: 1;
@@ -370,7 +373,7 @@
     .galeri-dim {
       animation: galeri-fade-in linear both;
       animation-timeline: --galeri;
-      animation-range: contain 7% contain 32%;
+      animation-range: contain 0% contain 25%;
     }
     .galeri-book {
       animation: galeri-book-open ease-in-out both;
