@@ -1,6 +1,5 @@
 import Image from "next/image";
 import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
-import { Text } from "assets-design-system";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Flower, heroFlower } from "@/components/ui/Flower";
 import { copy } from "@/content/copy";
@@ -110,14 +109,16 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         {/* Bidang artwork 1024u (koordinat Figma), digeser naik sejauh --crop. */}
         <div className="absolute inset-x-0" style={{ top: `calc(-1 * ${crop})`, height: u(1024) }}>
           {/* Wrapper = animasi "mekar" saat dibuka; svg di dalamnya = parallax. */}
-          {/* < md: bunga diperkecil (--flower-s) supaya tidak terpotong tepi layar. */}
+          {/* Bunga 75% ukuran Figma, mengecil ke arah kiri-bawah (sudut kiri-bawah
+              tetap, jadi top turun 25% tinggi). < md: diperkecil lagi (--flower-s)
+              supaya tidak terpotong tepi layar. */}
           <div
             className="intro-bloom pointer-events-none absolute max-md:[--flower-s:0.55]"
             style={{
               left: fromCenter(740),
-              top: u(218),
-              width: `calc(535.895 * var(--u) * var(--flower-s, 1))`,
-              height: `calc(588.222 * var(--u) * var(--flower-s, 1))`,
+              top: `calc(218 * var(--u) + 588.222 * var(--u) * var(--flower-s, 1) * 0.25)`,
+              width: `calc(535.895 * var(--u) * var(--flower-s, 1) * 0.75)`,
+              height: `calc(588.222 * var(--u) * var(--flower-s, 1) * 0.75)`,
             }}
           >
             <Flower
@@ -194,14 +195,6 @@ export function Hero({ children }: { children?: React.ReactNode }) {
                 {copy.hero.ctaVillages}
               </ButtonLink>
             </div>
-            {/* Sub-judul di bawah tombol, supaya posisi judul & tombol tetap. */}
-            <Text
-              variant="b1"
-              className="intro-up text-center text-white"
-              style={{ "--intro-delay": "360ms" } as React.CSSProperties}
-            >
-              {copy.hero.subtitle}
-            </Text>
           </div>
         </div>
       </section>
