@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import ArrowRightUp from "@solar-icons/react/ssr/arrows/ArrowRightUp";
 import { Card, Chip, type ChipProps } from "assets-design-system";
 import ceritaThumb from "@/assets/cerita-thumb.webp";
@@ -73,13 +74,10 @@ export function CeritaDesa() {
               className={`reveal relative isolate rounded-3 after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-3 after:shadow-e3 after:opacity-0 after:transition-opacity after:duration-160 after:ease-(--ease-out-soft) hover:after:opacity-100 active:after:opacity-0 active:after:duration-100 ${["", "[--reveal-delay:60ms]", "[--reveal-delay:120ms]"][i] ?? ""}`}
             >
               <Card
-                // Card package mengunci blok teksnya setinggi 98px, sehingga judul
-                // dua baris memotong ringkasan. Di sini dibuat min-height (tinggi
-                // card sebaris tetap sama karena grid), tanpa mengubah package.
-                // line-clamp-2 bawaan juga dilepas: di layar sempit ringkasan 3
-                // baris, dan terpotong di tengah kalimat.
-                // relative + stretched link di tombol: seluruh card bisa diklik.
-                className="relative h-full has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] [&>div:last-child>div:first-child>p]:line-clamp-none"
+                // Ukuran bawaan package (blok teks 98px): judul dipotong "…" dalam
+                // satu baris (span truncate), ringkasan maks. 2 baris (line-clamp-2
+                // bawaan Card).
+                className="relative h-full has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary"
                 // Elemen yang dioper ke Card (client component package) diberi `key`:
                 // Card menaruhnya berdampingan dalam satu array children, dan elemen
                 // dari Server Component tidak membawa tanda validasi key, sehingga
@@ -99,7 +97,11 @@ export function CeritaDesa() {
                     {story.category}
                   </Chip>
                 }
-                title={<span key="title" className={cardTitle.article}>{story.title}</span>}
+                title={
+                  <span key="title" className={`${cardTitle.article} block truncate`}>
+                    {story.title}
+                  </span>
+                }
                 // Card package mewarnai isi dengan Neutral/800 (3.71:1); span ini
                 // menimpanya dengan token ink-body tanpa mengubah package.
                 description={<span key="description" className="text-ink-body">{story.excerpt}</span>}
@@ -108,19 +110,19 @@ export function CeritaDesa() {
                     key="actions"
                     href={story.href}
                     tone="ghost"
-                    // ::after menutupi seluruh card (Card package sudah overflow-hidden
-                    // + rounded), jadi klik di mana pun membuka cerita dan hover card
-                    // ikut menyalakan latar tombol.
-                    // active:scale-none: scale membuat tombol jadi containing block
-                    // ::after, sehingga area klik selebar card mengecil saat ditekan.
-                    // Umpan balik tekan cukup dari warna tombol & bayangan card.
-                    className="after:absolute after:inset-0 active:scale-none motion-reduce:active:scale-none"
+                    size="sm"
+                    // Di atas lapisan klik card (z-2 > z-1), jadi gaya hover tombol
+                    // hanya menyala saat tombolnya sendiri yang di-hover.
+                    className="relative z-[2]"
                     iconRight={<ArrowRightUp weight="LineDuotone" />}
                   >
                     {copy.cerita.cardCta}
                   </ButtonLink>
                 }
               />
+              {/* Lapisan klik selebar card (di bawah tombol). Duplikat tautan tombol,
+                  jadi disembunyikan dari pembaca layar & urutan Tab. */}
+              <Link href={story.href} aria-hidden tabIndex={-1} className="absolute inset-0 z-[1] rounded-3" />
             </div>
           ))}
         </div>
