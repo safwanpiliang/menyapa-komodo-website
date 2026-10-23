@@ -131,7 +131,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   /* Tanpa kilatan abu-abu/biru saat ditap; tiap elemen yang bisa ditekan
      punya umpan balik :active sendiri. */
   -webkit-tap-highlight-color: transparent;
@@ -279,9 +278,15 @@ body {
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* 1) Intro hero saat halaman dibuka — murni CSS, tanpa JavaScript. */
+/* 1) Intro hero saat halaman dibuka — murni CSS. Orkestrasi: eyebrow 0ms,
+      "Menyapa" 60ms, "Komodo" 120ms, CTA 240/300ms, sub-judul 360ms; semua
+      terlihat penuh < ±1 dtk. Keyframes cukup: sekali jalan saat halaman
+      dibuka, bukan dipicu pengguna. */
 @keyframes intro-up {
-  from { opacity: 0; translate: 0 40px; }
+  from { opacity: 0; translate: 0 16px; }
+}
+@keyframes intro-fade {
+  from { opacity: 0; }
 }
 @keyframes intro-down {
   from { opacity: 0; translate: 0 -16px; }
@@ -292,10 +297,14 @@ body {
 @keyframes intro-bloom {
   from { opacity: 0; scale: 0.55; rotate: -30deg; }
 }
-.intro-up { animation: intro-up 0.9s var(--ease-out-soft) both; animation-delay: var(--intro-delay, 0ms); }
+.intro-up { animation: intro-up 600ms var(--ease-out-soft) both; animation-delay: var(--intro-delay, 0ms); }
 .intro-down { animation: intro-down 0.8s var(--ease-out-soft) 0.2s both; }
-.intro-zoom { animation: intro-zoom 1.8s var(--ease-out-soft) both; transform-origin: 50% 0; }
-.intro-bloom { animation: intro-bloom 1.3s var(--ease-out-soft) 0.45s both; }
+.intro-zoom { animation: intro-zoom 1.2s var(--ease-out-soft) both; transform-origin: 50% 0; }
+.intro-bloom { animation: intro-bloom 1s var(--ease-out-soft) 0.45s both; }
+/* Gate intro hero (<Hero>): ditahan di frame pertama sampai foto utama siap. */
+.hero-root[data-hero-wait]:not([data-hero-ready]) :is(.intro-up, .intro-zoom, .intro-bloom) {
+  animation-play-state: paused;
+}
 
 /*
  * 2) Reveal saat elemen pertama kali masuk layar. Kelas `.is-revealed`
@@ -309,48 +318,80 @@ body {
 @keyframes reveal-fallback {
   to { opacity: 1; translate: none; scale: none; rotate: none; }
 }
+/* Scroll reveal: fade 400ms + geser 16px 500ms. Stagger antar-item 60ms
+   (--reveal-delay di komponen). Transition, bukan keyframes: kelas dipasang
+   sekali, jadi tidak pernah terpotong di tengah. */
 .reveal {
   transition:
-    opacity 0.8s var(--ease-out-soft),
-    translate 0.9s var(--ease-out-soft),
-    scale 0.9s var(--ease-out-soft),
-    rotate 0.9s var(--ease-out-soft);
+    opacity 400ms var(--ease-out-soft),
+    translate 500ms var(--ease-out-soft),
+    scale 500ms var(--ease-out-soft),
+    rotate 500ms var(--ease-out-soft);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal:not(.is-revealed) {
   opacity: 0;
-  translate: 0 36px;
+  translate: 0 16px;
 }
 html:not([data-reveal]) .reveal:not(.is-revealed) {
   animation: reveal-fallback 0.6s ease 3s forwards;
 }
-.reveal-zoom:not(.is-revealed) { translate: 0 16px; scale: 0.92; }
-.reveal-left:not(.is-revealed) { translate: -48px 0; }
-.reveal-right:not(.is-revealed) { translate: 48px 0; }
+.reveal-zoom:not(.is-revealed) { translate: 0 16px; scale: 0.96; }
+.reveal-left:not(.is-revealed) { translate: -24px 0; }
+.reveal-right:not(.is-revealed) { translate: 24px 0; }
 .reveal-line { transform-origin: left center; }
 .reveal-line:not(.is-revealed) { translate: none; scale: 0 1; }
-.reveal-spin:not(.is-revealed) { translate: none; scale: 0.4; rotate: -120deg; }
+.reveal-spin:not(.is-revealed) { translate: none; scale: 0.9; rotate: -20deg; }
 
-.reveal-media > * { transition: scale 1.6s var(--ease-out-soft); transition-delay: var(--reveal-delay, 0ms); }
-.reveal-media:not(.is-revealed) > * { scale: 1.15; }
+.reveal-media > * { transition: scale 900ms var(--ease-out-soft); transition-delay: var(--reveal-delay, 0ms); }
+.reveal-media:not(.is-revealed) > * { scale: 1.06; }
 
+/* Lompatan anchor halus hanya kalau pengguna tidak meminta gerak dikurangi. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Reduced motion: tetap fade (membantu memahami konten baru muncul), tanpa
+   geser, zoom, atau putar. */
 @media (prefers-reduced-motion: reduce) {
-  .intro-up, .intro-down, .intro-zoom, .intro-bloom { animation: none; }
-  .reveal, .reveal-media > * { transition: none; }
-  .reveal:not(.is-revealed) { opacity: 1; translate: none; scale: none; rotate: none; animation: none; }
+  /* Intro: fade 200ms tanpa geser/zoom/putar. */
+  .intro-up, .intro-down, .intro-bloom { animation: intro-fade 200ms ease both; }
+  .intro-zoom { animation: none; }
+  .reveal { transition: opacity 200ms ease; transition-delay: 0ms; }
+  .reveal:not(.is-revealed) { translate: none; scale: none; rotate: none; }
+  .reveal-media > * { transition: none; }
   .reveal-media:not(.is-revealed) > * { scale: none; }
 }
 
 /* Peta Dua Desa (KomodoMap): gelang pin berdenyut + pin membesar saat card
    desanya (atau pin itu sendiri) di-hover. Hanya scale/opacity. */
+/*
+ * Gelang pin berdenyut 3 kali (1.6s/denyut) setelah peta pertama kali terlihat
+ * (pin di dalam .reveal yang mendapat .is-revealed), lalu berhenti — tidak ada
+ * loop tanpa akhir. Denyut sekali lagi saat card desanya di-hover. Keyframes
+ * identik dengan nama berbeda supaya animasi hover bisa mulai ulang.
+ */
 @keyframes map-pulse {
+  from { scale: 1; opacity: 0.9; }
+  to { scale: 2.8; opacity: 0; }
+}
+@keyframes map-pulse-again {
   from { scale: 1; opacity: 0.9; }
   to { scale: 2.8; opacity: 0; }
 }
 .map-pin-pulse {
   transform-box: fill-box;
   transform-origin: center;
-  animation: map-pulse 2.2s ease-out infinite;
+  opacity: 0;
+}
+.reveal.is-revealed .map-pin-pulse {
+  animation: map-pulse 1.6s var(--ease-out-soft) 500ms 3 both;
+}
+@media (hover: hover) and (pointer: fine) {
+  #dua-desa:has([data-desa-card="golo-mori"]:hover) .map-pin[data-desa="golo-mori"] .map-pin-pulse,
+  #dua-desa:has([data-desa-card="warloka-pesisir"]:hover) .map-pin[data-desa="warloka-pesisir"] .map-pin-pulse {
+    animation: map-pulse-again 1.6s var(--ease-out-soft) 1 both;
+  }
 }
 .map-pin { transition: scale 0.35s var(--ease-out-soft); }
 .komodo-map a:focus-visible .map-pin {
@@ -365,18 +406,49 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
     scale: 1.25;
   }
 }
+/*
+ * Arah sebaliknya: hover/fokus pin peta → card desanya menyala (lapisan
+ * ::before card ke 75% = +6% putih, opacity) dan naik 2px (translate 150ms).
+ */
+[data-desa-card] {
+  transition: translate 150ms var(--ease-out-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  #dua-desa:has([data-desa-link="golo-mori"]:hover) [data-desa-card="golo-mori"],
+  #dua-desa:has([data-desa-link="warloka-pesisir"]:hover) [data-desa-card="warloka-pesisir"] {
+    translate: 0 -2px;
+  }
+  #dua-desa:has([data-desa-link="golo-mori"]:hover) [data-desa-card="golo-mori"]::before,
+  #dua-desa:has([data-desa-link="warloka-pesisir"]:hover) [data-desa-card="warloka-pesisir"]::before {
+    opacity: 0.75;
+  }
+}
+#dua-desa:has([data-desa-link="golo-mori"]:focus-visible) [data-desa-card="golo-mori"],
+#dua-desa:has([data-desa-link="warloka-pesisir"]:focus-visible) [data-desa-card="warloka-pesisir"] {
+  translate: 0 -2px;
+}
+#dua-desa:has([data-desa-link="golo-mori"]:focus-visible) [data-desa-card="golo-mori"]::before,
+#dua-desa:has([data-desa-link="warloka-pesisir"]:focus-visible) [data-desa-card="warloka-pesisir"]::before {
+  opacity: 0.75;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Tetap menyala (opacity), tanpa naik. */
+  [data-desa-card] { transition: none; translate: none !important; }
+}
+
 /* Umpan balik tekan (semua input): pin mengecil sedikit, cepat. */
 .komodo-map a:active .map-pin {
   scale: 0.9;
   transition-duration: 0.1s;
 }
 @media (prefers-reduced-motion: reduce) {
-  .map-pin-pulse { animation: none; opacity: 0; }
+  /* !important: aturan denyut di atas lebih spesifik (id/:has). */
+  .map-pin-pulse { animation: none !important; opacity: 0; }
 }
 
 /*
  * Menu mobile (<MobileMenu>, <dialog> modal). Panel turun dari bawah navbar,
- * berasal dari tombol menu di kiri-atas (transform-origin), masuk 220ms dan
+ * tumbuh dari titik tengah tombol menu (transform-origin), masuk 220ms dan
  * keluar lebih cepat 160ms. Hanya opacity + translate/scale.
  */
 .mobile-menu {
@@ -391,7 +463,9 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
   background: transparent;
   overflow: auto;
   overscroll-behavior: contain;
-  transform-origin: top left;
+  /* Origin = titik tengah tombol menu (53px, 12px di atas panel), jadi
+     panel terlihat tumbuh dari tombol yang membukanya. */
+  transform-origin: 26.5px -38.5px;
   opacity: 1;
   translate: 0 0;
   scale: 1;
@@ -448,6 +522,16 @@ html:has(.mobile-menu[open]) {
  * (pointer: coarse) — tampilan desktop tidak berubah.
  */
 .map-hit { display: none; }
+/* Tautan footer: umpan balik tekan (opacity) — tap highlight bawaan sudah
+   dimatikan, jadi tanpa ini tidak ada tanda tautan tertekan. */
+.site-footer a {
+  transition: opacity 160ms var(--ease-out-soft);
+}
+.site-footer a:active {
+  opacity: 0.7;
+  transition-duration: 100ms;
+}
+
 @media (pointer: coarse) {
   .map-hit { display: inline; }
   /* Tautan footer dirender package (Footer); dibesarkan dari luar. */
@@ -457,4 +541,61 @@ html:has(.mobile-menu[open]) {
     min-height: 44px;
     min-width: 44px;
   }
+}
+
+/*
+ * Navbar: crossfade varian Full Frame ↔ Close (<SiteNavbar>). Hanya opacity +
+ * scale; tata letak berganti seketika di balik crossfade. CSS transition, jadi
+ * scroll naik-turun di sekitar ambang langsung berbalik dari posisi saat itu.
+ * visibility ditunda sampai fade keluar selesai, lalu lapisan tak bisa disentuh.
+ */
+.nav-layer {
+  transform-origin: 50% 0;
+  transition:
+    opacity 200ms var(--ease-out-soft),
+    scale 200ms var(--ease-out-soft),
+    visibility 0s linear 0s;
+}
+.nav-layer:not([data-visible]) {
+  opacity: 0;
+  scale: 0.98;
+  visibility: hidden;
+  transition-delay: 0s, 0s, 200ms;
+}
+/* Label tombol game ikut bergeser 4px saat lapisannya memudar. */
+.nav-label {
+  display: inline-block;
+  transition: translate 200ms var(--ease-out-soft);
+}
+.nav-layer:not([data-visible]) .nav-label {
+  translate: 4px 0;
+}
+/* Penanda link: crossfade per link (opacity), tanpa geser antarlink. */
+.nav-indicator {
+  opacity: 0;
+  transition: opacity 150ms var(--ease-out-soft);
+}
+[data-current] > .nav-indicator {
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .group\/link:hover > .nav-indicator { opacity: 0.6; }
+  [data-current]:hover > .nav-indicator { opacity: 1; }
+}
+.group\/link:active > .nav-indicator {
+  opacity: 1;
+  transition-duration: 100ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-layer {
+    scale: none;
+    transition:
+      opacity 150ms ease,
+      visibility 0s linear 0s;
+  }
+  .nav-layer:not([data-visible]) {
+    scale: none;
+    transition-delay: 0s, 150ms;
+  }
+  .nav-layer:not([data-visible]) .nav-label { translate: none; }
 }

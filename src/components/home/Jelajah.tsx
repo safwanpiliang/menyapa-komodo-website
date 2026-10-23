@@ -74,7 +74,7 @@ export function Jelajah() {
 
         <ul className="grid gap-20 pt-16 md:grid-cols-2 md:gap-8 md:pt-10">
           {categories.map((item, i) => (
-            <li key={item.title} className="reveal" style={{ "--reveal-delay": `${i * 150}ms` } as React.CSSProperties}>
+            <li key={item.title} className="reveal" style={{ "--reveal-delay": `${i * 60}ms` } as React.CSSProperties}>
               <a
                 href={item.href}
                 // Saat hover seluruh card (beserta fotonya) yang naik, bukan fotonya saja,
@@ -84,7 +84,7 @@ export function Jelajah() {
                 {/* Foto cutout muncul dari bawah card sedikit setelah card-nya. */}
                 <div
                   className="reveal relative w-[136px] shrink-0 md:w-[218px]"
-                  style={{ "--reveal-delay": `${i * 150 + 250}ms` } as React.CSSProperties}
+                  style={{ "--reveal-delay": `${i * 60 + 120}ms` } as React.CSSProperties}
                 >
                   <Image
                     src={item.cutout.src}
