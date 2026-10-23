@@ -5,6 +5,7 @@ import Link from "next/link";
 import Gamepad from "@solar-icons/react/ssr/devices/Gamepad";
 import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { MobileMenu } from "./MobileMenu";
 import { GAME_URL, NAV_LINKS } from "@/lib/links";
 
 // Jarak scroll sebelum navbar berganti ke varian "Close".
@@ -86,7 +87,7 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
   }, []);
 
   return (
-    <header className="intro-down pointer-events-none fixed inset-x-0 top-[35px] z-50 flex justify-center px-5 md:px-20">
+    <header className="intro-down pointer-events-none fixed inset-x-0 top-(--nav-top) z-50 flex justify-center px-gutter">
       <nav
         aria-label="Navigasi utama"
         data-closed={closed || undefined}
@@ -97,6 +98,8 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
           "md:data-closed:w-(--nav-closed-w)",
         )}
       >
+        <MobileMenu active={active} current={current} />
+
         <ul
           ref={linksRef}
           className={cn(

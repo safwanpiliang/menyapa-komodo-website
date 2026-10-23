@@ -71,7 +71,7 @@ export function Galeri() {
         {/* Header dekoratif (judul aslinya h2 di halaman buku); memudar saat
             buku membuka, jadi reveal-nya dimatikan. */}
         <div className="galeri-hint" aria-hidden>
-          <div className="mx-auto max-w-[1280px] px-5 md:px-20">
+          <div className="mx-auto max-w-[1280px] px-gutter">
             <SectionHeader titleAs="p" reveal={false} title={copy.galeri.title} subtitle={copy.galeri.hint} />
           </div>
         </div>

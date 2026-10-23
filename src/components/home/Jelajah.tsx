@@ -45,7 +45,7 @@ export function Jelajah() {
     <section
       id="jelajah"
       // pt-0: menyambung latar gelap Dua desa, jaraknya sudah dari padding bawah Dua desa.
-      className="relative isolate overflow-clip bg-neutral-1100 px-5 pb-section-lg md:px-20"
+      className="relative isolate overflow-clip bg-neutral-1100 px-gutter pb-section-lg"
     >
       <Motif
         name="welaKawu"
