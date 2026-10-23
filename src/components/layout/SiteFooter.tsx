@@ -35,7 +35,7 @@ const columns: FooterColumn[] = [
  */
 export function SiteFooter() {
   return (
-    <div className="bg-primary-700 text-white">
+    <div className="site-footer bg-primary-700 text-white">
       <span aria-hidden className="tenun-dots opacity-40" />
       <Footer
         className="reveal mx-auto max-w-[1440px] bg-primary-700 px-gutter py-16"

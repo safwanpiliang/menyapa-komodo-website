@@ -414,3 +414,19 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
 html:has(.mobile-menu[open]) {
   overflow: hidden;
 }
+
+/*
+ * Target sentuh minimal 44×44px untuk tautan kecil, hanya di layar sentuh
+ * (pointer: coarse) — tampilan desktop tidak berubah.
+ */
+.map-hit { display: none; }
+@media (pointer: coarse) {
+  .map-hit { display: inline; }
+  /* Tautan footer dirender package (Footer); dibesarkan dari luar. */
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
