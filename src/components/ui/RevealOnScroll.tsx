@@ -12,7 +12,8 @@ export function RevealOnScroll() {
     // Menonaktifkan animasi cadangan CSS (yang hanya untuk saat JS gagal).
     document.documentElement.dataset.reveal = "on";
     const targets = document.querySelectorAll<HTMLElement>(".reveal:not(.is-revealed), .reveal-media:not(.is-revealed)");
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    // Reduced motion tetap diamati: CSS-nya hanya fade 200ms tanpa gerak.
+    if (!("IntersectionObserver" in window)) {
       targets.forEach((el) => el.classList.add("is-revealed"));
       return;
     }

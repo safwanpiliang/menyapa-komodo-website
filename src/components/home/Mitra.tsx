@@ -97,17 +97,17 @@ export function Mitra() {
               <Text variant="h7" as="h3" className="reveal font-display font-normal text-primary-600">
                 {group.label}
               </Text>
-              <span aria-hidden className="reveal reveal-line dotted-rule text-secondary-500 [--reveal-delay:150ms]" />
+              <span aria-hidden className="reveal reveal-line dotted-rule text-secondary-500 [--reveal-delay:60ms]" />
             </div>
             <div className="flex flex-col gap-6">
               <ul className="grid gap-6 md:grid-cols-3">
                 {group.featured.map((partner, i) => (
-                  <PartnerTile key={partner.name} partner={partner} size="lg" delay={i * 100} />
+                  <PartnerTile key={partner.name} partner={partner} size="lg" delay={i * 60} />
                 ))}
               </ul>
               <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
                 {group.others.map((partner, i) => (
-                  <PartnerTile key={partner.name} partner={partner} size="sm" delay={i * 80} />
+                  <PartnerTile key={partner.name} partner={partner} size="sm" delay={i * 60} />
                 ))}
               </ul>
             </div>

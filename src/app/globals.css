@@ -131,7 +131,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   /* Tanpa kilatan abu-abu/biru saat ditap; tiap elemen yang bisa ditekan
      punya umpan balik :active sendiri. */
   -webkit-tap-highlight-color: transparent;
@@ -309,35 +308,46 @@ body {
 @keyframes reveal-fallback {
   to { opacity: 1; translate: none; scale: none; rotate: none; }
 }
+/* Scroll reveal: fade 400ms + geser 16px 500ms. Stagger antar-item 60ms
+   (--reveal-delay di komponen). Transition, bukan keyframes: kelas dipasang
+   sekali, jadi tidak pernah terpotong di tengah. */
 .reveal {
   transition:
-    opacity 0.8s var(--ease-out-soft),
-    translate 0.9s var(--ease-out-soft),
-    scale 0.9s var(--ease-out-soft),
-    rotate 0.9s var(--ease-out-soft);
+    opacity 400ms var(--ease-out-soft),
+    translate 500ms var(--ease-out-soft),
+    scale 500ms var(--ease-out-soft),
+    rotate 500ms var(--ease-out-soft);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal:not(.is-revealed) {
   opacity: 0;
-  translate: 0 36px;
+  translate: 0 16px;
 }
 html:not([data-reveal]) .reveal:not(.is-revealed) {
   animation: reveal-fallback 0.6s ease 3s forwards;
 }
-.reveal-zoom:not(.is-revealed) { translate: 0 16px; scale: 0.92; }
-.reveal-left:not(.is-revealed) { translate: -48px 0; }
-.reveal-right:not(.is-revealed) { translate: 48px 0; }
+.reveal-zoom:not(.is-revealed) { translate: 0 16px; scale: 0.96; }
+.reveal-left:not(.is-revealed) { translate: -24px 0; }
+.reveal-right:not(.is-revealed) { translate: 24px 0; }
 .reveal-line { transform-origin: left center; }
 .reveal-line:not(.is-revealed) { translate: none; scale: 0 1; }
-.reveal-spin:not(.is-revealed) { translate: none; scale: 0.4; rotate: -120deg; }
+.reveal-spin:not(.is-revealed) { translate: none; scale: 0.9; rotate: -20deg; }
 
-.reveal-media > * { transition: scale 1.6s var(--ease-out-soft); transition-delay: var(--reveal-delay, 0ms); }
-.reveal-media:not(.is-revealed) > * { scale: 1.15; }
+.reveal-media > * { transition: scale 900ms var(--ease-out-soft); transition-delay: var(--reveal-delay, 0ms); }
+.reveal-media:not(.is-revealed) > * { scale: 1.06; }
 
+/* Lompatan anchor halus hanya kalau pengguna tidak meminta gerak dikurangi. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Reduced motion: tetap fade (membantu memahami konten baru muncul), tanpa
+   geser, zoom, atau putar. */
 @media (prefers-reduced-motion: reduce) {
   .intro-up, .intro-down, .intro-zoom, .intro-bloom { animation: none; }
-  .reveal, .reveal-media > * { transition: none; }
-  .reveal:not(.is-revealed) { opacity: 1; translate: none; scale: none; rotate: none; animation: none; }
+  .reveal { transition: opacity 200ms ease; transition-delay: 0ms; }
+  .reveal:not(.is-revealed) { translate: none; scale: none; rotate: none; }
+  .reveal-media > * { transition: none; }
   .reveal-media:not(.is-revealed) > * { scale: none; }
 }
 

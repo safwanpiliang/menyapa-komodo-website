@@ -70,12 +70,12 @@ export function DuaDesa() {
                   // Tekan (sentuh/klik): wadah langsung sedikit lebih terang.
                   "active:bg-white/[0.12]",
                 )}
-                style={{ "--reveal-delay": `${150 + i * 150}ms` } as React.CSSProperties}
+                style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}
               >
                 <div
                   // Radius foto = radius card (20) − padding (12), supaya sudutnya sejajar.
                   className="reveal-media relative h-[200px] shrink-0 overflow-clip rounded-2 sm:h-auto sm:min-h-[176px] sm:flex-1"
-                  style={{ "--reveal-delay": `${150 + i * 150}ms` } as React.CSSProperties}
+                  style={{ "--reveal-delay": `${60 + i * 60}ms` } as React.CSSProperties}
                 >
                   <Image
                     src={village.image}

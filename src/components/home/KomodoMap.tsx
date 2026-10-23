@@ -59,7 +59,7 @@ export function KomodoMap({ className }: { className?: string }) {
                 <g
                   className="reveal reveal-zoom"
                   style={
-                    { "--reveal-delay": `${400 + i * 150}ms`, transformOrigin: `${x}px ${y}px` } as React.CSSProperties
+                    { "--reveal-delay": `${240 + i * 60}ms`, transformOrigin: `${x}px ${y}px` } as React.CSSProperties
                   }
                 >
                   {/* Area sentuh tak terlihat (hanya pointer: coarse, lihat globals.css):
