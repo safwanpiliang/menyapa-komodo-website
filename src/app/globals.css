@@ -365,14 +365,33 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
 
 /* Peta Dua Desa (KomodoMap): gelang pin berdenyut + pin membesar saat card
    desanya (atau pin itu sendiri) di-hover. Hanya scale/opacity. */
+/*
+ * Gelang pin berdenyut 3 kali (1.6s/denyut) setelah peta pertama kali terlihat
+ * (pin di dalam .reveal yang mendapat .is-revealed), lalu berhenti — tidak ada
+ * loop tanpa akhir. Denyut sekali lagi saat card desanya di-hover. Keyframes
+ * identik dengan nama berbeda supaya animasi hover bisa mulai ulang.
+ */
 @keyframes map-pulse {
+  from { scale: 1; opacity: 0.9; }
+  to { scale: 2.8; opacity: 0; }
+}
+@keyframes map-pulse-again {
   from { scale: 1; opacity: 0.9; }
   to { scale: 2.8; opacity: 0; }
 }
 .map-pin-pulse {
   transform-box: fill-box;
   transform-origin: center;
-  animation: map-pulse 2.2s ease-out infinite;
+  opacity: 0;
+}
+.reveal.is-revealed .map-pin-pulse {
+  animation: map-pulse 1.6s var(--ease-out-soft) 500ms 3 both;
+}
+@media (hover: hover) and (pointer: fine) {
+  #dua-desa:has([data-desa-card="golo-mori"]:hover) .map-pin[data-desa="golo-mori"] .map-pin-pulse,
+  #dua-desa:has([data-desa-card="warloka-pesisir"]:hover) .map-pin[data-desa="warloka-pesisir"] .map-pin-pulse {
+    animation: map-pulse-again 1.6s var(--ease-out-soft) 1 both;
+  }
 }
 .map-pin { transition: scale 0.35s var(--ease-out-soft); }
 .komodo-map a:focus-visible .map-pin {
@@ -393,7 +412,8 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
   transition-duration: 0.1s;
 }
 @media (prefers-reduced-motion: reduce) {
-  .map-pin-pulse { animation: none; opacity: 0; }
+  /* !important: aturan denyut di atas lebih spesifik (id/:has). */
+  .map-pin-pulse { animation: none !important; opacity: 0; }
 }
 
 /*
