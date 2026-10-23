@@ -90,7 +90,9 @@ export function Jelajah() {
                     src={item.cutout.src}
                     alt={item.cutout.alt}
                     sizes="281px"
-                    className="absolute bottom-0 left-0 h-auto max-w-none origin-bottom-left max-md:scale-[0.62]"
+                    // < md: diperkecil ke 54% supaya lebar cutout (komodo 261px → 141px)
+                    // tidak masuk ke kolom teks dan menyentuh judul card.
+                    className="absolute bottom-0 left-0 h-auto max-w-none origin-bottom-left max-md:scale-[0.54]"
                     style={{ width: item.cutout.width }}
                   />
                 </div>

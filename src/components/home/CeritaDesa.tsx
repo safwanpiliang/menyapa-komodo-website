@@ -69,8 +69,10 @@ export function CeritaDesa() {
               // Card package mengunci blok teksnya setinggi 98px, sehingga judul
               // dua baris memotong ringkasan. Di sini dibuat min-height (tinggi
               // card sebaris tetap sama karena grid), tanpa mengubah package.
+              // line-clamp-2 bawaan juga dilepas: di layar sempit ringkasan 3
+              // baris, dan terpotong di tengah kalimat.
               // relative + stretched link di tombol: seluruh card bisa diklik.
-              className={`reveal relative transition-shadow duration-200 ease-out hover:shadow-e3 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
+              className={`reveal relative transition-shadow duration-200 ease-out hover:shadow-e3 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-action-primary [&>div:last-child]:justify-between [&>div:last-child>div:first-child]:h-auto [&>div:last-child>div:first-child]:min-h-[98px] [&>div:last-child>div:first-child>p]:line-clamp-none ${["", "[--reveal-delay:120ms]", "[--reveal-delay:240ms]"][i] ?? ""}`}
               // Elemen yang dioper ke Card (client component package) diberi `key`:
               // Card menaruhnya berdampingan dalam satu array children, dan elemen
               // dari Server Component tidak membawa tanda validasi key, sehingga
