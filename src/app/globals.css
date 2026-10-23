@@ -60,15 +60,17 @@
   /* Latar tombol hijau + teks hijau di atas putih (ghost). */
   --color-action-primary: var(--color-primary-500);
   --color-action-primary-hover: var(--color-primary-600);
-  /* Oranye lebih gelap di hue Secondary/600 (31.7°). Secondary/400–600 terlalu
-     terang untuk teks putih (1.97–3.99:1). */
-  --color-action-secondary: #A85A00;
-  --color-action-secondary-hover: #934E00;
+  /* Tombol oranye tetap Secondary/400 (hover Secondary/500) sesuai
+     kesepakatan tim, 23 Okt 2026. Catatan: hasil `npm run contrast` untuk
+     teks putih di atasnya 1.97:1 (hover 2.70:1); shade yang lolos ≥4.5:1 di
+     hue yang sama adalah #A85A00 / #934E00 kalau suatu saat ingin dipakai. */
+  --color-action-secondary: var(--color-secondary-400);
+  --color-action-secondary-hover: var(--color-secondary-500);
   /* Teks isi card & halaman putih (Neutral/800 hanya 3.71:1 di atas putih). */
   --color-ink-body: var(--color-neutral-900);
   /* Teks chip tint di card (latar tint 10% tetap). */
   --color-chip-primary: var(--color-primary-600);
-  --color-chip-secondary: var(--color-action-secondary-hover);
+  --color-chip-secondary: #934E00; /* oranye gelap, hue Secondary/600 */
 
   --color-disabled-fill: #F7F7F8;
   --color-disabled-stroke: #E9EAEB;
