@@ -55,7 +55,7 @@ export function KomodoMap({ className }: { className?: string }) {
           {MAP_PINS.map((pin, i) => {
             const [x, y] = pin.point;
             return (
-              <a key={pin.id} href={pin.href} aria-label={`Desa ${pin.label}`}>
+              <a key={pin.id} href={pin.href} aria-label={`Desa ${pin.label}`} data-desa-link={pin.id}>
                 <g
                   className="reveal reveal-zoom"
                   style={

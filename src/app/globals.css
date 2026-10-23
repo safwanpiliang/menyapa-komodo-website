@@ -406,6 +406,36 @@ html:not([data-reveal]) .reveal:not(.is-revealed) {
     scale: 1.25;
   }
 }
+/*
+ * Arah sebaliknya: hover/fokus pin peta → card desanya menyala (lapisan
+ * ::before card ke 75% = +6% putih, opacity) dan naik 2px (translate 150ms).
+ */
+[data-desa-card] {
+  transition: translate 150ms var(--ease-out-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  #dua-desa:has([data-desa-link="golo-mori"]:hover) [data-desa-card="golo-mori"],
+  #dua-desa:has([data-desa-link="warloka-pesisir"]:hover) [data-desa-card="warloka-pesisir"] {
+    translate: 0 -2px;
+  }
+  #dua-desa:has([data-desa-link="golo-mori"]:hover) [data-desa-card="golo-mori"]::before,
+  #dua-desa:has([data-desa-link="warloka-pesisir"]:hover) [data-desa-card="warloka-pesisir"]::before {
+    opacity: 0.75;
+  }
+}
+#dua-desa:has([data-desa-link="golo-mori"]:focus-visible) [data-desa-card="golo-mori"],
+#dua-desa:has([data-desa-link="warloka-pesisir"]:focus-visible) [data-desa-card="warloka-pesisir"] {
+  translate: 0 -2px;
+}
+#dua-desa:has([data-desa-link="golo-mori"]:focus-visible) [data-desa-card="golo-mori"]::before,
+#dua-desa:has([data-desa-link="warloka-pesisir"]:focus-visible) [data-desa-card="warloka-pesisir"]::before {
+  opacity: 0.75;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Tetap menyala (opacity), tanpa naik. */
+  [data-desa-card] { transition: none; translate: none !important; }
+}
+
 /* Umpan balik tekan (semua input): pin mengecil sedikit, cepat. */
 .komodo-map a:active .map-pin {
   scale: 0.9;
