@@ -109,6 +109,9 @@
    * Satu-satunya pengecualian: Cerita menambah tinggi pita tenun di atasnya.
    */
   --spacing-section: var(--section-y);
+  /* Gutter kiri-kanan semua section (px-gutter): 20px / 80px (≥768px), dan
+     tidak pernah lebih kecil dari safe area (notch saat HP dimiringkan). */
+  --spacing-gutter: var(--gutter-x);
   --spacing-section-lg: var(--section-y-lg);
 
   --shadow-e0: 0px 0px 0px 0px rgba(27, 28, 29, 0);
@@ -132,12 +135,15 @@ html {
 }
 
 :root {
+  --gutter-x: max(1.25rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   --section-y: 5rem;
   --section-y-lg: 10rem;
   /* Tinggi pita tenun (Figma 8101:4263), dipakai juga padding atas Cerita. */
   --tenun-band-h: 145.5px;
-  /* Ruang bebas di bawah pill navbar: top 35px + tinggi 53px + jarak 24px. */
-  --nav-clearance: 7rem;
+  /* Navbar 35px dari atas, atau di bawah status bar / notch kalau lebih besar. */
+  --nav-top: max(35px, calc(env(safe-area-inset-top, 0px) + 12px));
+  /* Ruang bebas di bawah pill navbar: top + tinggi 53px + jarak 24px. */
+  --nav-clearance: calc(var(--nav-top) + 77px);
 }
 
 /*
@@ -151,6 +157,7 @@ main section[id] {
 }
 @media (width >= 48rem) {
   :root {
+    --gutter-x: max(5rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
     --section-y: 7.5rem;
     --section-y-lg: 12.5rem;
   }

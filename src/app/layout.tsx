@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Momo_Trust_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "assets-design-system/style.css";
 import "./globals.css";
@@ -18,6 +18,15 @@ const momo = Momo_Trust_Display({
 export const metadata: Metadata = {
   title: copy.site.title,
   description: copy.site.description,
+};
+
+// viewport-fit=cover: halaman menggambar sampai ke area notch & home
+// indicator; konten dijauhkan dari area itu lewat env(safe-area-inset-*)
+// (gutter section, navbar, footer).
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

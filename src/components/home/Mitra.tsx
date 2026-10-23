@@ -77,7 +77,7 @@ function PartnerTile({ partner, size, delay = 0 }: { partner: Partner; size: "lg
 export function Mitra() {
   return (
     // pt-0: menyambung latar Cerita, jaraknya sudah dari padding bawah Cerita.
-    <section id="mitra" className="bg-neutral-300 px-5 pb-section md:px-20">
+    <section id="mitra" className="bg-neutral-300 px-gutter pb-section">
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
         <SectionHeader
           title={copy.mitra.title}

@@ -38,7 +38,7 @@ export function SiteFooter() {
     <div className="bg-primary-700 text-white">
       <span aria-hidden className="tenun-dots opacity-40" />
       <Footer
-        className="reveal mx-auto max-w-[1440px] bg-primary-700 px-5 py-16 md:px-20"
+        className="reveal mx-auto max-w-[1440px] bg-primary-700 px-gutter py-16"
         logo={
           <div className="flex flex-col">
             <Text as="span" variant="b4" className="tracking-[0.2em] text-primary-200 uppercase">
@@ -56,7 +56,7 @@ export function SiteFooter() {
         }
         columns={columns}
       />
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-2 border-t border-white/10 px-5 py-6 text-b4 text-neutral-300 md:px-20">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-2 border-t border-white/10 px-gutter pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] text-b4 text-neutral-300">
         <span>{copy.footer.copyright}</span>
       </div>
     </div>
