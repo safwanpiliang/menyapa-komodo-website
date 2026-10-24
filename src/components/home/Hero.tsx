@@ -179,6 +179,8 @@ export function Hero({ children }: { children?: React.ReactNode }) {
             <div className="flex items-center gap-3 max-sm:w-[calc(100vw-2*var(--gutter-x))] max-sm:flex-col max-sm:items-stretch">
               <ButtonLink
                 href={GAME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 tone="secondary"
                 className="intro-up"
                 style={{ "--intro-delay": "450ms" } as React.CSSProperties}
