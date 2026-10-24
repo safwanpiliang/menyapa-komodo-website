@@ -129,6 +129,8 @@ export function SiteNavbar({ active = "beranda" }: { active?: string }) {
 
         <ButtonLink
           href={GAME_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           size="lg"
           aria-label="Masuk Dunia Komodo"
           className="ml-auto h-[53px] gap-0 overflow-hidden"
